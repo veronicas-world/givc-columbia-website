@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { canAnimate } from './motion';
+import { canAnimate, onReducedMotionRequested } from './motion';
 
 const revealSelector = 'main .home-band, main .home-media, main .section';
 const pendingClass = 'reveal-pending';
@@ -32,9 +32,17 @@ export function useSectionReveals(routeKey: string) {
       section.classList.add(pendingClass);
       observer.observe(section);
     }
-    return () => {
+    const revealAll = () => {
       observer.disconnect();
       for (const section of sections) section.classList.remove(pendingClass);
+    };
+    const unsubscribe = onReducedMotionRequested(() => {
+      revealAll();
+      unsubscribe();
+    });
+    return () => {
+      unsubscribe();
+      revealAll();
     };
   }, [routeKey]);
 }

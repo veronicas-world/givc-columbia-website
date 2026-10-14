@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { canAnimate, useInViewOnce } from './motion';
+import { useInViewOnce, useMotionAllowed } from './motion';
 
 interface TypewriterHeadingProps {
   id: string;
@@ -15,15 +15,16 @@ interface TypewriterHeadingProps {
  */
 export function TypewriterHeading({ id, text, speed = 40 }: TypewriterHeadingProps) {
   const ref = useRef<HTMLHeadingElement>(null);
-  const [animate] = useState(canAnimate);
+  const animate = useMotionAllowed();
   const inView = useInViewOnce(ref, animate);
-  const [typed, setTyped] = useState(animate ? 0 : text.length);
+  const [step, setStep] = useState(0);
+  const typed = animate ? step : text.length;
 
   useEffect(() => {
-    if (!inView || typed >= text.length) return;
-    const timer = window.setTimeout(() => setTyped(typed + 1), speed);
+    if (!animate || !inView || typed >= text.length) return;
+    const timer = window.setTimeout(() => setStep(typed + 1), speed);
     return () => window.clearTimeout(timer);
-  }, [inView, typed, speed, text.length]);
+  }, [animate, inView, typed, speed, text.length]);
 
   const done = typed >= text.length;
   const state = done ? 'done' : inView ? 'typing' : 'waiting';

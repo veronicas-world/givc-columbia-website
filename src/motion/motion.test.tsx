@@ -49,6 +49,29 @@ function setReducedMotion(reduced: boolean) {
   })) as unknown as typeof window.matchMedia;
 }
 
+/** A reduced-motion query whose preference can change after mount, like a live OS setting. */
+function liveReducedMotion(initial = false) {
+  let reduced = initial;
+  const listeners = new Set<(event: MediaQueryListEvent) => void>();
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    get matches() {
+      return reduced && query.includes('reduce');
+    },
+    media: query,
+    addEventListener: (_type: string, listener: (event: MediaQueryListEvent) => void) => listeners.add(listener),
+    removeEventListener: (_type: string, listener: (event: MediaQueryListEvent) => void) => listeners.delete(listener),
+  })) as unknown as typeof window.matchMedia;
+  return {
+    listeners,
+    set(next: boolean) {
+      reduced = next;
+      act(() => {
+        for (const listener of [...listeners]) listener({ matches: next } as MediaQueryListEvent);
+      });
+    },
+  };
+}
+
 /** Text a sighted visitor sees: the aria-hidden visual copy, without the untyped remainder. */
 function visibleTypedText(heading: HTMLElement) {
   const visual = heading.querySelector('[aria-hidden="true"]')!;
@@ -171,6 +194,116 @@ describe('limited motion with an observer and normal motion', () => {
     expect(second).not.toHaveClass('reveal-pending');
     expect(FakeIntersectionObserver.observing(second)).toBe(false);
     spy.mockRestore();
+  });
+});
+
+describe('reduced motion requested after the page has loaded', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    FakeIntersectionObserver.instances = [];
+    vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  function renderHeadingAndFigures() {
+    const view = render(
+      <>
+        <TypewriterHeading id="intro-title" text={headingText} />
+        <RepresentationFigures />
+      </>,
+    );
+    const heading = screen.getByRole('heading', { level: 2, name: headingText });
+    const section = screen.getByRole('region', { name: 'Why we exist' });
+    return { ...view, heading, section, panel: section.querySelector('.figures-panel')! };
+  }
+
+  it('settles content immediately before entry and never starts it later', () => {
+    const preference = liveReducedMotion(false);
+    const { heading, section, panel } = renderHeadingAndFigures();
+    expect(heading).toHaveAttribute('data-typewriter', 'waiting');
+
+    preference.set(true);
+    expect(heading).toHaveAttribute('data-typewriter', 'done');
+    expect(visibleTypedText(heading)).toBe(headingText);
+    expect(visibleDigits(section)).toEqual(['2%', '7%', '8%', '9%']);
+    expect(section.querySelectorAll('[data-rolling="settled"]')).toHaveLength(4);
+    expect(FakeIntersectionObserver.observing(heading)).toBe(false);
+    expect(FakeIntersectionObserver.observing(panel)).toBe(false);
+
+    act(() => {
+      FakeIntersectionObserver.enter(heading);
+      FakeIntersectionObserver.enter(panel);
+    });
+    tick(600);
+    expect(visibleTypedText(heading)).toBe(headingText);
+    expect(visibleDigits(section)).toEqual(['2%', '7%', '8%', '9%']);
+  });
+
+  it('completes typing and rolling mid-way, including staggered figures, and cancels pending timers', () => {
+    const preference = liveReducedMotion(false);
+    const { heading, section, panel } = renderHeadingAndFigures();
+    act(() => {
+      FakeIntersectionObserver.enter(heading);
+      FakeIntersectionObserver.enter(panel);
+    });
+    // The last figure is still waiting for its stagger at 200ms.
+    tick(200);
+    expect(heading).toHaveAttribute('data-typewriter', 'typing');
+    expect(section.querySelector('[data-figure-value="9"]')).toHaveAttribute('data-rolling', 'waiting');
+
+    preference.set(true);
+    expect(heading).toHaveAttribute('data-typewriter', 'done');
+    expect(heading.querySelector('.typewriter-caret')).toBeNull();
+    expect(visibleTypedText(heading)).toBe(headingText);
+    expect(visibleDigits(section)).toEqual(['2%', '7%', '8%', '9%']);
+    expect(section.querySelectorAll('[data-rolling="settled"]')).toHaveLength(4);
+    expect(vi.getTimerCount()).toBe(0);
+
+    // Turning the preference back off does not replay anything during this visit.
+    preference.set(false);
+    tick(600);
+    expect(visibleTypedText(heading)).toBe(headingText);
+    expect(visibleDigits(section)).toEqual(['2%', '7%', '8%', '9%']);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it('reveals pending sections, stops observing them and does not re-hide them', () => {
+    const preference = liveReducedMotion(false);
+    const spy = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(() => ({ top: window.innerHeight + 200 }) as DOMRect);
+    render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<SiteShell />}>
+            <Route index element={<section className="section" aria-label="Later" />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+    const later = screen.getByRole('region', { name: 'Later' });
+    expect(later).toHaveClass('reveal-pending');
+
+    preference.set(true);
+    expect(later).not.toHaveClass('reveal-pending');
+    expect(FakeIntersectionObserver.observing(later)).toBe(false);
+
+    preference.set(false);
+    expect(later).not.toHaveClass('reveal-pending');
+    expect(FakeIntersectionObserver.observing(later)).toBe(false);
+    spy.mockRestore();
+  });
+
+  it('removes its preference listeners on unmount', () => {
+    const preference = liveReducedMotion(false);
+    const { unmount } = renderHeadingAndFigures();
+    expect(preference.listeners.size).toBeGreaterThan(0);
+    unmount();
+    expect(preference.listeners.size).toBe(0);
   });
 });
 

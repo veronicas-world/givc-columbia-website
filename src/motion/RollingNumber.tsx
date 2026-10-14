@@ -30,14 +30,18 @@ function stepDuration(step: number): number {
 export function RollingNumber({ value, suffix = '', animate, active, delay = 0 }: RollingNumberProps) {
   const sequence = rollSequence(value);
   const last = sequence.length - 1;
-  const [step, setStep] = useState(animate ? 0 : last);
-  const [started, setStarted] = useState(false);
+  const [rollStep, setStep] = useState(0);
+  const [rollStarted, setStarted] = useState(false);
+  // Once `animate` turns off (for example reduced motion requested mid-roll), the
+  // final value shows at once and both effects below cancel their pending timers.
+  const step = animate ? rollStep : last;
+  const started = animate && rollStarted;
 
   useEffect(() => {
-    if (!active || started) return;
+    if (!animate || !active || started) return;
     const timer = window.setTimeout(() => setStarted(true), delay);
     return () => window.clearTimeout(timer);
-  }, [active, started, delay]);
+  }, [animate, active, started, delay]);
 
   useEffect(() => {
     if (!started || step >= last) return;

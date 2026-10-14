@@ -26,7 +26,7 @@ All motion is plain CSS plus `IntersectionObserver`, in `src/motion/`, with no a
 - `useSectionReveals.ts`: page sections that start below the fold fade up once as they are scrolled into view. Sections already on screen are never hidden.
 - Small hover and focus color changes on buttons, navigation, logo cells and list items, set in `src/styles/global.css`.
 
-Nothing replays when scrolling away and back during the same page visit. When the visitor's system asks for reduced motion (`prefers-reduced-motion: reduce`), or the browser has no `IntersectionObserver`, the heading and figures render complete and final straight away and no section is hidden; the reduced-motion rule at the end of `src/styles/global.css` also turns off transitions and animations. Behavior is covered by `src/motion/motion.test.tsx`.
+Nothing replays when scrolling away and back during the same page visit. When the visitor's system asks for reduced motion (`prefers-reduced-motion: reduce`), or the browser has no `IntersectionObserver`, the heading and figures render complete and final straight away and no section is hidden. Turning reduced motion on while the page is open has the same effect at once, even mid-animation, and nothing restarts if it is turned off again before the next page load; the reduced-motion rule at the end of `src/styles/global.css` also turns off transitions and animations. Behavior is covered by `src/motion/motion.test.tsx`.
 
 ## Requirements
 

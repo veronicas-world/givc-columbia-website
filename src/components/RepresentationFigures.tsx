@@ -1,12 +1,12 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { representationFigures, representationLead, whyWeExist } from '../content/representation';
-import { canAnimate, useInViewOnce } from '../motion/motion';
+import { useInViewOnce, useMotionAllowed } from '../motion/motion';
 import { RollingNumber } from '../motion/RollingNumber';
 
 /** Compact parent-reference context. The figures roll once, together, when the panel first enters view. */
 export function RepresentationFigures() {
   const panelRef = useRef<HTMLDivElement>(null);
-  const [animate] = useState(canAnimate);
+  const animate = useMotionAllowed();
   const inView = useInViewOnce(panelRef, animate);
 
   return (
