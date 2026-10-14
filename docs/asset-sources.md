@@ -70,7 +70,7 @@ The four figures in `src/content/representation.ts` come from the statistics vis
 - 8%: of firm partners
 - 9%: of venture capitalists are women
 
-The parent page's DOM text swaps the 2% and 9% captions; the pairings follow the visual, as the user confirmed. Girls Into VC gives no study, year or methodology for these figures, so the site adds none, shows no citation (per the user's direction) and does not restate 2% as a share of funding dollars. Replace or remove the figures if the parent organization publishes updated numbers.
+The parent page's DOM text swaps the 2% and 9% captions; the pairings follow the visual, as the user confirmed. Girls Into VC gives no study, year or methodology for these figures, so the site adds none, shows no citation (per the user's direction) and does not restate 2% as a share of funding dollars. Replace or remove the figures if the parent organization publishes updated numbers. On the page each figure rolls once through the digits before settling on its value; the rolling digit is decorative and hidden from screen readers, which read only the final value. The roll supports single-digit values only.
 
 ## Event facts awaiting confirmation
 

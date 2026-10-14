@@ -8,14 +8,25 @@ All five pages share a header (with a mobile menu below 768 pixels wide) and a p
 
 | Route        | Content |
 | ------------ | ------- |
-| `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo and a centered chapter introduction, reasons to join, NYC venture capital firm site visits and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%), "Where our members are represented" logos, links to People, Resources and the past events, and the interest list |
+| `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo and a centered chapter introduction whose heading types itself once, reasons to join, NYC venture capital firm site visits and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%) that roll once to their values, "Where our members are represented" logos, links to People, Resources and the past events, and the interest list |
 | `/about`     | Columbia chapter activities with a campus photo, separated from the wider Girls Into VC network |
-| `/people`    | Board section with pale-pink square cards (labeled examples until the real board is supplied) and the 31-member directory as centered text rows grouped under Class of 2028 (13) and Class of 2029 (18) |
+| `/people`    | Board section with centered pale-pink square cards and centered card details (labeled examples until the real board is supplied) and the 31-member directory as centered text rows grouped under Class of 2028 (13) and Class of 2029 (18) |
 | `/resources` | Curated external venture capital learning and career links, then the past-event archive (`#past-events`) of three source-backed chapter events; unconfirmed details shown as "to be confirmed" |
 | `/events`    | Old address kept for existing links: redirects (replacing the history entry) to `/resources#past-events` |
 | `/contact`   | Accessible contact form with field validation; sending is not connected yet (see below) |
 
-Design rules for future edits: the official Girls Into VC logo (never retyped in a similar font) beside a separate "at Columbia", self-hosted Alice for headings and Almarai for body and navigation, no italics, no visible photo captions or credits, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). The only motion is the browser's own; the `prefers-reduced-motion` rule in `src/styles/global.css` turns off transitions, animations and smooth scrolling if any are added later.
+Design rules for future edits: the official Girls Into VC logo (never retyped in a similar font) beside a separate "at Columbia", self-hosted Alice for headings and Almarai for body and navigation, no italics, no visible photo captions or credits, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). Motion is limited to what is described under [Motion](#motion); do not add more typed headings, looping counters, scroll-pinned scenes or a motion library.
+
+## Motion
+
+All motion is plain CSS plus `IntersectionObserver`, in `src/motion/`, with no animation library. Scrolling is never taken over.
+
+- `TypewriterHeading.tsx`: the Home intro heading ("A Columbia chapter for women in venture capital") types itself once when it first comes into view. It is the only typed heading. The full heading text is always present for screen readers; the typed copy is hidden from them, and the untyped remainder holds its place invisibly so the layout does not shift.
+- `RollingNumber.tsx`: each "Why we exist" figure rolls once through the digits and settles on 2%, 7%, 8% and 9% when the figures panel first comes into view. Screen readers only get the final values, and there is no live announcement.
+- `useSectionReveals.ts`: page sections that start below the fold fade up once as they are scrolled into view. Sections already on screen are never hidden.
+- Small hover and focus color changes on buttons, navigation, logo cells and list items, set in `src/styles/global.css`.
+
+Nothing replays when scrolling away and back during the same page visit. When the visitor's system asks for reduced motion (`prefers-reduced-motion: reduce`), or the browser has no `IntersectionObserver`, the heading and figures render complete and final straight away and no section is hidden; the reduced-motion rule at the end of `src/styles/global.css` also turns off transitions and animations. Behavior is covered by `src/motion/motion.test.tsx`.
 
 ## Requirements
 
@@ -45,7 +56,7 @@ Page copy and links live in typed files under `src/content/`:
 
 - `links.ts`: interest form, Instagram, chapter LinkedIn, and parent-network URLs
 - `chapter.ts`: chapter introduction and purpose, activities, reasons to join, NYC engagement
-- `representation.ts`: the four "Why we exist" figures and their captions (provenance in `docs/asset-sources.md`; never cited on the page)
+- `representation.ts`: the four "Why we exist" figures and their labels (single-digit values, because the rolling animation is built for one digit; provenance in `docs/asset-sources.md`; never cited on the page)
 - `resources.ts`: curated resource groups and descriptions
 - `members.ts`: public member directory (name, school code, class year only), `approvedMemberLinkedIns`, and `memberClassGroups`, which groups the directory by class year in roster order
 - `board.ts`: board cards; currently labeled examples while `boardIsPending` is `true`

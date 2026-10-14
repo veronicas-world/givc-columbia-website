@@ -1,0 +1,217 @@
+import { act, render, screen, within } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { RepresentationFigures } from '../components/RepresentationFigures';
+import { SiteShell } from '../components/SiteShell';
+import { TypewriterHeading } from './TypewriterHeading';
+
+class FakeIntersectionObserver {
+  static instances: FakeIntersectionObserver[] = [];
+  readonly targets = new Set<Element>();
+  disconnected = false;
+
+  constructor(private readonly callback: IntersectionObserverCallback) {
+    FakeIntersectionObserver.instances.push(this);
+  }
+
+  observe(target: Element) {
+    this.targets.add(target);
+  }
+
+  unobserve(target: Element) {
+    this.targets.delete(target);
+  }
+
+  disconnect() {
+    this.disconnected = true;
+    this.targets.clear();
+  }
+
+  static enter(target: Element) {
+    for (const observer of FakeIntersectionObserver.instances) {
+      if (observer.disconnected || !observer.targets.has(target)) continue;
+      const entry = { target, isIntersecting: true } as IntersectionObserverEntry;
+      observer.callback([entry], observer as unknown as IntersectionObserver);
+    }
+  }
+
+  static observing(target: Element) {
+    return FakeIntersectionObserver.instances.some((observer) => !observer.disconnected && observer.targets.has(target));
+  }
+}
+
+function setReducedMotion(reduced: boolean) {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: reduced && query.includes('reduce'),
+    media: query,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  })) as unknown as typeof window.matchMedia;
+}
+
+/** Text a sighted visitor sees: the aria-hidden visual copy, without the untyped remainder. */
+function visibleTypedText(heading: HTMLElement) {
+  const visual = heading.querySelector('[aria-hidden="true"]')!;
+  const clone = visual.cloneNode(true) as HTMLElement;
+  clone.querySelectorAll('.typewriter-rest').forEach((node) => node.remove());
+  return clone.textContent;
+}
+
+function visibleDigits(section: HTMLElement) {
+  return Array.from(section.querySelectorAll('.figure-digits')).map((node) => node.textContent);
+}
+
+/** Advances fake time in small steps so each chained timer's re-render can schedule the next one. */
+function tick(ms: number, step = 10) {
+  for (let elapsed = 0; elapsed < ms; elapsed += step) {
+    act(() => vi.advanceTimersByTime(step));
+  }
+}
+
+const headingText = 'A Columbia chapter for women in venture capital';
+
+describe('limited motion with an observer and normal motion', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    FakeIntersectionObserver.instances = [];
+    vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver);
+    setReducedMotion(false);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  it('types the heading once on entering view while its full text stays accessible', () => {
+    render(<TypewriterHeading id="intro-title" text={headingText} speed={40} />);
+    const heading = screen.getByRole('heading', { level: 2, name: headingText });
+    expect(heading).toHaveAttribute('data-typewriter', 'waiting');
+    expect(visibleTypedText(heading)).toBe('');
+
+    act(() => FakeIntersectionObserver.enter(heading));
+    tick(40 * 10);
+    expect(heading).toHaveAttribute('data-typewriter', 'typing');
+    expect(visibleTypedText(heading)).toBe(headingText.slice(0, 10));
+    expect(screen.getByRole('heading', { level: 2, name: headingText })).toBe(heading);
+
+    tick(40 * headingText.length);
+    expect(heading).toHaveAttribute('data-typewriter', 'done');
+    expect(visibleTypedText(heading)).toBe(headingText);
+    expect(heading.querySelector('.typewriter-caret')).toBeNull();
+
+    // Scrolling away and back does not replay: the observer has stopped watching.
+    expect(FakeIntersectionObserver.observing(heading)).toBe(false);
+    act(() => FakeIntersectionObserver.enter(heading));
+    tick(200);
+    expect(visibleTypedText(heading)).toBe(headingText);
+  });
+
+  it('rolls each figure through other digits once and settles on 2, 7, 8 and 9', () => {
+    render(<RepresentationFigures />);
+    const section = screen.getByRole('region', { name: 'Why we exist' });
+    const values = Array.from(section.querySelectorAll<HTMLElement>('[data-figure-value]'));
+    expect(values.map((value) => within(value).getByText(/%$/, { selector: '.visually-hidden' }).textContent)).toEqual([
+      '2%',
+      '7%',
+      '8%',
+      '9%',
+    ]);
+    for (const value of values) {
+      expect(value.querySelector('.figure-digits')).toHaveAttribute('aria-hidden', 'true');
+      expect(value).toHaveAttribute('data-rolling', 'waiting');
+      expect(value.closest('[aria-live]')).toBeNull();
+    }
+
+    act(() => FakeIntersectionObserver.enter(section.querySelector('.figures-panel')!));
+    tick(600);
+    expect(values.every((value) => value.dataset.rolling === 'rolling')).toBe(true);
+    const midway = visibleDigits(section);
+    expect(midway).not.toEqual(['2%', '7%', '8%', '9%']);
+
+    tick(4000);
+    expect(values.every((value) => value.dataset.rolling === 'settled')).toBe(true);
+    expect(visibleDigits(section)).toEqual(['2%', '7%', '8%', '9%']);
+
+    tick(4000);
+    expect(visibleDigits(section)).toEqual(['2%', '7%', '8%', '9%']);
+    expect(FakeIntersectionObserver.instances.every((observer) => observer.disconnected || observer.targets.size === 0)).toBe(
+      true,
+    );
+  });
+
+  it('hides only below-the-fold sections and reveals each once it enters view', () => {
+    const below = { top: window.innerHeight + 200 } as DOMRect;
+    const spy = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+      return this.dataset.position === 'above' ? ({ top: 10 } as DOMRect) : below;
+    });
+    render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<SiteShell />}>
+            <Route
+              index
+              element={
+                <>
+                  <section className="section" data-position="above" aria-label="First" />
+                  <section className="section" aria-label="Second" />
+                </>
+              }
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+    const first = screen.getByRole('region', { name: 'First' });
+    const second = screen.getByRole('region', { name: 'Second' });
+    expect(first).not.toHaveClass('reveal-pending');
+    expect(second).toHaveClass('reveal-pending');
+
+    act(() => FakeIntersectionObserver.enter(second));
+    expect(second).not.toHaveClass('reveal-pending');
+    expect(FakeIntersectionObserver.observing(second)).toBe(false);
+    spy.mockRestore();
+  });
+});
+
+describe('motion fallbacks', () => {
+  beforeEach(() => {
+    FakeIntersectionObserver.instances = [];
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('shows the complete heading and final figures at once when reduced motion is requested', () => {
+    vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver);
+    setReducedMotion(true);
+    render(
+      <>
+        <TypewriterHeading id="intro-title" text={headingText} />
+        <RepresentationFigures />
+      </>,
+    );
+    const heading = screen.getByRole('heading', { level: 2, name: headingText });
+    expect(heading).toHaveAttribute('data-typewriter', 'done');
+    expect(visibleTypedText(heading)).toBe(headingText);
+    expect(visibleDigits(screen.getByRole('region', { name: 'Why we exist' }))).toEqual(['2%', '7%', '8%', '9%']);
+    expect(FakeIntersectionObserver.instances).toHaveLength(0);
+  });
+
+  it('shows complete content when IntersectionObserver is unavailable', () => {
+    vi.stubGlobal('IntersectionObserver', undefined);
+    setReducedMotion(false);
+    render(
+      <>
+        <TypewriterHeading id="intro-title" text={headingText} />
+        <RepresentationFigures />
+      </>,
+    );
+    const heading = screen.getByRole('heading', { level: 2, name: headingText });
+    expect(visibleTypedText(heading)).toBe(headingText);
+    const section = screen.getByRole('region', { name: 'Why we exist' });
+    expect(visibleDigits(section)).toEqual(['2%', '7%', '8%', '9%']);
+    expect(section.querySelectorAll('[data-rolling="settled"]')).toHaveLength(4);
+  });
+});

@@ -92,7 +92,12 @@ describe('HomePage', () => {
     renderPage(<HomePage />);
     const section = screen.getByRole('region', { name: 'Why we exist' });
     const items = within(section).getAllByRole('listitem');
-    expect(items.map((item) => item.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
+    const accessibleText = (item: HTMLElement) => {
+      const clone = item.cloneNode(true) as HTMLElement;
+      clone.querySelectorAll('[aria-hidden="true"]').forEach((node) => node.remove());
+      return clone.textContent?.replace(/\s+/g, ' ').trim();
+    };
+    expect(items.map(accessibleText)).toEqual([
       '2% of female founders are funded by VC capital',
       '7% of board seats at firms',
       '8% of firm partners',

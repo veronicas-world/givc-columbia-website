@@ -16,6 +16,7 @@ import {
 import { pastEventsAnchor } from '../content/events';
 import { siteLinks } from '../content/links';
 import { activityPhotos, homePhotos } from '../content/photos';
+import { TypewriterHeading } from '../motion/TypewriterHeading';
 
 export function HomePage() {
   return (
@@ -37,9 +38,7 @@ export function HomePage() {
       </div>
 
       <section className="home-intro home-centered" aria-labelledby="intro-title" data-intro="true">
-        <h2 id="intro-title" data-typewriter="true">
-          A Columbia chapter for women in venture capital
-        </h2>
+        <TypewriterHeading id="intro-title" text="A Columbia chapter for women in venture capital" />
         <p className="home-lede">{chapterIntro}</p>
         <p>{chapterPurpose}</p>
         <p>

@@ -594,21 +594,24 @@ a:hover {
 }
 
 /* People */
+/* Board cards and everything on them are centered; the grid centers however many cards there are. */
 .board-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(13rem, 42%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(13rem, 42%), 15rem));
+  justify-content: center;
   gap: 1.5rem 1rem;
   list-style: none;
-  margin: 1.5rem 0 0;
+  margin: 1.5rem auto 0;
   padding: 0;
 }
 
 .board-card {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   background: var(--pink-soft);
+  text-align: center;
 }
-
 
 .board-portrait {
   display: block;
@@ -627,11 +630,14 @@ a:hover {
 }
 
 .board-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 1rem 1.1rem 1.25rem;
 }
 
 .board-card-body p {
-  margin: 0 0 0.2rem;
+  margin: 0 auto 0.2rem;
 }
 
 .board-example-label {
@@ -658,6 +664,7 @@ a:hover {
 
 .board-linkedin {
   display: inline-flex;
+  transition: color 0.2s ease, background-color 0.2s ease;
   align-items: center;
   justify-content: center;
   width: 2.25rem;
@@ -669,6 +676,7 @@ a:hover {
 
 .board-linkedin:hover {
   color: var(--pink-dark);
+  background: var(--white);
 }
 
 .member-group {
@@ -1195,6 +1203,80 @@ main.main-full {
   }
 }
 
+/* Motion: one typed heading, four rolling figures, one-time section fades and small hover cues.
+   Components render final content whenever motion is unavailable or reduced. */
+.typewriter-rest {
+  visibility: hidden;
+}
+
+.typewriter-caret {
+  display: inline-block;
+  width: 0;
+  height: 0.95em;
+  margin-right: -2px;
+  border-right: 2px solid var(--pink);
+  vertical-align: -0.1em;
+  animation: caret-blink 0.8s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  50% {
+    border-right-color: transparent;
+  }
+}
+
+.figure-digits {
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1;
+}
+
+.figure-digit {
+  display: inline-block;
+  min-width: 0.6em;
+}
+
+.figure-digit-turn {
+  animation: digit-turn 0.12s ease-out;
+}
+
+@keyframes digit-turn {
+  from {
+    transform: translateY(-55%);
+    opacity: 0.35;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+main .home-band,
+main .home-media,
+main .section {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+main .reveal-pending {
+  opacity: 0;
+  transform: translateY(1.25rem);
+}
+
+.button,
+.site-nav a,
+.explore-list a,
+.logo-grid li,
+.open-grid > li,
+.resource-list > li {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.logo-grid li:hover,
+.open-grid > li:hover,
+.resource-list > li:hover {
+  background-color: var(--pink-pale);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1202,5 +1284,14 @@ main.main-full {
     transition: none !important;
     animation: none !important;
     scroll-behavior: auto !important;
+  }
+
+  main .reveal-pending {
+    opacity: 1;
+    transform: none;
+  }
+
+  .typewriter-rest {
+    visibility: visible;
   }
 }

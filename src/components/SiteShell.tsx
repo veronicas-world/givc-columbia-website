@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { SiteFooter } from './SiteFooter';
 import { SiteHeader } from './SiteHeader';
+import { useSectionReveals } from '../motion/useSectionReveals';
 
 export function SiteShell() {
   const { pathname, hash, key } = useLocation();
@@ -25,6 +26,8 @@ export function SiteShell() {
     // Moving focus to the new page lets keyboard and screen-reader users start at the new content.
     mainRef.current?.focus({ preventScroll: true });
   }, [pathname, hash, key]);
+
+  useSectionReveals(pathname);
 
   return (
     <>
