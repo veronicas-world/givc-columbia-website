@@ -22,7 +22,22 @@ describe('validateContactMessage', () => {
     });
   });
 
-  it.each(['visitor', 'visitor@', '@example.com', 'visitor@example', 'visitor @example.com', 'a@b@example.com'])(
+  it.each([
+    'visitor',
+    'visitor@',
+    '@example.com',
+    'visitor@example',
+    'visitor @example.com',
+    'a@b@example.com',
+    'visitor@example.com,',
+    'visitor,@example.com',
+    'visitor@example,com',
+    'visitor@example..com',
+    'visitor@.example.com',
+    'visitor@example.com.',
+    'visitor@-example.com',
+    'visitor@example.com;',
+  ])(
     'rejects malformed email %s',
     (email) => {
       expect(validateContactMessage({ ...validMessage, email }).email).toBe(
@@ -33,7 +48,14 @@ describe('validateContactMessage', () => {
 
   it('accepts a complete message', () => {
     expect(validateContactMessage(validMessage)).toEqual({});
-    expect(validateContactMessage({ ...validMessage, email: '  first.last+tag@mail.columbia.edu ' })).toEqual({});
+    for (const email of [
+      '  first.last+tag@mail.columbia.edu ',
+      'jd1234@columbia.edu',
+      'o\'brien_x-y@sub-domain.example.org',
+      'visitor@barnard.edu',
+    ]) {
+      expect(validateContactMessage({ ...validMessage, email })).toEqual({});
+    }
   });
 });
 

@@ -29,8 +29,11 @@ export const contactDeliveryConfig: ContactDeliveryConfig = {
 
 export type ContactSubmitResult = { status: 'unavailable' } | { status: 'sent' } | { status: 'failed' };
 
-// One "@", no spaces, and a dot in the domain part. Deliverability is the provider's job.
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// The HTML "valid email address" syntax (what type="email" checks), plus a required dot in the
+// domain. noValidate disables the browser check, so this is the only guard. Deliverability is the
+// provider's job.
+const emailPattern =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
 export function validateContactMessage(values: ContactMessage): ContactErrors {
   const errors: ContactErrors = {};

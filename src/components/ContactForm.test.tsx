@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ContactForm } from './ContactForm';
@@ -64,6 +66,53 @@ describe('ContactForm', () => {
     fill(/^Email/, 'visitor@example.com');
     expect(email).not.toHaveAttribute('aria-invalid', 'true');
     expect(email).not.toHaveAccessibleDescription(/format/);
+  });
+
+  it('rejects a pasted address with a trailing comma and accepts the corrected address', async () => {
+    render(<ContactForm />);
+    fill(/^Name/, 'Test Visitor');
+    fill(/^Email/, 'visitor@example.com,');
+    fill(/^Message/, 'Hello');
+    submit();
+    const email = screen.getByLabelText(/^Email/);
+    expect(email).toHaveAttribute('aria-invalid', 'true');
+    expect(email).toHaveAccessibleDescription('Enter an email address in the format name@example.com.');
+    expect(email).toHaveFocus();
+    expect(screen.getByRole('status')).toBeEmptyDOMElement();
+    expect(email).toHaveValue('visitor@example.com,');
+
+    fill(/^Email/, 'visitor@example.com');
+    expect(email).not.toHaveAttribute('aria-invalid', 'true');
+    expect(email).not.toHaveAccessibleDescription(/format/);
+    submit();
+    expect(await screen.findByText(/Messages cannot be sent from this form yet/)).toBeInTheDocument();
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('keeps the same status region exposed before and after its first update', async () => {
+    const style = document.createElement('style');
+    style.textContent = readFileSync(resolve(process.cwd(), 'src/styles/global.css'), 'utf8');
+    document.head.append(style);
+    try {
+      render(<ContactForm />);
+      const before = screen.getByRole('status');
+      expect(before).toBeEmptyDOMElement();
+      expect(before).not.toHaveAttribute('aria-hidden');
+      expect(before).not.toHaveAttribute('hidden');
+      expect(getComputedStyle(before).display).not.toBe('none');
+      expect(getComputedStyle(before).visibility).not.toBe('hidden');
+
+      fill(/^Name/, 'Test Visitor');
+      fill(/^Email/, 'visitor@example.com');
+      fill(/^Message/, 'Hello');
+      submit();
+      await screen.findByText(/Messages cannot be sent from this form yet/);
+      const after = screen.getByRole('status');
+      expect(after).toBe(before);
+      expect(getComputedStyle(after).display).not.toBe('none');
+    } finally {
+      style.remove();
+    }
   });
 
   it('updates an error as the field changes after a failed attempt', () => {

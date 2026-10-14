@@ -573,16 +573,19 @@ a:hover {
   cursor: progress;
 }
 
-.form-status:empty {
-  display: none;
-}
-
 .form-status {
   margin: 0;
   padding: 1rem 1.25rem;
   border-left: 4px solid var(--pink);
   background: var(--pink-pale);
   color: var(--ink);
+}
+
+/* The live region must stay in the accessibility tree while empty, or its first update is not announced. */
+.form-status:empty {
+  padding: 0;
+  border: 0;
+  background: none;
 }
 
 /* Footer */
