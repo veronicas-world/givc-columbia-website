@@ -29,8 +29,7 @@ Do not commit credentials or private environment files. The project `.gitignore`
 excludes `.env` files; add any future deployment secrets to Vercel's environment
 settings rather than the repository.
 
-## Current limitation
+## Contact
 
-The contact form is not connected to email delivery. A visitor cannot send a
-message through the form until an inbox and approved delivery provider are
-configured.
+The site has no contact form or email service. The Contact page links to the
+president's email address, LinkedIn, Instagram and the interest form.

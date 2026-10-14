@@ -67,7 +67,7 @@ Page copy and links live in typed files under `src/content/`:
 - `photos.ts`: Home and About photographs with alt text, intrinsic size, crop focus and a maintainer-only source note (never rendered)
 - `brand.ts`: the official logo files and the "at Columbia" descriptor
 - `organizations.ts`: the 14 represented-company logos on Home
-- `contact.ts`: contact validation and the email delivery boundary
+- `contact.ts`: the president's name, role and email shown on the Contact page
 
 Pages and the footer read from these files, so a change in one place updates every page. Styling is in `src/styles/global.css`. Images are served from `public/images/`, and every image's source and terms are listed in [`docs/asset-sources.md`](docs/asset-sources.md); add a row there whenever you add or replace an image.
 
@@ -80,39 +80,11 @@ Pages and the footer read from these files, so a change in one place updates eve
 - **Photos and logo:** `public/images/photos/` and `public/images/brand/` are rebuilt with `python3 scripts/build-refresh-assets.py <official-originals-dir>` (needs Pillow, the supplied files in `design-preview/refresh-inputs/` and the downloaded official originals listed in [`docs/asset-sources.md`](docs/asset-sources.md)). The earlier low-resolution event screenshot crops were retired. Fonts in `public/fonts/` are self-hosted OFL files.
 - **Represented organizations:** the Home logo section reads `src/content/organizations.ts`. To add one, save the logo in `public/images/organizations/`, add a record and add a source row in [`docs/asset-sources.md`](docs/asset-sources.md). The section describes member experience, not sponsorship.
 - **Photos and publication rights:** the Girls Into VC photos come from the parent network's website without a published license, and the library-steps photo is 971 pixels wide. Supply chapter originals or a larger campus photo if available, and confirm rights and credits before a public launch.
-- **Contact inbox and email delivery:** not connected. See the next section.
+- **Contact details:** the president's name and email are in `src/content/contact.ts`; update them when the president changes. LinkedIn, Instagram and the interest form links are in `src/content/links.ts`.
 
-## Contact form and email delivery
+## Contact page
 
-The Contact page form checks that name, email and message are filled in and that the email looks like `name@example.com`. Errors appear next to the affected field and clear as soon as the field is corrected.
-
-Email delivery has deliberately not been set up. It waits for two things from the chapter:
-
-1. an approved recipient inbox, and
-2. an approved delivery provider (for example a form backend or transactional email service) with an account owned by the chapter.
-
-### Current behavior
-
-`src/content/contact.ts` holds the delivery boundary:
-
-```ts
-export const contactDeliveryConfig: ContactDeliveryConfig = {
-  recipientInbox: null,
-  provider: null,
-};
-```
-
-While this is unconfigured, a valid submission makes no network request, opens no mail app, keeps the visitor's text in the form, and shows: "Messages cannot be sent from this form yet because chapter email is not connected. Your message has not been sent." The site never claims a message was sent or delivered.
-
-Setting `recipientInbox` on its own does not turn sending on. `isContactDeliveryConfigured` requires both a recipient and a provider. There is no placeholder endpoint, SMTP server, mock provider or provider SDK in the code.
-
-### Connecting delivery later
-
-1. Choose and approve the provider, and create its account under chapter control.
-2. Implement a `ContactDeliveryProvider` in `src/content/contact.ts`. Its `send(message, recipientInbox)` must resolve only after the provider accepts the message and throw on any failure. The form then shows "sent" or a retry message accordingly.
-3. Set `recipientInbox` to the approved inbox and `provider` to that implementation.
-4. Keep API keys and secrets out of the repository. Browser code is public, so a secret key needs a server-side or provider-hosted step. Public site keys should come from environment variables (`import.meta.env.VITE_...`) in an uncommitted `.env.local`.
-5. Verify real delivery separately before launch: send a test message to the approved inbox, confirm it arrives, and confirm that a provider failure shows the retry message. The current automated tests only cover validation and the unconfigured state; they do not prove that email delivery works.
+The Contact page has no form. It opens with a pink band highlighting the interest list (a Google Form), followed by the president's email (a `mailto:` link), the chapter LinkedIn page and the chapter Instagram account.
 
 ## Deployment
 

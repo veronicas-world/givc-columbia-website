@@ -42,12 +42,29 @@ describe('site routes', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('keeps the Contact page free of the disconnected email notice and retains the form', () => {
+  it('highlights the interest list, then lists the president email, LinkedIn and Instagram without a form', () => {
     renderAt('/contact');
-    const contactHeader = screen.getByRole('heading', { level: 1, name: 'Contact' }).closest('.page-header');
+    const main = screen.getByRole('main');
+    expect(within(main).queryByRole('form')).toBeNull();
+    expect(main.querySelector('input, textarea')).toBeNull();
+    expect(main).not.toHaveTextContent(/email is not connected|has not been sent/i);
 
-    expect(contactHeader).not.toHaveTextContent(/Chapter email is not connected|quickest way to reach us/i);
-    expect(screen.getByRole('form', { name: 'Contact the chapter' })).toBeInTheDocument();
+    const interest = screen.getByRole('region', { name: 'Join our interest list' });
+    expect(interest).toHaveClass('page-band-pink');
+    expect(within(interest).getByRole('link', { name: /Join our interest list/ })).toHaveAttribute(
+      'href',
+      siteLinks.interestForm,
+    );
+
+    const channels = screen.getByRole('region', { name: 'Get in touch' });
+    expect(interest.compareDocumentPosition(channels) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(channels).toHaveTextContent('Diane Lang, President');
+    expect(within(channels).getByRole('link', { name: 'dal2206@columbia.edu' })).toHaveAttribute(
+      'href',
+      'mailto:dal2206@columbia.edu',
+    );
+    expect(within(channels).getByRole('link', { name: /LinkedIn/ })).toHaveAttribute('href', siteLinks.chapterLinkedIn);
+    expect(within(channels).getByRole('link', { name: /Instagram/ })).toHaveAttribute('href', siteLinks.instagram);
   });
 
   it.each(['/missing', '/resources', '/events'])('shows a not-found page for removed paths such as %s', (path) => {
@@ -141,7 +158,7 @@ describe('final copy across the five routes', () => {
   it.each([
     ['/about', ['white', 'pale', 'white', 'white']],
     ['/people', ['white', 'pale']],
-    ['/contact', ['white']],
+    ['/contact', ['pink', 'white']],
   ] as const)('%s divides its content into full-width color bands', (path, tones) => {
     renderAt(path);
     const main = screen.getByRole('main');

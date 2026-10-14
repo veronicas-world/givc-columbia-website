@@ -747,82 +747,50 @@ a:hover {
   color: var(--ink-muted);
 }
 
-/* Contact form */
-/* The form block is centered; labels and inputs stay left-aligned inside it for readability. */
-.contact-form {
-  display: grid;
-  gap: 1.25rem;
-  max-width: 36rem;
-  margin: 0 auto;
-  text-align: left;
+/* Contact */
+.contact-interest {
+  text-align: center;
 }
 
-.form-note {
-  margin: 0;
+.contact-interest > p {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+/* Pink bands make links navy; the interest button keeps white text on its navy fill. */
+.page-band-pink a.button-primary {
+  margin-top: 0.5rem;
+  color: var(--white);
+}
+
+.contact-channels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  text-align: center;
+}
+
+.contact-channels > li {
+  padding: 1.75rem 1.25rem;
+  border: 1px solid var(--pink-placeholder);
+}
+
+.contact-channels h3 {
+  margin: 0 0 0.5rem;
+}
+
+.contact-channels p {
+  margin: 0 0 0.75rem;
   color: var(--ink-muted);
 }
 
-.form-field {
-  display: grid;
-  gap: 0.35rem;
-}
-
-.form-field label {
+.contact-channels a {
+  color: var(--pink-dark);
   font-weight: 600;
-  color: var(--navy);
-}
-
-.form-field input,
-.form-field textarea {
-  width: 100%;
-  font: inherit;
-  padding: 0.65rem 0.75rem;
-  border: 1px solid var(--ink-muted);
-  border-radius: 0.4rem;
-  background: var(--white);
-  color: var(--ink);
-}
-
-.form-field textarea {
-  resize: vertical;
-}
-
-.form-field [aria-invalid='true'] {
-  border: 2px solid #a3123f;
-}
-
-.field-error {
-  margin: 0;
-  color: #a3123f;
-  font-weight: 600;
-}
-
-.contact-form button {
-  justify-self: start;
-  border: 0;
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.contact-form button[aria-disabled='true'] {
-  opacity: 0.7;
-  cursor: progress;
-}
-
-.form-status {
-  margin: 0;
-  padding: 1rem 1.25rem;
-  border-left: 4px solid var(--pink);
-  background: var(--pink-pale);
-  color: var(--ink);
-}
-
-/* The live region must stay in the accessibility tree while empty, or its first update is not announced. */
-.form-status:empty {
-  padding: 0;
-  border: 0;
-  background: none;
+  overflow-wrap: anywhere;
 }
 
 /* Footer */
