@@ -1,6 +1,9 @@
 /** Parent-organization information from https://www.girlsintovc.com/, checked 2026-10-14. */
-export const networkDescription =
-  'Girls Into VC works to close the gender gap in venture capital through educational resources, mentorship, and opportunities. Its global community brings women together to learn about investing, entrepreneurship, and careers in venture capital.';
+/** The description opens with this name, which the About page links to the parent site. */
+export const networkName = 'Girls Into VC';
+
+export const networkDescriptionRest =
+  ', our umbrella organization, was founded in 2022 to close the gender gap in venture capital through educational resources, mentorship, and opportunities. Its global community brings women together to learn about investing, entrepreneurship, and careers in venture capital.';
 
 export const networkLeadership =
   'Founded by Isabella Mandis and led by CEO Sarah Phillips, the wider organization connects campus chapters with a global community of students, founders, and investors.';

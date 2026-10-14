@@ -139,7 +139,7 @@ describe('final copy across the five routes', () => {
   });
 
   it.each([
-    ['/about', ['white', 'pale', 'white', 'pink', 'white']],
+    ['/about', ['white', 'pale', 'white', 'white']],
     ['/people', ['white', 'pale']],
     ['/contact', ['white']],
   ] as const)('%s divides its content into full-width color bands', (path, tones) => {

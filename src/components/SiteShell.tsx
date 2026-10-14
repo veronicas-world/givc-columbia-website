@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { SiteFooter } from './SiteFooter';
 import { SiteHeader } from './SiteHeader';
 import { useSectionReveals } from '../motion/useSectionReveals';
+import { useSectionLift } from '../motion/useSectionLift';
 import './ContentDensity.css';
 
 export function SiteShell() {
@@ -29,6 +30,7 @@ export function SiteShell() {
   }, [pathname, hash, key]);
 
   useSectionReveals(pathname);
+  useSectionLift(isHome);
 
   return (
     <>

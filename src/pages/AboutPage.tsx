@@ -2,10 +2,17 @@ import { ActivitySection } from '../components/ActivitySection';
 import { PageHeader } from '../components/PageHeader';
 import { PageSection } from '../components/PageSection';
 import { Photo } from '../components/Photo';
-import { NetworkStats } from '../components/NetworkStats';
+import { ExternalLink } from '../components/ExternalLink';
 import { activities, fellowshipFormat, pastSpeakers, type Activity } from '../content/chapter';
+import { siteLinks } from '../content/links';
 import { chapterActivityPhotos, networkPhotos, speakerPhotos } from '../content/photos';
-import { networkDescription, networkGraphics, networkLeadership, networkPrograms } from '../content/network';
+import {
+  networkDescriptionRest,
+  networkGraphics,
+  networkLeadership,
+  networkName,
+  networkPrograms,
+} from '../content/network';
 
 function activity(id: Activity['id']): Activity {
   return activities.find((candidate) => candidate.id === id)!;
@@ -55,7 +62,10 @@ export function AboutPage() {
         <div className="network-about-grid">
           <div>
             <h2 id="network-title">The Girls Into VC network</h2>
-            <p>{networkDescription}</p>
+            <p>
+              <ExternalLink href={siteLinks.parentSite}>{networkName}</ExternalLink>
+              {networkDescriptionRest}
+            </p>
             <p>{networkLeadership}</p>
           </div>
           <Photo photo={networkPhotos.about} className="network-about-photo" />
@@ -68,14 +78,6 @@ export function AboutPage() {
             </li>
           ))}
         </ul>
-      </PageSection>
-
-      <PageSection labelledBy="network-impact-title" tone="pink" className="network-impact">
-        <h2 id="network-impact-title">The wider network’s impact</h2>
-        <div className="network-impact-grid">
-          <Photo photo={networkPhotos.impact} className="network-impact-photo" />
-          <NetworkStats />
-        </div>
       </PageSection>
 
       <PageSection labelledBy="network-recognition-title" className="network-recognition">

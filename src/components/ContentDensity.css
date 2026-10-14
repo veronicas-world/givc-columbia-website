@@ -18,7 +18,7 @@
   }
 
   main[data-content-density='compact'] .home-description {
-    font-size: clamp(1.35rem, 3vw, 1.875rem);
+    font-size: clamp(1.15rem, 2.4vw, 1.5rem);
   }
 
   main[data-content-density='compact'] .home-band {

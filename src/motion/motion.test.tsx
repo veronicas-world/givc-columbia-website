@@ -357,6 +357,137 @@ describe('reduced motion requested after the page has loaded', () => {
   });
 });
 
+describe('section lift while scrolling through Home', () => {
+  beforeEach(() => {
+    FakeIntersectionObserver.instances = [];
+    vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver);
+    setReducedMotion(false);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  /** Positions sections by name: at rest in the middle of the screen, far below, or already scrolled past. */
+  function mockPositions() {
+    return vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+      const height = 200;
+      const top =
+        this.dataset.position === 'below'
+          ? window.innerHeight * 1.2
+          : this.dataset.position === 'above'
+            ? -window.innerHeight * 0.7
+            : this.dataset.position === 'center'
+              ? (window.innerHeight - height) / 2
+              : 0;
+      return { top, height } as DOMRect;
+    });
+  }
+
+  function renderHome() {
+    return render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<SiteShell />}>
+            <Route
+              index
+              element={
+                <>
+                  <section className="home-hero" aria-label="Hero">
+                    <div className="home-hero-inner" data-position="center" />
+                  </section>
+                  <section className="home-intro" data-position="center" aria-label="Intro" />
+                  <section className="home-band" aria-label="Band">
+                    <div className="home-inner" data-position="below" />
+                  </section>
+                </>
+              }
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+  }
+
+  it('lifts section content a few pixels as it is scrolled past, without touching the hero', () => {
+    const spy = mockPositions();
+    renderHome();
+    const hero = document.querySelector<HTMLElement>('.home-hero-inner')!;
+    const intro = screen.getByRole('region', { name: 'Intro' });
+    const inner = document.querySelector<HTMLElement>('.home-band > .home-inner')!;
+    expect(hero.style.transform).toBe('');
+    expect(intro.style.transform).toBe('');
+    expect(inner.style.transform).toBe('translate3d(0, 12px, 0)');
+
+    inner.dataset.position = 'above';
+    intro.dataset.position = 'below';
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+    });
+    expect(inner.style.transform).toBe('translate3d(0, -12px, 0)');
+    expect(intro.style.transform).toBe('translate3d(0, 12px, 0)');
+    expect(hero.style.transform).toBe('');
+    spy.mockRestore();
+  });
+
+  it('keeps sections at rest on other pages', () => {
+    const spy = mockPositions();
+    render(
+      <MemoryRouter initialEntries={['/about']}>
+        <Routes>
+          <Route element={<SiteShell />}>
+            <Route
+              path="/about"
+              element={
+                <section className="home-band" aria-label="Band">
+                  <div className="home-inner" data-position="below" />
+                </section>
+              }
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+    const inner = document.querySelector<HTMLElement>('.home-inner')!;
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+    });
+    expect(inner.style.transform).toBe('');
+    spy.mockRestore();
+  });
+
+  it('settles the drift at once when reduced motion is requested and never restarts it', () => {
+    const preference = liveReducedMotion(false);
+    const spy = mockPositions();
+    renderHome();
+    const inner = document.querySelector<HTMLElement>('.home-band > .home-inner')!;
+    expect(inner.style.transform).toBe('translate3d(0, 12px, 0)');
+
+    preference.set(true);
+    expect(inner.style.transform).toBe('');
+
+    inner.dataset.position = 'above';
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+    });
+    expect(inner.style.transform).toBe('');
+    spy.mockRestore();
+  });
+
+  it('leaves content at rest when the browser cannot report visibility', () => {
+    vi.stubGlobal('IntersectionObserver', undefined);
+    const spy = mockPositions();
+    renderHome();
+    const inner = document.querySelector<HTMLElement>('.home-band > .home-inner')!;
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+    });
+    expect(inner.style.transform).toBe('');
+    spy.mockRestore();
+  });
+});
+
 describe('motion fallbacks', () => {
   beforeEach(() => {
     FakeIntersectionObserver.instances = [];

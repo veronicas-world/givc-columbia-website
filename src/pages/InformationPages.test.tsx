@@ -163,7 +163,7 @@ describe('HomePage', () => {
 
   it('shows represented organization logos without the removed description', () => {
     renderPage(<HomePage />);
-    const section = screen.getByRole('region', { name: "Where our chapter's members are represented" });
+    const section = screen.getByRole('region', { name: "Where Columbia's members are represented" });
     const logos = within(section).getAllByRole('img');
     expect(logos.map((logo) => logo.getAttribute('alt'))).toEqual(representedOrganizations.map((org) => org.name));
     for (const [index, organization] of representedOrganizations.entries()) {
@@ -233,16 +233,25 @@ describe('AboutPage', () => {
   });
 
 
-  it('adds the parent mission, leadership, programs, and distinct global impact figures', () => {
+  it('adds the parent mission, leadership and programs, linking the first mention to the parent site', () => {
     renderPage(<AboutPage />);
     const network = screen.getByRole('region', { name: 'The Girls Into VC network' });
-    expect(network.textContent).toMatch(/close the gender gap in venture capital/);
+    const description = within(network).getAllByRole('paragraph')[0]!;
+    expect(description.textContent!.replace(' (opens in a new tab)', '')).toBe(
+      'Girls Into VC, our umbrella organization, was founded in 2022 to close the gender gap in venture capital through educational resources, mentorship, and opportunities. Its global community brings women together to learn about investing, entrepreneurship, and careers in venture capital.',
+    );
+    const link = within(description).getByRole('link', { name: /^Girls Into VC/ });
+    expect(link).toHaveAttribute('href', 'https://www.girlsintovc.com/');
+    expect(description.firstElementChild).toBe(link);
     expect(network.textContent).toMatch(/Isabella Mandis/);
     expect(network.textContent).toMatch(/Sarah Phillips/);
     expect(within(network).getByRole('heading', { name: 'Education' })).toBeInTheDocument();
-    const impact = screen.getByRole('region', { name: 'The wider network’s impact' });
-    expect(within(impact).getByRole('list', { name: 'Parent-network traction' })).toBeInTheDocument();
-    expect(impact.textContent).not.toMatch(/not Columbia chapter totals|Parent-site figures/);
+  });
+
+  it('no longer shows the wider network impact section', () => {
+    renderPage(<AboutPage />);
+    expect(screen.queryByRole('region', { name: 'The wider network’s impact' })).toBeNull();
+    expect(screen.queryByRole('list', { name: 'Parent-network traction' })).toBeNull();
   });
 
   it('labels the partner and recognition graphics as parent-network information, not Columbia affiliation', () => {

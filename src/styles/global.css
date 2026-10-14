@@ -863,7 +863,7 @@ a:hover {
 .footer-intro p a {
   color: var(--pink-dark);
   font-family: var(--font-heading);
-  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
   line-height: 1.35;
   text-decoration-thickness: 1px;
 }
@@ -892,7 +892,7 @@ a:hover {
   padding-block: 0.25rem;
   color: var(--pink-dark);
   font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
   line-height: 1.2;
   text-decoration: none;
 }
@@ -1516,7 +1516,7 @@ main.main-full {
 .home-description {
   margin-bottom: 1.75rem;
   font-family: var(--font-heading);
-  font-size: clamp(1.35rem, 2.4vw, 1.875rem);
+  font-size: clamp(1.15rem, 1.9vw, 1.5rem);
   line-height: 1.45;
   color: var(--navy);
 }
@@ -1794,6 +1794,13 @@ main .home-feature.reveal-pending {
   .home-feature.reveal-pending .home-feature-copy {
     transform: translateY(1rem);
   }
+}
+
+/* Scroll drift: useSectionLift eases Home section content between small offsets while
+   it is scrolled past. The band backgrounds themselves never move. */
+main .home-band > .home-inner,
+main .home-intro {
+  transition: transform 0.2s ease-out;
 }
 
 .button,
