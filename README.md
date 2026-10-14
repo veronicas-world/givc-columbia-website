@@ -115,7 +115,9 @@ Setting `recipientInbox` on its own does not turn sending on. `isContactDelivery
 
 ## Deployment
 
-The site has not been deployed. It is a static Vite build (`npm run build` writes `dist/`), so it can later be hosted on any static host that rewrites unknown paths to `index.html` for the client-side routes. Choosing a host, a domain and the email provider are decisions for the chapter; none is configured in this repository.
+The site is live at [givc-columbia-website.vercel.app](https://givc-columbia-website.vercel.app/), and its source is in the [public GitHub repository](https://github.com/veronicas-world/givc-columbia-website). Vercel builds the static Vite site from `main`; GitHub Actions runs the tests, type check, lint and production build. `vercel.json` routes direct visits to client-side pages through `index.html`.
+
+Keep editing this project with Droid. Commit and push changes to `main` when they are ready to publish; Vercel builds and hosts each update. The local development server is not needed to keep the live site available. See [`docs/deployment.md`](docs/deployment.md) for details.
 
 ## Design references
 
