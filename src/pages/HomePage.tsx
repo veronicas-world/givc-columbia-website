@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import { EventCard } from '../components/EventCard';
 import { ExternalLink } from '../components/ExternalLink';
 import { InterestLink } from '../components/InterestLink';
 import { activities, chapterIntro, chapterName, interestFormNote, pillars, reasonsToJoin } from '../content/chapter';
+import { homeHighlightEvents } from '../content/events';
 import { siteLinks } from '../content/links';
 
 export function HomePage() {
@@ -54,17 +56,28 @@ export function HomePage() {
         </ul>
       </section>
 
+      <section className="section" aria-labelledby="home-events-title">
+        <h2 id="home-events-title">Past chapter events</h2>
+        <div className="event-list">
+          {homeHighlightEvents.map((event) => (
+            <EventCard key={event.id} event={event} />
+          ))}
+        </div>
+        <p>
+          <Link to="/events">See all past events</Link>
+        </p>
+      </section>
+
       <section className="section" aria-labelledby="explore-title">
-        <h2 id="explore-title">Explore</h2>
+        <h2 id="explore-title">Explore the chapter</h2>
         <ul className="explore-list">
           <li>
-            <Link to="/events">Past events</Link>
+            <Link to="/people">Meet the board and members</Link>
+            <p>The chapter board and the member directory.</p>
           </li>
           <li>
-            <Link to="/people">People</Link>
-          </li>
-          <li>
-            <Link to="/resources">Resources</Link>
+            <Link to="/resources">Browse resources</Link>
+            <p>Curated reading and career links about venture capital.</p>
           </li>
         </ul>
       </section>
