@@ -1,9 +1,42 @@
+import { BoardCard } from '../components/BoardCard';
+import { MemberRow } from '../components/MemberRow';
 import { PageHeader } from '../components/PageHeader';
+import { boardIsPending, boardMembers } from '../content/board';
+import { members } from '../content/members';
 
 export function PeoplePage() {
   return (
-    <PageHeader title="People">
-      <p>The chapter board and member directory will be listed here.</p>
-    </PageHeader>
+    <>
+      <PageHeader title="People">
+        <p>The students who lead and take part in Girls Into VC at Columbia.</p>
+      </PageHeader>
+
+      <section className="section" aria-labelledby="board-heading">
+        <h2 id="board-heading">Board</h2>
+        {boardIsPending ? (
+          <p className="pending">
+            The board list and portraits are not yet published. The cards below are examples that show how board
+            members will appear.
+          </p>
+        ) : null}
+        <ul className="board-grid">
+          {boardMembers.map((person, index) => (
+            <BoardCard key={`${person.name}-${index}`} person={person} />
+          ))}
+        </ul>
+      </section>
+
+      <section className="section" aria-labelledby="members-heading">
+        <h2 id="members-heading">Members</h2>
+        <p>
+          {members.length} members across Columbia College, Columbia Engineering and Barnard College.
+        </p>
+        <ul className="member-list">
+          {members.map((member) => (
+            <MemberRow key={member.name} member={member} />
+          ))}
+        </ul>
+      </section>
+    </>
   );
 }
