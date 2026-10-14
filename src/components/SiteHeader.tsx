@@ -3,7 +3,12 @@ import { Link, NavLink } from 'react-router-dom';
 import { chapterName } from '../content/chapter';
 import { navItems } from '../content/navigation';
 
-export function SiteHeader() {
+interface SiteHeaderProps {
+  /** Sits on top of the pink Home opening instead of above the page. */
+  overlay?: boolean;
+}
+
+export function SiteHeader({ overlay = false }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
@@ -20,7 +25,7 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   return (
-    <header className="site-header">
+    <header className={overlay ? 'site-header site-header-overlay' : 'site-header'} data-menu-open={menuOpen}>
       <div className="site-header-inner">
         <Link to="/" className="site-wordmark">
           {chapterName}

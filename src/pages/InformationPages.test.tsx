@@ -2,6 +2,8 @@ import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { siteLinks } from '../content/links';
+import { representedOrganizations } from '../content/organizations';
+import { chapterActivityPhotos, homePhotos } from '../content/photos';
 import { resourceGroups } from '../content/resources';
 import { AboutPage } from './AboutPage';
 import { HomePage } from './HomePage';
@@ -42,6 +44,34 @@ describe('HomePage', () => {
   it('avoids unsupported promises', () => {
     const { container } = renderPage(<HomePage />);
     expect(container.textContent).not.toMatch(unsupportedPromises);
+  });
+
+  it('opens with the pink title band', () => {
+    renderPage(<HomePage />);
+    const title = screen.getByRole('heading', { level: 1 });
+    expect(title.closest('section')).toHaveClass('home-hero');
+    expect(title.textContent).toBe('Girls Into VC at Columbia');
+  });
+
+  it('shows campus, parent-network and chapter photographs with honest context', () => {
+    renderPage(<HomePage />);
+    expect(screen.getByRole('img', { name: /Low Memorial Library/ })).toHaveAttribute('src', homePhotos.campus.src);
+    expect(screen.getByRole('img', { name: homePhotos.community.alt })).toHaveAttribute('src', homePhotos.community.src);
+    expect(screen.getByText(/not a Columbia chapter event/)).toBeInTheDocument();
+    const activities = screen.getByRole('region', { name: 'What we do' });
+    expect(within(activities).getAllByRole('img')).toHaveLength(chapterActivityPhotos.length);
+  });
+
+  it('shows every represented organization logo as member experience', () => {
+    renderPage(<HomePage />);
+    const section = screen.getByRole('region', { name: 'Where our members are represented' });
+    const logos = within(section).getAllByRole('img');
+    expect(logos.map((logo) => logo.getAttribute('alt'))).toEqual(representedOrganizations.map((org) => org.name));
+    for (const [index, organization] of representedOrganizations.entries()) {
+      expect(logos[index]).toHaveAttribute('src', organization.logo);
+    }
+    expect(section.textContent).toMatch(/not sponsors/);
+    expect(section.textContent).not.toMatch(/our (sponsors|partners)|sponsored by|in partnership with/i);
   });
 });
 

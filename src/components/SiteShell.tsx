@@ -7,6 +7,7 @@ export function SiteShell() {
   const { pathname } = useLocation();
   const mainRef = useRef<HTMLElement>(null);
   const previousPath = useRef(pathname);
+  const isHome = pathname === '/';
 
   useEffect(() => {
     if (previousPath.current === pathname) return;
@@ -21,8 +22,8 @@ export function SiteShell() {
       <a className="skip-link" href="#main">
         Skip to main content
       </a>
-      <SiteHeader />
-      <main id="main" ref={mainRef} tabIndex={-1}>
+      <SiteHeader overlay={isHome} />
+      <main id="main" ref={mainRef} tabIndex={-1} className={isHome ? 'main-full' : undefined}>
         <Outlet />
       </main>
       <SiteFooter />

@@ -61,6 +61,9 @@ Pages and the footer read from these files, so a change in one place updates eve
 - **Member privacy:** member records hold only name, school, class year and an approved LinkedIn URL. Do not add emails, phone numbers, UNIs, join dates or internship history.
 - **Event details:** some dates, rooms, a speaker surname and her firm conflict between the supplied event graphics, and no source gives a year. These fields are `null` and render as "to be confirmed". Fill them in `events.ts` only after the chapter confirms them. The conflicts are listed in [`docs/asset-sources.md`](docs/asset-sources.md).
 - **Event photos:** `public/images/events/` holds crops of the chapter's Instagram slides, rebuilt with `python3 scripts/crop-event-images.py` (needs Pillow and the original screenshots). Sources are in [`docs/asset-sources.md`](docs/asset-sources.md).
+- **Home photos:** chapter activity photos in `public/images/chapter/` are rebuilt with `python3 scripts/crop-chapter-photos.py`. They come from a phone screenshot, so they are shown at card size; replace them with original photo files when available. Photo records and their parent-network or chapter context live in `src/content/photos.ts`.
+- **Represented organizations:** the Home logo section reads `src/content/organizations.ts`. To add one, save the logo in `public/images/organizations/`, add a record and add a source row in [`docs/asset-sources.md`](docs/asset-sources.md). The section describes member experience, not sponsorship.
+- **Publication rights:** the Girls Into VC community photo comes from the parent network's website without a published license. Confirm rights and credits before a public launch.
 - **Contact inbox and email delivery:** not connected. See the next section.
 
 ## Contact form and email delivery
