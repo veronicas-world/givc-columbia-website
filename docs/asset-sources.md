@@ -7,6 +7,7 @@ Every image and font shipped from `public/` and where it came from. Originals (s
 | File | Source | Treatment |
 | --- | --- | --- |
 | `givc-logo-pink.png` | Official transparent Girls Into VC logo, https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/ba8295ee-c2d6-41fd-a25f-63322cd07aed/GIRLS-2+copy.png (600 x 200 PNG, as used in the girlsintovc.com header) | Cropped to the artwork with 4 pixels of padding: 528 x 130. Colours unchanged. |
+| `public/favicon.ico`, `public/favicon.png`, `public/apple-touch-icon.png` | Pink crown image supplied by the chapter, 478 x 482 on pale pink | Browser tab icons: background removed, crown cropped and centered in a square (ICO at 16, 32 and 48 px; PNG at 512 px). The 180 px Apple touch icon keeps the supplied pale pink background because iOS does not support transparency. |
 | `columbia-crown.png` | Columbia University crown image supplied by the chapter, 487 x 410 navy on white | Cropped to 475 x 377 and converted to a transparent mask (navy kept as opacity, background removed). Used as a CSS mask after "at Columbia" so it shows white on the pink opening and pink in the header and footer. |
 | `givc-logo-white.png` | Same file | Monochrome white treatment for the pink opening: every pixel set to white, original transparency kept. This is a derived treatment, not a white master published by Girls Into VC. |
 
