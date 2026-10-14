@@ -1,8 +1,6 @@
 import { ExternalLink } from '../components/ExternalLink';
-import { InterestLink } from '../components/InterestLink';
 import { PageHeader } from '../components/PageHeader';
 import { PageSection } from '../components/PageSection';
-import { interestFormNote } from '../content/chapter';
 import { presidentContact } from '../content/contact';
 import { instagramHandle, siteLinks } from '../content/links';
 
@@ -12,8 +10,9 @@ export function ContactPage() {
       <PageHeader title="Contact" />
       <PageSection labelledBy="interest-heading" tone="pink" className="contact-interest">
         <h2 id="interest-heading">Join our interest list</h2>
-        <p>{interestFormNote}</p>
-        <InterestLink />
+        <a href={siteLinks.interestForm} className="button button-primary" target="_blank" rel="noopener noreferrer">
+          Click here
+        </a>
       </PageSection>
       <PageSection labelledBy="contact-channels-heading">
         <h2 id="contact-channels-heading">Get in touch</h2>

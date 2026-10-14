@@ -51,10 +51,9 @@ describe('site routes', () => {
 
     const interest = screen.getByRole('region', { name: 'Join our interest list' });
     expect(interest).toHaveClass('page-band-pink');
-    expect(within(interest).getByRole('link', { name: /Join our interest list/ })).toHaveAttribute(
-      'href',
-      siteLinks.interestForm,
-    );
+    expect(within(interest).getByRole('link', { name: 'Click here' })).toHaveAttribute('href', siteLinks.interestForm);
+    expect(within(interest).queryByRole('paragraph')).toBeNull();
+    expect(interest).not.toHaveTextContent(/Google Form|opens in a new tab/);
 
     const channels = screen.getByRole('region', { name: 'Get in touch' });
     expect(interest.compareDocumentPosition(channels) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();

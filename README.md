@@ -84,7 +84,7 @@ Pages and the footer read from these files, so a change in one place updates eve
 
 ## Contact page
 
-The Contact page has no form. It opens with a pink band highlighting the interest list (a Google Form), followed by the president's email (a `mailto:` link), the chapter LinkedIn page and the chapter Instagram account.
+The Contact page has no form. It opens with a pink band highlighting the interest list (a Google Form) with a single "Click here" button and no description, followed by the president's email (a `mailto:` link), the chapter LinkedIn page and the chapter Instagram account.
 
 ## Deployment
 

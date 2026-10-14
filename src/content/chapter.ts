@@ -96,6 +96,3 @@ export const nycEngagement: Engagement[] = [
 
 export const parentSummary =
   'Girls Into VC is a broader network that helps women learn about venture capital through education, mentorship, and community. Its campus chapters are student-led groups at individual universities.';
-
-export const interestFormNote =
-  'The interest list is a Google Form. It asks for your name and Columbia or Barnard email so the chapter can send event reminders and mailing-list updates.';
