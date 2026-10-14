@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
-import { EventCard } from '../components/EventCard';
 import { ExternalLink } from '../components/ExternalLink';
 import { InterestLink } from '../components/InterestLink';
 import { BrandLockup } from '../components/BrandLockup';
 import { Photo } from '../components/Photo';
 import { RepresentedOrganizations } from '../components/RepresentedOrganizations';
 import { activities, chapterIntro, interestFormNote, parentSummary, pillars, reasonsToJoin } from '../content/chapter';
-import { homeHighlightEvents } from '../content/events';
+import { pastEventsAnchor } from '../content/events';
 import { siteLinks } from '../content/links';
 import { activityPhotos, homePhotos } from '../content/photos';
 
@@ -89,22 +88,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="home-band home-band-pale" aria-labelledby="home-events-title">
-        <div className="home-inner">
-          <div className="home-heading-row">
-            <h2 id="home-events-title">Past chapter events</h2>
-            <p className="home-aside">
-              <Link to="/events">See all past events</Link>
-            </p>
-          </div>
-          <div className="event-list">
-            {homeHighlightEvents.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
-          </div>
-        </div>
-      </section>
-
       <RepresentedOrganizations />
 
       <section className="home-band home-band-pale" aria-labelledby="explore-title">
@@ -118,6 +101,10 @@ export function HomePage() {
             <li>
               <Link to="/resources">Browse resources</Link>
               <p>Curated reading and career links about venture capital.</p>
+            </li>
+            <li>
+              <Link to={{ pathname: '/resources', hash: `#${pastEventsAnchor}` }}>See past events</Link>
+              <p>Speaker events and conversations, listed under Resources.</p>
             </li>
           </ul>
         </div>

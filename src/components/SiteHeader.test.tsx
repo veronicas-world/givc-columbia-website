@@ -12,13 +12,13 @@ function renderHeader() {
 }
 
 describe('SiteHeader', () => {
-  it('lists all six pages in the main navigation', () => {
+  it('lists the five pages in the main navigation', () => {
     renderHeader();
     const names = screen
       .getAllByRole('link')
       .filter((link) => link.closest('nav'))
       .map((link) => link.textContent);
-    expect(names).toEqual(['Home', 'About', 'People', 'Resources', 'Events', 'Contact']);
+    expect(names).toEqual(['Home', 'About', 'People', 'Resources', 'Contact']);
   });
 
   it('toggles the mobile menu with an accessible button', () => {

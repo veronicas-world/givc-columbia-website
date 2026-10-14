@@ -17,7 +17,6 @@ export interface PastEvent {
   /** Null when sources conflict or give no room. */
   location: string | null;
   partner?: string;
-  highlight: boolean;
   /** Editorial provenance for maintainers; not rendered. */
   sourceNote: string;
 }
@@ -36,7 +35,6 @@ export const pastEvents: PastEvent[] = [
     speakers: [{ name: 'Avni Barman', affiliation: 'GenShe' }],
     date: 'March 25',
     location: 'Pupin 428',
-    highlight: true,
     sourceNote:
       'Chapter Instagram recap slide (IMG_6205). Year and time not stated. Her title is partly covered on the slide, so only GenShe is shown. The registration figure on the slide is not an attendance count and is omitted.',
   },
@@ -54,7 +52,6 @@ export const pastEvents: PastEvent[] = [
     date: null,
     location: null,
     partner: "Co-presented with the Columbia Women's Business Society",
-    highlight: true,
     sourceNote:
       'Chapter Instagram recap slide (IMG_6206) and a separately supplied announcement. Speaker names agree. Date and room conflict, so both are pending. Unexplained dollar figures on the recap and an abbreviated prior role for Irene Wu are omitted.',
   },
@@ -70,11 +67,13 @@ export const pastEvents: PastEvent[] = [
     date: null,
     location: null,
     partner: 'In collaboration with women@core',
-    highlight: true,
     sourceNote:
       'Chapter Instagram recap slide (IMG_6207) and a separately supplied announcement. Joshua Browder and DoNotPay agree. Date, the investor speaker surname and her firm conflict, so they are pending. The room appears only on the recap template, whose other details conflict, so it is also pending.',
   },
 ];
+
+/** Id of the Resources section that holds the archive; the legacy /events route redirects to it. */
+export const pastEventsAnchor = 'past-events';
 
 /** Conflicts between supplied event sources, kept for the chapter to confirm. */
 export const eventSourceConflicts: string[] = [
@@ -83,5 +82,3 @@ export const eventSourceConflicts: string[] = [
   'Fireside chat speaker: the recap slide says Andrea Weng, Partner, Andreessen Horowitz; the announcement says Andrea Wang, General Partner, SV Angel.',
   'No source gives a year for the Avni Barman event, the fireside chat or the Women Investors recap. Years are not inferred from weekdays or post dates.',
 ];
-
-export const homeHighlightEvents: PastEvent[] = pastEvents.filter((event) => event.highlight);

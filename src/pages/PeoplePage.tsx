@@ -2,7 +2,7 @@ import { BoardCard } from '../components/BoardCard';
 import { MemberRow } from '../components/MemberRow';
 import { PageHeader } from '../components/PageHeader';
 import { boardIsPending, boardMembers } from '../content/board';
-import { members } from '../content/members';
+import { memberClassGroups, members } from '../content/members';
 
 export function PeoplePage() {
   return (
@@ -31,11 +31,20 @@ export function PeoplePage() {
         <p>
           {members.length} members across Columbia College, Columbia Engineering and Barnard College.
         </p>
-        <ul className="member-list">
-          {members.map((member) => (
-            <MemberRow key={member.name} member={member} />
-          ))}
-        </ul>
+        {memberClassGroups.map((group) => (
+          <section
+            key={group.classYear}
+            className="member-group"
+            aria-labelledby={`members-${group.classYear}-heading`}
+          >
+            <h3 id={`members-${group.classYear}-heading`}>Class of {group.classYear}</h3>
+            <ul className="member-list">
+              {group.members.map((member) => (
+                <MemberRow key={member.name} member={member} />
+              ))}
+            </ul>
+          </section>
+        ))}
       </section>
     </>
   );

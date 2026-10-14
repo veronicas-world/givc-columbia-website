@@ -8,6 +8,5 @@ export const navItems: NavItem[] = [
   { label: 'About', path: '/about' },
   { label: 'People', path: '/people' },
   { label: 'Resources', path: '/resources' },
-  { label: 'Events', path: '/events' },
   { label: 'Contact', path: '/contact' },
 ];

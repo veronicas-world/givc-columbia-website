@@ -63,7 +63,7 @@ To add an organization, save its logo in that folder, add a record to `src/conte
 
 ## Event facts awaiting confirmation
 
-Event records live in `src/content/events.ts`. The archive shows only facts that the supplied sources agree on. These conflicts are listed in `eventSourceConflicts` and need the chapter's confirmation before the pending fields are filled in:
+Event records live in `src/content/events.ts` and appear only in the past-event archive on Resources (`/resources#past-events`). The archive shows only facts that the supplied sources agree on. These conflicts are listed in `eventSourceConflicts` and need the chapter's confirmation before the pending fields are filled in:
 
 - Women Investors in VC: the recap says April 10 in Pupin 428; the announcement says March 31, 2026 in Lerner 568. Date and location are shown as "to be confirmed".
 - Fireside chat date: the recap says May 2; the announcement says Monday, April 27, 4 to 5 pm. Date is shown as "to be confirmed".

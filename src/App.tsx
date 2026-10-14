@@ -1,8 +1,8 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { SiteShell } from './components/SiteShell';
+import { pastEventsAnchor } from './content/events';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
-import { EventsPage } from './pages/EventsPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { PeoplePage } from './pages/PeoplePage';
@@ -16,7 +16,7 @@ export function AppRoutes() {
         <Route path="about" element={<AboutPage />} />
         <Route path="people" element={<PeoplePage />} />
         <Route path="resources" element={<ResourcesPage />} />
-        <Route path="events" element={<EventsPage />} />
+        <Route path="events" element={<Navigate to={{ pathname: '/resources', hash: `#${pastEventsAnchor}` }} replace />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

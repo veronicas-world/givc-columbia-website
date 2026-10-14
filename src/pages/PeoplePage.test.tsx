@@ -19,13 +19,34 @@ describe('PeoplePage', () => {
     const directory = screen.getByRole('region', { name: 'Members' });
     const rows = within(directory).getAllByRole('listitem');
     expect(rows).toHaveLength(members.length);
-    members.forEach((member, index) => {
-      const row = rows[index]!;
-      expect(row).toHaveTextContent(member.name);
-      expect(row).toHaveTextContent(schoolName(member.school));
-      expect(row).toHaveTextContent(`Class of ${member.classYear}`);
-    });
+    for (const member of members) {
+      const matching = rows.filter((row) => row.querySelector('.member-name')?.textContent === member.name);
+      expect(matching).toHaveLength(1);
+      expect(matching[0]).toHaveTextContent(schoolName(member.school));
+      expect(matching[0]).toHaveTextContent(`Class of ${member.classYear}`);
+    }
     expect(directory.querySelector('img')).toBeNull();
+  });
+
+  it('groups members under Class of 2028 (13) and Class of 2029 (18) in roster order', () => {
+    renderPeople();
+    const directory = screen.getByRole('region', { name: 'Members' });
+    const expected: Array<[number, number]> = [
+      [2028, 13],
+      [2029, 18],
+    ];
+    const groups = within(directory).getAllByRole('region');
+    expect(groups.map((group) => within(group).getByRole('heading', { level: 3 }).textContent)).toEqual(
+      expected.map(([year]) => `Class of ${year}`),
+    );
+    expected.forEach(([year, count], index) => {
+      const names = within(groups[index]!)
+        .getAllByRole('listitem')
+        .map((row) => row.querySelector('.member-name')?.textContent);
+      const expectedNames = members.filter((member) => member.classYear === year).map((member) => member.name);
+      expect(names).toHaveLength(count);
+      expect(names).toEqual(expectedNames);
+    });
   });
 
   it('keeps names without approved URLs as plain text', () => {

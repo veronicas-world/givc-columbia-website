@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { eventSourceConflicts, homeHighlightEvents, pastEvents } from './events';
+import { eventSourceConflicts, pastEvents } from './events';
 
 function publicText(event: (typeof pastEvents)[number]): string {
   return JSON.stringify({ ...event, sourceNote: undefined });
@@ -77,10 +77,9 @@ describe('past event records', () => {
     }
   });
 
-  it('builds Home highlights from the archive records themselves', () => {
-    expect(homeHighlightEvents.length).toBeGreaterThan(0);
-    for (const highlight of homeHighlightEvents) {
-      expect(pastEvents).toContain(highlight);
+  it('has no Home-only highlight projection', () => {
+    for (const event of pastEvents) {
+      expect(event).not.toHaveProperty('highlight');
     }
   });
 });

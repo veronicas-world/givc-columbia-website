@@ -65,6 +65,16 @@ export const members: Member[] = roster.map((member) => {
   return linkedInUrl ? { ...member, linkedInUrl } : member;
 });
 
+export interface MemberClassGroup {
+  classYear: number;
+  members: Member[];
+}
+
+/** Members grouped by class year, earliest first, keeping roster order within each year. */
+export const memberClassGroups: MemberClassGroup[] = [...new Set(members.map((member) => member.classYear))]
+  .sort((a, b) => a - b)
+  .map((classYear) => ({ classYear, members: members.filter((member) => member.classYear === classYear) }));
+
 export function schoolName(code: SchoolCode) {
   return schoolNames[code];
 }

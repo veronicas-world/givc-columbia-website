@@ -4,15 +4,15 @@ Local-review website for Girls Into VC at Columbia, built with React, TypeScript
 
 ## Pages
 
-All six pages share a header (with a mobile menu below 768 pixels wide) and a pale-pink footer with the interest list, Instagram, chapter LinkedIn status and Contact.
+All five pages share a header (with a mobile menu below 768 pixels wide) and a pale-pink footer with the interest list, Instagram, chapter LinkedIn status and Contact.
 
 | Route        | Content |
 | ------------ | ------- |
-| `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo, the chapter overview with a community photo, pillars, activities with general Girls Into VC photos, reasons to join, past-event highlights, "Where our members are represented" logos, links to People and Resources, and the interest list |
+| `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo, the chapter overview with a community photo, pillars, activities with general Girls Into VC photos, reasons to join, "Where our members are represented" logos, links to People, Resources and the past events, and the interest list |
 | `/about`     | Columbia chapter activities with a campus photo, separated from the wider Girls Into VC network |
-| `/people`    | Board section with pale-pink square cards (labeled examples until the real board is supplied) and the 31-member directory as text rows |
-| `/resources` | Curated external venture capital learning and career links |
-| `/events`    | Past-event archive of three source-backed chapter events; unconfirmed details shown as "to be confirmed" |
+| `/people`    | Board section with pale-pink square cards (labeled examples until the real board is supplied) and the 31-member directory as centered text rows grouped under Class of 2028 (13) and Class of 2029 (18) |
+| `/resources` | Curated external venture capital learning and career links, then the past-event archive (`#past-events`) of three source-backed chapter events; unconfirmed details shown as "to be confirmed" |
+| `/events`    | Old address kept for existing links: redirects (replacing the history entry) to `/resources#past-events` |
 | `/contact`   | Accessible contact form with field validation; sending is not connected yet (see below) |
 
 Design rules for future edits: the official Girls Into VC logo (never retyped in a similar font) beside a separate "at Columbia", self-hosted Alice for headings and Almarai for body and navigation, no italics, no visible photo captions or credits, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). The only motion is the browser's own; the `prefers-reduced-motion` rule in `src/styles/global.css` turns off transitions, animations and smooth scrolling if any are added later.
@@ -46,10 +46,10 @@ Page copy and links live in typed files under `src/content/`:
 - `links.ts`: interest form, Instagram, chapter LinkedIn, and parent-network URLs
 - `chapter.ts`: chapter introduction, pillars, activities, reasons to join
 - `resources.ts`: curated resource groups and descriptions
-- `members.ts`: public member directory (name, school code, class year only) and `approvedMemberLinkedIns`
+- `members.ts`: public member directory (name, school code, class year only), `approvedMemberLinkedIns`, and `memberClassGroups`, which groups the directory by class year in roster order
 - `board.ts`: board cards; currently labeled examples while `boardIsPending` is `true`
-- `events.ts`: past-event records used by both the Events archive and the Home highlights (`highlight: true`), plus `eventSourceConflicts`
-- `navigation.ts`: main navigation order
+- `events.ts`: past-event records shown in the Resources archive, the `past-events` anchor id, and `eventSourceConflicts`
+- `navigation.ts`: main navigation order (Home, About, People, Resources, Contact), shared by the header and footer
 - `photos.ts`: Home and About photographs with alt text, intrinsic size, crop focus and a maintainer-only source note (never rendered)
 - `brand.ts`: the official logo files and the "at Columbia" descriptor
 - `organizations.ts`: the 14 represented-company logos on Home

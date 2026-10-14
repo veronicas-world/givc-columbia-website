@@ -1,5 +1,8 @@
+import { Link } from 'react-router-dom';
 import { ExternalLink } from '../components/ExternalLink';
 import { PageHeader } from '../components/PageHeader';
+import { PastEventsArchive } from '../components/PastEventsArchive';
+import { pastEventsAnchor } from '../content/events';
 import { resourceGroups } from '../content/resources';
 
 export function ResourcesPage() {
@@ -7,8 +10,11 @@ export function ResourcesPage() {
     <>
       <PageHeader title="Resources">
         <p>
-          A short list of outside resources for learning about venture capital and finding related careers. Each link
-          goes to the original publisher.
+          A short list of outside resources for learning about venture capital and finding related careers, followed by
+          the chapter's past events. Each resource link goes to the original publisher.
+        </p>
+        <p>
+          <Link to={{ pathname: '/resources', hash: `#${pastEventsAnchor}` }}>Jump to past events</Link>
         </p>
       </PageHeader>
       {resourceGroups.map((group) => (
@@ -28,6 +34,7 @@ export function ResourcesPage() {
           </ul>
         </section>
       ))}
+      <PastEventsArchive />
     </>
   );
 }

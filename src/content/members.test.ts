@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { approvedMemberLinkedIns, members, schoolName } from './members';
+import { approvedMemberLinkedIns, memberClassGroups, members, schoolName } from './members';
 
 const expectedRoster: [name: string, classYear: number, school: string][] = [
   ['Mali Gilbert', 2028, 'Columbia Engineering'],
@@ -67,6 +67,19 @@ describe('members', () => {
     }
     for (const member of members) {
       expect(member.linkedInUrl).toBe(approvedMemberLinkedIns[member.name]);
+    }
+  });
+
+  it('groups the roster into Class of 2028 (13) and Class of 2029 (18) without loss or duplication', () => {
+    expect(memberClassGroups.map((group) => [group.classYear, group.members.length])).toEqual([
+      [2028, 13],
+      [2029, 18],
+    ]);
+    const union = memberClassGroups.flatMap((group) => group.members);
+    expect(union).toHaveLength(members.length);
+    expect(new Set(union)).toEqual(new Set(members));
+    for (const group of memberClassGroups) {
+      expect(group.members.every((member) => member.classYear === group.classYear)).toBe(true);
     }
   });
 });

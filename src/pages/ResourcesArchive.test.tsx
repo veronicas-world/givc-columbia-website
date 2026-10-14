@@ -1,23 +1,32 @@
 import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
-import { homeHighlightEvents, pastEvents } from '../content/events';
+import { pastEvents } from '../content/events';
 import { siteLinks } from '../content/links';
-import { EventsPage } from './EventsPage';
+import { resourceGroups } from '../content/resources';
 import { HomePage } from './HomePage';
+import { ResourcesPage } from './ResourcesPage';
 
 function renderPage(page: React.ReactElement) {
   return render(<MemoryRouter>{page}</MemoryRouter>);
 }
 
-function archiveCards() {
-  const archive = screen.getByRole('region', { name: 'Past events' });
-  return within(archive).getAllByRole('article');
+function archive() {
+  return screen.getByRole('region', { name: 'Past events' });
 }
 
-describe('EventsPage archive', () => {
+function archiveCards() {
+  return within(archive()).getAllByRole('article');
+}
+
+describe('Resources past-event archive', () => {
+  it('is the #past-events section of Resources', () => {
+    renderPage(<ResourcesPage />);
+    expect(archive()).toHaveAttribute('id', 'past-events');
+  });
+
   it('renders every past event record as a text-led entry with its speakers', () => {
-    renderPage(<EventsPage />);
+    renderPage(<ResourcesPage />);
     const cards = archiveCards();
     expect(cards).toHaveLength(pastEvents.length);
     pastEvents.forEach((event, index) => {
@@ -31,7 +40,7 @@ describe('EventsPage archive', () => {
   });
 
   it('shows missing dates and locations as pending instead of guessing', () => {
-    renderPage(<EventsPage />);
+    renderPage(<ResourcesPage />);
     const women = archiveCards().find((card) => within(card).queryByRole('heading', { name: 'Women Investors in VC' }));
     expect(women).toBeDefined();
     expect(within(women!).getByText('Date to be confirmed')).toBeInTheDocument();
@@ -42,33 +51,44 @@ describe('EventsPage archive', () => {
   });
 
   it('points to Instagram for announcements without offering registration', () => {
-    const { container } = renderPage(<EventsPage />);
-    expect(screen.getByRole('link', { name: /Instagram/ })).toHaveAttribute('href', siteLinks.instagram);
-    expect(container.textContent).not.toMatch(/register now|rsvp|sign up for this event/i);
+    renderPage(<ResourcesPage />);
+    expect(within(archive()).getByRole('link', { name: /Instagram/ })).toHaveAttribute('href', siteLinks.instagram);
+    expect(archive().textContent).not.toMatch(/register now|rsvp|sign up for this event/i);
+  });
+
+  it('keeps all nine curated resources alongside the archive', () => {
+    renderPage(<ResourcesPage />);
+    const resources = resourceGroups.flatMap((group) => group.resources);
+    expect(resources).toHaveLength(9);
+    for (const resource of resources) {
+      const link = screen.getByRole('link', { name: (name) => name.startsWith(resource.title) });
+      expect(link).toHaveAttribute('href', resource.url);
+      expect(archive()).not.toContainElement(link);
+    }
+  });
+
+  it('offers an in-page link to the archive', () => {
+    renderPage(<ResourcesPage />);
+    expect(screen.getByRole('link', { name: 'Jump to past events' })).toHaveAttribute(
+      'href',
+      '/resources#past-events',
+    );
   });
 });
 
-describe('Home event highlights', () => {
-  it('match their archive counterparts exactly', () => {
-    const home = renderPage(<HomePage />);
-    const highlights = within(screen.getByRole('region', { name: 'Past chapter events' })).getAllByRole('article');
-    expect(highlights).toHaveLength(homeHighlightEvents.length);
-    const homeTexts = highlights.map((card) => card.textContent);
-    home.unmount();
-
-    renderPage(<EventsPage />);
-    const archiveTexts = new Map(archiveCards().map((card) => [card.querySelector('h3')?.textContent, card.textContent]));
-    homeHighlightEvents.forEach((event, index) => {
-      expect(homeTexts[index]).toBe(archiveTexts.get(event.title));
-    });
+describe('Home entry points', () => {
+  it('has no event cards or separate events destination', () => {
+    const { container } = renderPage(<HomePage />);
+    expect(screen.queryByRole('region', { name: 'Past chapter events' })).toBeNull();
+    expect(container.querySelector('.event-card')).toBeNull();
+    expect(container.querySelector('a[href="/events"]')).toBeNull();
   });
 
-  it('leads to the past-event archive, People and Resources', () => {
+  it('leads to People, Resources and the archive within Resources', () => {
     renderPage(<HomePage />);
-    const events = screen.getByRole('region', { name: 'Past chapter events' });
-    expect(within(events).getByRole('link', { name: 'See all past events' })).toHaveAttribute('href', '/events');
     expect(screen.getByRole('link', { name: /Meet the board and members/ })).toHaveAttribute('href', '/people');
     expect(screen.getByRole('link', { name: /Browse resources/ })).toHaveAttribute('href', '/resources');
+    expect(screen.getByRole('link', { name: /See past events/ })).toHaveAttribute('href', '/resources#past-events');
   });
 
   it('contains no placeholder anchors', () => {
