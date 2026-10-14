@@ -21,7 +21,10 @@ export function BrandLockup({ tone, className, animateMark = false }: BrandLocku
           height={parentMark.height}
         />
       )}{' '}
-      <span className="brand-descriptor">{chapterDescriptor}</span>
+      <span className="brand-descriptor">
+        {chapterDescriptor}
+        <span className="brand-crown" aria-hidden="true" />
+      </span>
     </span>
   );
 }

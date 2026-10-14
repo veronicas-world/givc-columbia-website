@@ -189,6 +189,18 @@ a:hover {
   white-space: nowrap;
 }
 
+/* The Columbia crown is a mask, so it takes the descriptor's color (white or pink) and scales with its text. */
+.brand-crown {
+  display: inline-block;
+  width: 1.26em;
+  height: 1em;
+  margin-left: 0.3em;
+  vertical-align: -0.12em;
+  background-color: currentColor;
+  -webkit-mask: url('/images/brand/columbia-crown.png') center / contain no-repeat;
+  mask: url('/images/brand/columbia-crown.png') center / contain no-repeat;
+}
+
 .brand-lockup-pink .brand-descriptor {
   color: var(--pink-dark);
 }

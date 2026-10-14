@@ -7,6 +7,7 @@ Every image and font shipped from `public/` and where it came from. Originals (s
 | File | Source | Treatment |
 | --- | --- | --- |
 | `givc-logo-pink.png` | Official transparent Girls Into VC logo, https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/ba8295ee-c2d6-41fd-a25f-63322cd07aed/GIRLS-2+copy.png (600 x 200 PNG, as used in the girlsintovc.com header) | Cropped to the artwork with 4 pixels of padding: 528 x 130. Colours unchanged. |
+| `columbia-crown.png` | Columbia University crown image supplied by the chapter, 487 x 410 navy on white | Cropped to 475 x 377 and converted to a transparent mask (navy kept as opacity, background removed). Used as a CSS mask after "at Columbia" so it shows white on the pink opening and pink in the header and footer. |
 | `givc-logo-white.png` | Same file | Monochrome white treatment for the pink opening: every pixel set to white, original transparency kept. This is a derived treatment, not a white master published by Girls Into VC. |
 
 "at Columbia" is set separately in Alice next to the artwork; it is not part of the parent logo. The CDN can return WebP to some clients for the URL above; the build used the PNG response. `design-preview/refresh-inputs/givc-logo-reference.png` is a reference only and is not shipped.

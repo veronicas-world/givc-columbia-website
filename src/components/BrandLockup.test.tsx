@@ -17,6 +17,14 @@ describe('chapter identity', () => {
     expect(container.textContent).not.toMatch(/Girls Into VC/);
   });
 
+  it('ends the descriptor with a decorative Columbia crown that takes the descriptor color', () => {
+    const { container } = render(<BrandLockup tone="white" />);
+    const crown = container.querySelector('.brand-descriptor > .brand-crown');
+    expect(crown).toHaveAttribute('aria-hidden', 'true');
+    expect(crown?.parentElement?.lastElementChild).toBe(crown);
+    expect(existsSync(resolve(process.cwd(), 'public/images/brand/columbia-crown.png'))).toBe(true);
+  });
+
   it('ships both logo files at the documented artwork size', () => {
     for (const src of [parentMark.pink, parentMark.white]) {
       const path = resolve(process.cwd(), 'public', src.slice(1));
