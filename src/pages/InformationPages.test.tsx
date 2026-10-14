@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { siteLinks } from '../content/links';
 import { representedOrganizations } from '../content/organizations';
-import { chapterActivityPhotos, homePhotos } from '../content/photos';
+import { activityPhotos, homePhotos } from '../content/photos';
 import { resourceGroups } from '../content/resources';
 import { AboutPage } from './AboutPage';
 import { HomePage } from './HomePage';
@@ -48,18 +48,23 @@ describe('HomePage', () => {
 
   it('opens with the pink title band', () => {
     renderPage(<HomePage />);
-    const title = screen.getByRole('heading', { level: 1 });
+    const title = screen.getByRole('heading', { level: 1, name: 'Girls Into VC at Columbia' });
     expect(title.closest('section')).toHaveClass('home-hero');
-    expect(title.textContent).toBe('Girls Into VC at Columbia');
   });
 
-  it('shows campus, parent-network and chapter photographs with honest context', () => {
-    renderPage(<HomePage />);
-    expect(screen.getByRole('img', { name: /Low Memorial Library/ })).toHaveAttribute('src', homePhotos.campus.src);
+  it('shows the supplied campus photo and general photos without visible captions', () => {
+    const { container } = renderPage(<HomePage />);
+    expect(screen.getByRole('img', { name: homePhotos.librarySteps.alt })).toHaveAttribute(
+      'src',
+      homePhotos.librarySteps.src,
+    );
     expect(screen.getByRole('img', { name: homePhotos.community.alt })).toHaveAttribute('src', homePhotos.community.src);
-    expect(screen.getByText(/not a Columbia chapter event/)).toBeInTheDocument();
     const activities = screen.getByRole('region', { name: 'What we do' });
-    expect(within(activities).getAllByRole('img')).toHaveLength(chapterActivityPhotos.length);
+    expect(within(activities).getAllByRole('img').map((img) => img.getAttribute('src'))).toEqual(
+      activityPhotos.map((photo) => photo.src),
+    );
+    expect(container.querySelector('figcaption')).toBeNull();
+    expect(container.textContent).not.toMatch(/not a Columbia chapter event|Photo:|chapter Instagram\./);
   });
 
   it('shows every represented organization logo as member experience', () => {

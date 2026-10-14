@@ -1,42 +1,40 @@
 # Asset sources
 
-Every image shipped from `public/` and where it came from. Original screenshots on the Desktop are never edited; the site uses cropped copies.
+Every image and font shipped from `public/` and where it came from. Originals (supplied files, downloaded official files and the Desktop screenshots) are never edited; the site uses derived copies.
 
-## Event photos (`public/images/events/`)
+## Brand (`public/images/brand/`)
 
-Cropped from the chapter's own Instagram recap slides, supplied by the user as phone screenshots. The originals on the Desktop are kept unchanged. Only the speaker photographs are kept: the phone status bar, Instagram interface, carousel counter, tag avatar and poster text (dates, rooms, statistics) are cropped out. `scripts/crop-event-images.py` rebuilds the files from the originals with the exact crop boxes.
-
-| File | Source screenshot | Content |
+| File | Source | Treatment |
 | --- | --- | --- |
-| `avni-barman-genshe.jpg` | `IMG_6205.png` | Avni Barman portrait from the speaker event slide |
-| `women-investors-in-vc.jpg` | `IMG_6206.png` | Four speaker portraits, arranged in a 2 by 2 grid |
-| `fireside-chat-vc-entrepreneurship.jpg` | `IMG_6207.png` | Two speaker portraits from the fireside chat slide |
+| `givc-logo-pink.png` | Official transparent Girls Into VC logo, https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/ba8295ee-c2d6-41fd-a25f-63322cd07aed/GIRLS-2+copy.png (600 x 200 PNG, as used in the girlsintovc.com header) | Cropped to the artwork with 4 pixels of padding: 528 x 130. Colours unchanged. |
+| `givc-logo-white.png` | Same file | Monochrome white treatment for the pink opening: every pixel set to white, original transparency kept. This is a derived treatment, not a white master published by Girls Into VC. |
 
-The photos come from screenshots of a resized Instagram post, so they are suitable for card-sized display, not for large hero images. Replace them with the original event graphics or photos when the chapter can supply them.
+"at Columbia" is set separately in Alice next to the artwork; it is not part of the parent logo. The CDN can return WebP to some clients for the URL above; the build used the PNG response. `design-preview/refresh-inputs/givc-logo-reference.png` is a reference only and is not shipped.
 
-## Chapter activity photos (`public/images/chapter/`)
+## Fonts (`public/fonts/`)
 
-Cropped from `IMG_6202.png`, the chapter's "What We Do at GIVC" Instagram slide, supplied by the user as a phone screenshot. The original is unchanged. Each crop sits inside the slide's rounded photo frame, so captions, the phone status bar and the Instagram interface are excluded. Crops keep their native size (about 500 by 320 pixels) and are displayed at card size only. `scripts/crop-chapter-photos.py` rebuilds them.
+Alice 400 and Almarai 300, 400, 700 and 800, latin subsets as WOFF2, downloaded from Google Fonts (`fonts.gstatic.com`, Alice v21, Almarai v19). Both are licensed under the SIL Open Font License 1.1. These are the fonts measured on girlsintovc.com. Alice has only an upright 400 weight, so headings are never bolded or slanted.
 
-| File | Content | Context |
-| --- | --- | --- |
-| `speaker-event.jpg` | Guest speaker at a chapter speaker event | Columbia chapter |
-| `workshop.jpg` | Presenter and students in a lecture hall | Columbia chapter |
-| `fellowship.jpg` | Four members, one holding flowers | Columbia chapter |
-| `community.jpg` | Members seated in a lecture hall | Columbia chapter |
+## Photos (`public/images/photos/`)
 
-No people in these photos are named on the site. Replace them with the chapter's original photo files when available.
+Photos carry no visible captions or credits on the site. Alt text describes what is visible without naming people or events. General Girls Into VC photos are editorial images and do not claim that a photo shows a particular Columbia chapter event. `scripts/build-refresh-assets.py` rebuilds the derivatives (and the brand files) from the originals; originals are only read.
 
-## Home and About photos (`public/images/photos/`)
+| File | Pixels | Source | Notes |
+| --- | --- | --- | --- |
+| `low-library-steps.jpg` | 971 x 507 | Supplied by the user, `design-preview/refresh-inputs/low-library-steps.jpeg` | Copied byte for byte and shown no wider than its native width. A larger matching original would be welcome. |
+| `low-memorial-library.jpg` | 1800 x 1350 | "Low Memorial Library - Columbia University.jpg" by Spaghet-Ti, https://commons.wikimedia.org/wiki/File:Low_Memorial_Library_-_Columbia_University.jpg | CC0 1.0. Resized to 1800 pixels wide. Used on About. People in it are incidental visitors. |
+| `girls-into-vc-community.jpg` | 2000 x 1195 | Girls Into VC official photo `606A6532.jpg` (2500 x 1494), https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/603cf925-81ee-47d9-8f91-98d597c3a2dc/606A6532.jpg, from https://www.girlsintovc.com/ | Resized from the 2500-pixel original. |
+| `panel-discussion.jpg` | 1340 x 1292 | Girls Into VC official photo `606A6646.jpg` (2500 x 1667), https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/ef749f90-8a66-4144-804b-0b8e4754ec0d/606A6646.jpg, from https://www.girlsintovc.com/join-us | Cropped to the left of the frame (box 0, 375, 1340, 1667) so the projected slide naming panelists is excluded. Not resized. |
+| `registration-table.jpg` | 1600 x 1068 | Girls Into VC official photo `606A9109.jpg` (2500 x 1668), https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/c6dd56ed-2a8c-4ed5-9d48-2e5b27694e87/606A9109.jpg, from https://www.girlsintovc.com/join-us | Resized from the 2500-pixel original. |
+| `community-conversation.jpg` | 800 x 533 | Supplied by the user, `design-preview/refresh-inputs/community-coffee.jpeg` | Copied byte for byte; displayed at most about 400 CSS pixels wide. |
 
-The About page reuses these two files with the same captions.
+The 2500-pixel files were downloaded in full and their decoded dimensions checked; they are not a CDN size parameter. Girls Into VC publishes no license or photographer credit for its photos. They are used with the user's authorization; confirm publication rights before a public launch.
 
-| File | Source | Context and terms |
-| --- | --- | --- |
-| `low-memorial-library.jpg` | "Low Memorial Library - Columbia University.jpg" by Spaghet-Ti, https://commons.wikimedia.org/wiki/File:Low_Memorial_Library_-_Columbia_University.jpg | Columbia campus. CC0 1.0. Resized to 1800 pixels wide. People in it are incidental visitors. |
-| `girls-into-vc-community.jpg` | Girls Into VC homepage hero image, https://www.girlsintovc.com/ (file: https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/603cf925-81ee-47d9-8f91-98d597c3a2dc/606A6532.jpg?format=1500w) | Parent network, not a Columbia chapter event; the caption says so. Used with the user's authorization. No license or photographer credit is published; confirm rights before a public launch. |
+Other supplied inputs in `design-preview/refresh-inputs/` (`parent-group`, `parent-panel`, `parent-registration`, `parent-fireside`, `parent-audience`) are smaller screenshot-sized versions of parent photos and are kept as references, not shipped. `parent-statistics-reference.png` is a design reference only.
 
-Both files were copied from `design-preview/`, which keeps the originals.
+## Retired screenshot crops
+
+Earlier versions shipped small crops of the chapter's Instagram slides (`public/images/chapter/` from `IMG_6202.png`, `public/images/events/` from `IMG_6205.png` to `IMG_6207.png`). They were too low in resolution and were removed with the scripts that made them; they remain in Git history. The original screenshots on the Desktop are unchanged. Past events are now text-led. Replace with the chapter's original photo files if they become available.
 
 ## Organization logos (`public/images/organizations/`)
 

@@ -17,7 +17,6 @@ export interface PastEvent {
   /** Null when sources conflict or give no room. */
   location: string | null;
   partner?: string;
-  image: { src: string; alt: string };
   highlight: boolean;
   /** Editorial provenance for maintainers; not rendered. */
   sourceNote: string;
@@ -25,7 +24,8 @@ export interface PastEvent {
 
 /**
  * Ordered as the chapter's own recap carousel presents them. Without
- * confirmed years this is not a claim about chronology.
+ * confirmed years this is not a claim about chronology. Entries are text-led
+ * because the only event images were low-resolution screenshot crops.
  */
 export const pastEvents: PastEvent[] = [
   {
@@ -36,10 +36,6 @@ export const pastEvents: PastEvent[] = [
     speakers: [{ name: 'Avni Barman', affiliation: 'GenShe' }],
     date: 'March 25',
     location: 'Pupin 428',
-    image: {
-      src: '/images/events/avni-barman-genshe.jpg',
-      alt: 'Portrait of Avni Barman from the chapter speaker event graphic',
-    },
     highlight: true,
     sourceNote:
       'Chapter Instagram recap slide (IMG_6205). Year and time not stated. Her title is partly covered on the slide, so only GenShe is shown. The registration figure on the slide is not an attendance count and is omitted.',
@@ -58,10 +54,6 @@ export const pastEvents: PastEvent[] = [
     date: null,
     location: null,
     partner: "Co-presented with the Columbia Women's Business Society",
-    image: {
-      src: '/images/events/women-investors-in-vc.jpg',
-      alt: 'Portraits of Daniella Cohen, Lori Berenberg, Nicole Ripka and Irene Wu from the Women Investors in VC event graphic',
-    },
     highlight: true,
     sourceNote:
       'Chapter Instagram recap slide (IMG_6206) and a separately supplied announcement. Speaker names agree. Date and room conflict, so both are pending. Unexplained dollar figures on the recap and an abbreviated prior role for Irene Wu are omitted.',
@@ -78,10 +70,6 @@ export const pastEvents: PastEvent[] = [
     date: null,
     location: null,
     partner: 'In collaboration with women@core',
-    image: {
-      src: '/images/events/fireside-chat-vc-entrepreneurship.jpg',
-      alt: 'Portraits of the two fireside chat speakers, Andrea and Joshua Browder, from the event graphic',
-    },
     highlight: true,
     sourceNote:
       'Chapter Instagram recap slide (IMG_6207) and a separately supplied announcement. Joshua Browder and DoNotPay agree. Date, the investor speaker surname and her firm conflict, so they are pending. The room appears only on the recap template, whose other details conflict, so it is also pending.',

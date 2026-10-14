@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { chapterName } from '../content/chapter';
 import { navItems } from '../content/navigation';
+import { BrandLockup } from './BrandLockup';
 
 interface SiteHeaderProps {
   /** Sits on top of the pink Home opening instead of above the page. */
@@ -28,7 +28,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
     <header className={overlay ? 'site-header site-header-overlay' : 'site-header'} data-menu-open={menuOpen}>
       <div className="site-header-inner">
         <Link to="/" className="site-wordmark">
-          {chapterName}
+          <BrandLockup tone={overlay ? 'white' : 'pink'} />
         </Link>
         <button
           ref={toggleRef}

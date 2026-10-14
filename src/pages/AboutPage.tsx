@@ -1,7 +1,7 @@
 import { ExternalLink } from '../components/ExternalLink';
 import { InterestLink } from '../components/InterestLink';
 import { PageHeader } from '../components/PageHeader';
-import { PhotoFigure } from '../components/PhotoFigure';
+import { Photo } from '../components/Photo';
 import { activities, chapterIntro, parentSummary } from '../content/chapter';
 import { siteLinks } from '../content/links';
 import { homePhotos } from '../content/photos';
@@ -13,7 +13,7 @@ export function AboutPage() {
         <p>{chapterIntro}</p>
       </PageHeader>
 
-      <PhotoFigure photo={homePhotos.campus} className="page-photo" />
+      <Photo photo={homePhotos.campus} className="page-photo" />
 
       <section className="section" aria-labelledby="chapter-title">
         <h2 id="chapter-title">The Columbia chapter</h2>
@@ -42,7 +42,7 @@ export function AboutPage() {
               about its <ExternalLink href={siteLinks.parentCampusChapters}>campus chapters</ExternalLink>.
             </p>
           </div>
-          <PhotoFigure photo={homePhotos.community} />
+          <Photo photo={homePhotos.community} className="page-split-photo" />
         </div>
       </section>
 

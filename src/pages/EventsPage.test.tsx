@@ -16,14 +16,14 @@ function archiveCards() {
 }
 
 describe('EventsPage archive', () => {
-  it('renders every past event record with its speakers and photo', () => {
+  it('renders every past event record as a text-led entry with its speakers', () => {
     renderPage(<EventsPage />);
     const cards = archiveCards();
     expect(cards).toHaveLength(pastEvents.length);
     pastEvents.forEach((event, index) => {
       const card = within(cards[index]!);
       expect(card.getByRole('heading', { name: event.title })).toBeInTheDocument();
-      expect(card.getByRole('img', { name: event.image.alt })).toHaveAttribute('src', event.image.src);
+      expect(card.queryByRole('img')).toBeNull();
       for (const speaker of event.speakers) {
         expect(card.getByText(speaker.name)).toBeInTheDocument();
       }

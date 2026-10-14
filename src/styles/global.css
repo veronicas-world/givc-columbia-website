@@ -1,3 +1,44 @@
+/* Self-hosted latin subsets of the parent site's fonts (SIL Open Font License, from Google Fonts). */
+@font-face {
+  font-family: 'Alice';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/alice-400-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Almarai';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/almarai-300-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Almarai';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/almarai-400-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Almarai';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/almarai-700-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Almarai';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/almarai-800-latin.woff2') format('woff2');
+}
+
 :root {
   --pink: #f174a2;
   --pink-dark: #b8336a;
@@ -10,14 +51,17 @@
   --white: #ffffff;
   --focus: #102638;
   --content-width: 72rem;
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Alice', Georgia, serif;
+  --font-body: 'Almarai', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
 
   color: var(--ink);
   background: var(--white);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: 100%;
   line-height: 1.6;
   font-style: normal;
+  /* Alice has one upright weight; never fake bold or italic versions of it. */
+  font-synthesis: none;
 }
 
 *,
@@ -57,6 +101,8 @@ i {
 h1,
 h2,
 h3 {
+  font-family: var(--font-heading);
+  font-weight: 400;
   line-height: 1.2;
   color: var(--navy);
 }
@@ -140,9 +186,38 @@ a:hover {
 }
 
 .site-wordmark {
-  font-weight: 700;
+  display: inline-flex;
   color: var(--navy);
   text-decoration: none;
+}
+
+/* Brand lockup: official GIVC artwork plus a typeset descriptor, never a font-built logo. */
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.brand-mark {
+  display: block;
+  width: auto;
+  height: 1.9rem;
+}
+
+.brand-descriptor {
+  font-size: 1.15rem;
+  white-space: nowrap;
+}
+
+.brand-lockup-pink .brand-descriptor {
+  color: var(--pink-dark);
+}
+
+.brand-lockup-white .brand-descriptor {
+  color: var(--white);
 }
 
 .site-nav ul {
@@ -243,15 +318,9 @@ a:hover {
 
 .page-header h1 {
   font-size: clamp(2.75rem, 7vw, 5rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
   line-height: 1;
   margin-bottom: 1.5rem;
-}
-
-.section h2 {
-  font-weight: 600;
-  letter-spacing: -0.015em;
 }
 
 .page-photo {
@@ -261,6 +330,10 @@ a:hover {
 .page-photo img {
   aspect-ratio: auto;
   height: clamp(14rem, 34vw, 28rem);
+}
+
+.page-split-photo img {
+  aspect-ratio: 3 / 2;
 }
 
 .page-split {
@@ -347,17 +420,8 @@ a:hover {
   background: var(--white);
 }
 
-.event-photo {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  object-position: center 30%;
-  background: var(--pink-pale);
-}
-
 .event-body {
-  padding: 1.1rem 1.25rem 1.4rem;
+  padding: 1.5rem 1.5rem 1.6rem;
 }
 
 .event-format {
@@ -664,8 +728,7 @@ main.main-full {
   background: transparent;
 }
 
-/* White small text on #F174A2 is below 3:1 contrast, so only the large title stays white. */
-.site-header-overlay .site-wordmark,
+/* White small text on #F174A2 is below 3:1 contrast, so only the identity stays white. */
 .site-header-overlay .site-nav a {
   color: var(--navy);
 }
@@ -712,18 +775,29 @@ main.main-full {
 }
 
 .home-title {
+  display: flex;
+  justify-content: center;
   margin: auto 0;
   padding: 2rem 0;
   max-width: none;
   color: var(--white);
-  font-size: clamp(3.25rem, 11.5vw, 10rem);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.035em;
+  font-size: clamp(1.6rem, 4.6vw, 4.25rem);
+  line-height: 1;
 }
 
-.home-title span {
-  display: inline-block;
+.home-title .brand-lockup {
+  flex-direction: column;
+  gap: 0.35em;
+}
+
+/* The mark's 528px artwork is never stretched past its native width. */
+.home-title .brand-mark {
+  width: min(33rem, 78vw);
+  height: auto;
+}
+
+.home-title .brand-descriptor {
+  font-size: 1em;
 }
 
 .home-hero-footer {
@@ -780,8 +854,7 @@ main.main-full {
 
 .home-inner h2 {
   font-size: clamp(1.9rem, 4vw, 2.9rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .home-heading-row,
@@ -806,17 +879,11 @@ main.main-full {
   margin-bottom: 0;
 }
 
-.home-photo-pair {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  gap: 1.5rem;
-}
-
-.photo-figure {
+.photo-frame {
   margin: 0;
 }
 
-.photo-figure img {
+.photo-frame img {
   display: block;
   width: 100%;
   height: auto;
@@ -825,46 +892,34 @@ main.main-full {
   background: var(--pink-soft);
 }
 
-.home-photo-pair .photo-figure img {
+/* Supplied at 971px; shown no wider than its native size. */
+.home-campus {
+  padding: clamp(2.5rem, 6vw, 4.5rem) 1.25rem;
+  background: var(--white);
+}
+
+.home-campus-photo {
+  max-width: 60.6875rem;
+  margin: 0 auto;
+}
+
+.home-campus-photo img {
   aspect-ratio: auto;
-  height: clamp(15rem, 30vw, 26rem);
 }
 
-.photo-figure figcaption {
+.home-wide-photo img {
+  aspect-ratio: 2 / 1;
+  max-height: 34rem;
+}
+
+.activity-list {
+  margin-bottom: 2.5rem;
+}
+
+.photo-row {
   display: grid;
-  gap: 0.1rem;
-  margin-top: 0.7rem;
-  font-size: 0.9rem;
-}
-
-.photo-label {
-  font-weight: 600;
-  color: var(--navy);
-}
-
-.photo-credit {
-  color: var(--ink-muted);
-}
-
-/* The chapter photos come from a phone screenshot, so they stay small enough to remain sharp. */
-.activity-photo-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
-  gap: 2rem 1.5rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.activity-photo-list img {
-  display: block;
-  width: 100%;
-  max-width: 21rem;
-  height: auto;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-  margin-bottom: 1rem;
-  background: var(--pink-soft);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
 }
 
 .home-split .reason-list {
@@ -916,8 +971,20 @@ main.main-full {
 @media (max-width: 47.99rem) {
   .home-heading-row,
   .home-split,
-  .home-photo-pair {
+  .photo-row {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-wide-photo img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .brand-mark {
+    height: 1.5rem;
+  }
+
+  .brand-descriptor {
+    font-size: 0.95rem;
   }
 
   .home-hero-inner {

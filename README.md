@@ -8,14 +8,14 @@ All six pages share a header (with a mobile menu below 768 pixels wide) and a pa
 
 | Route        | Content |
 | ------------ | ------- |
-| `/`          | Full-height pink opening with the white title "Girls Into VC at Columbia", then the chapter overview with campus and community photos, pillars, chapter activity photos, reasons to join, past-event highlights, "Where our members are represented" logos, links to People and Resources, and the interest list |
+| `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo, the chapter overview with a community photo, pillars, activities with general Girls Into VC photos, reasons to join, past-event highlights, "Where our members are represented" logos, links to People and Resources, and the interest list |
 | `/about`     | Columbia chapter activities with a campus photo, separated from the wider Girls Into VC network |
 | `/people`    | Board section with pale-pink square cards (labeled examples until the real board is supplied) and the 31-member directory as text rows |
 | `/resources` | Curated external venture capital learning and career links |
 | `/events`    | Past-event archive of three source-backed chapter events; unconfirmed details shown as "to be confirmed" |
 | `/contact`   | Accessible contact form with field validation; sending is not connected yet (see below) |
 
-Design rules for future edits: plain sans-serif type with no italics, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). The only motion is the browser's own; the `prefers-reduced-motion` rule in `src/styles/global.css` turns off transitions, animations and smooth scrolling if any are added later.
+Design rules for future edits: the official Girls Into VC logo (never retyped in a similar font) beside a separate "at Columbia", self-hosted Alice for headings and Almarai for body and navigation, no italics, no visible photo captions or credits, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). The only motion is the browser's own; the `prefers-reduced-motion` rule in `src/styles/global.css` turns off transitions, animations and smooth scrolling if any are added later.
 
 ## Requirements
 
@@ -50,7 +50,8 @@ Page copy and links live in typed files under `src/content/`:
 - `board.ts`: board cards; currently labeled examples while `boardIsPending` is `true`
 - `events.ts`: past-event records used by both the Events archive and the Home highlights (`highlight: true`), plus `eventSourceConflicts`
 - `navigation.ts`: main navigation order
-- `photos.ts`: Home and About photographs, with captions and whether each is a campus, parent-network or chapter photo
+- `photos.ts`: Home and About photographs with alt text, intrinsic size, crop focus and a maintainer-only source note (never rendered)
+- `brand.ts`: the official logo files and the "at Columbia" descriptor
 - `organizations.ts`: the 14 represented-company logos on Home
 - `contact.ts`: contact validation and the email delivery boundary
 
@@ -63,10 +64,9 @@ Pages and the footer read from these files, so a change in one place updates eve
 - **Member LinkedIn links:** no URLs are approved yet, so every member name is plain text. Add an entry to `approvedMemberLinkedIns` (exact roster name to exact `https://www.linkedin.com/in/...` URL) only after the person's profile is approved. Research candidates stay in [`docs/linkedin-review.md`](docs/linkedin-review.md), not in this file.
 - **Member privacy:** member records hold only name, school, class year and an approved LinkedIn URL. Do not add emails, phone numbers, UNIs, join dates or internship history.
 - **Event details:** some dates, rooms, a speaker surname and her firm conflict between the supplied event graphics, and no source gives a year. These fields are `null` and render as "to be confirmed". Fill them in `events.ts` only after the chapter confirms them. The conflicts are listed in [`docs/asset-sources.md`](docs/asset-sources.md).
-- **Event photos:** `public/images/events/` holds crops of the chapter's Instagram slides, rebuilt with `python3 scripts/crop-event-images.py` (needs Pillow and the original screenshots). Sources are in [`docs/asset-sources.md`](docs/asset-sources.md).
-- **Home photos:** chapter activity photos in `public/images/chapter/` are rebuilt with `python3 scripts/crop-chapter-photos.py`. They come from a phone screenshot, so they are shown at card size; replace them with original photo files when available. Photo records and their parent-network or chapter context live in `src/content/photos.ts`.
+- **Photos and logo:** `public/images/photos/` and `public/images/brand/` are rebuilt with `python3 scripts/build-refresh-assets.py <official-originals-dir>` (needs Pillow, the supplied files in `design-preview/refresh-inputs/` and the downloaded official originals listed in [`docs/asset-sources.md`](docs/asset-sources.md)). Past events are text-led; the earlier low-resolution screenshot crops were retired. Fonts in `public/fonts/` are self-hosted OFL files.
 - **Represented organizations:** the Home logo section reads `src/content/organizations.ts`. To add one, save the logo in `public/images/organizations/`, add a record and add a source row in [`docs/asset-sources.md`](docs/asset-sources.md). The section describes member experience, not sponsorship.
-- **Higher-resolution photos and publication rights:** the chapter and event photos are crops of phone screenshots, so they are kept at card size. The Girls Into VC community photo comes from the parent network's website without a published license. Supply original files and confirm rights and credits before a public launch.
+- **Photos and publication rights:** the Girls Into VC photos come from the parent network's website without a published license, and the library-steps photo is 971 pixels wide. Supply chapter originals or a larger campus photo if available, and confirm rights and credits before a public launch.
 - **Contact inbox and email delivery:** not connected. See the next section.
 
 ## Contact form and email delivery

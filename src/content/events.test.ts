@@ -1,5 +1,3 @@
-import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { eventSourceConflicts, homeHighlightEvents, pastEvents } from './events';
 
@@ -73,11 +71,9 @@ describe('past event records', () => {
     }
   });
 
-  it('ships a local cropped photo with descriptive alt text for every event', () => {
+  it('keeps events text-led instead of reusing blurry screenshot portraits', () => {
     for (const event of pastEvents) {
-      expect(event.image.src).toMatch(/^\/images\/events\/[a-z-]+\.jpg$/);
-      expect(existsSync(resolve(__dirname, '../../public', event.image.src.slice(1)))).toBe(true);
-      expect(event.image.alt.length).toBeGreaterThan(20);
+      expect(event).not.toHaveProperty('image');
     }
   });
 

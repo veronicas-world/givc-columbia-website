@@ -2,12 +2,13 @@ import { Link } from 'react-router-dom';
 import { EventCard } from '../components/EventCard';
 import { ExternalLink } from '../components/ExternalLink';
 import { InterestLink } from '../components/InterestLink';
-import { PhotoFigure } from '../components/PhotoFigure';
+import { BrandLockup } from '../components/BrandLockup';
+import { Photo } from '../components/Photo';
 import { RepresentedOrganizations } from '../components/RepresentedOrganizations';
 import { activities, chapterIntro, interestFormNote, parentSummary, pillars, reasonsToJoin } from '../content/chapter';
 import { homeHighlightEvents } from '../content/events';
 import { siteLinks } from '../content/links';
-import { chapterActivityPhotos, homePhotos } from '../content/photos';
+import { activityPhotos, homePhotos } from '../content/photos';
 
 export function HomePage() {
   return (
@@ -15,7 +16,7 @@ export function HomePage() {
       <section className="home-hero" aria-labelledby="home-title">
         <div className="home-hero-inner">
           <h1 id="home-title" className="home-title">
-            <span>Girls Into VC</span> <span>at Columbia</span>
+            <BrandLockup tone="white" />
           </h1>
           <div className="home-hero-footer">
             <p>A student-led chapter at Columbia University.</p>
@@ -23,6 +24,10 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      <div className="home-campus">
+        <Photo photo={homePhotos.librarySteps} className="home-campus-photo" />
+      </div>
 
       <section id="chapter" className="home-band home-band-pale" aria-labelledby="chapter-title">
         <div className="home-inner">
@@ -36,10 +41,7 @@ export function HomePage() {
               </p>
             </div>
           </div>
-          <div className="home-photo-pair">
-            <PhotoFigure photo={homePhotos.campus} />
-            <PhotoFigure photo={homePhotos.community} />
-          </div>
+          <Photo photo={homePhotos.community} className="home-wide-photo" />
         </div>
       </section>
 
@@ -59,24 +61,20 @@ export function HomePage() {
 
       <section className="home-band home-band-pale" aria-labelledby="activities-title">
         <div className="home-inner">
-          <div className="home-heading-row">
-            <h2 id="activities-title">What we do</h2>
-            <p className="home-aside">Photos from chapter events, shared on the chapter Instagram.</p>
-          </div>
-          <ul className="activity-photo-list">
-            {activities.map((activity) => {
-              const photo = chapterActivityPhotos.find((candidate) => candidate.label === activity.title);
-              return (
-                <li key={activity.title}>
-                  {photo ? (
-                    <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" />
-                  ) : null}
-                  <h3>{activity.title}</h3>
-                  <p>{activity.summary}</p>
-                </li>
-              );
-            })}
+          <h2 id="activities-title">What we do</h2>
+          <ul className="activity-list">
+            {activities.map((activity) => (
+              <li key={activity.title}>
+                <h3>{activity.title}</h3>
+                <p>{activity.summary}</p>
+              </li>
+            ))}
           </ul>
+          <div className="photo-row">
+            {activityPhotos.map((photo) => (
+              <Photo key={photo.src} photo={photo} />
+            ))}
+          </div>
         </div>
       </section>
 

@@ -7,7 +7,6 @@ interface EventCardProps {
 export function EventCard({ event }: EventCardProps) {
   return (
     <article className="event-card" aria-labelledby={`event-${event.id}`}>
-      <img className="event-photo" src={event.image.src} alt={event.image.alt} loading="lazy" />
       <div className="event-body">
         <p className="event-format">{event.format}</p>
         <h3 id={`event-${event.id}`}>{event.title}</h3>
