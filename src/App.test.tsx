@@ -42,6 +42,14 @@ describe('site routes', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
+  it('keeps the Contact page free of the disconnected email notice and retains the form', () => {
+    renderAt('/contact');
+    const contactHeader = screen.getByRole('heading', { level: 1, name: 'Contact' }).closest('.page-header');
+
+    expect(contactHeader).not.toHaveTextContent(/Chapter email is not connected|quickest way to reach us/i);
+    expect(screen.getByRole('form', { name: 'Contact the chapter' })).toBeInTheDocument();
+  });
+
   it.each(['/missing', '/resources', '/events'])('shows a not-found page for removed paths such as %s', (path) => {
     renderAt(path);
     expect(screen.getByRole('heading', { level: 1, name: /Page not found/ })).toBeInTheDocument();

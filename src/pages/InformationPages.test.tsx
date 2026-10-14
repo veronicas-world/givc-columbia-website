@@ -96,7 +96,7 @@ describe('HomePage', () => {
     }
   });
 
-  it('moves from the pink opening into the typed description on the left and supplied group photo on the right', () => {
+  it('moves from the pink opening into the static description on the left and supplied group photo on the right', () => {
     renderPage(<HomePage />);
     const hero = screen.getByRole('heading', { level: 1 }).closest('section')!;
     const intro = screen.getByRole('region', { name: 'About the chapter' });
@@ -104,7 +104,10 @@ describe('HomePage', () => {
     expect(hero.nextElementSibling).toBe(intro);
     expect(intro).toHaveAttribute('id', 'chapter');
     expect(intro.children[0]).toHaveClass('home-intro-copy');
-    expect(intro.children[0]!.querySelector('[data-typewriter]')).toHaveTextContent(chapterIntro);
+    const description = within(intro).getByRole('paragraph');
+    expect(description).toHaveClass('home-description');
+    expect(description).toHaveTextContent(chapterIntro);
+    expect(description).not.toHaveAttribute('data-typewriter');
     expect(intro.children[1]!.querySelector('img')).toHaveAttribute('src', homePhotos.introGroup.src);
     expect(screen.queryByRole('heading', { name: 'A Columbia chapter for women in venture capital' })).toBeNull();
   });

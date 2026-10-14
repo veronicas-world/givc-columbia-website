@@ -39,4 +39,17 @@ describe('parent typography', () => {
     expect(navLinkStyles).toMatch(/font-family:\s*var\(--font-heading\)/);
     expect(navLinkStyles).toMatch(/color:\s*var\(--logo-pink\)/);
   });
+
+  it('styles the mobile menu button in landing pink with the Lora font', () => {
+    const menuToggleStyles = /\.menu-toggle\s*{([^}]*)}/.exec(css)?.[1] ?? '';
+    const overlayMenuToggleStyles = /\.site-header-overlay \.menu-toggle\s*{([^}]*)}/.exec(css)?.[1] ?? '';
+    const mobileMenuToggleStyles =
+      /@media \(max-width: 47\.99rem\)\s*{\s*\.menu-toggle\s*{([^}]*)}/.exec(css)?.[1] ?? '';
+
+    expect(css).toMatch(/--pink:\s*#f174a2/);
+    expect(menuToggleStyles).toMatch(/font-family:\s*var\(--font-body\)/);
+    expect(menuToggleStyles).toMatch(/background:\s*var\(--pink\)/);
+    expect(mobileMenuToggleStyles).toMatch(/display:\s*inline-block/);
+    expect(overlayMenuToggleStyles).toMatch(/background:\s*var\(--pink\)/);
+  });
 });

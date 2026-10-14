@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { chapterIntro } from '../content/chapter';
 import { homePhotos } from '../content/photos';
 import { useInViewOnce, useMotionAllowed } from '../motion/motion';
-import { TypewriterText } from '../motion/TypewriterText';
 import { Photo } from './Photo';
 
 export function ChapterIntro() {
@@ -22,7 +21,7 @@ export function ChapterIntro() {
     >
       <div className="home-intro-copy">
         <h2 id="intro-title" className="visually-hidden">About the chapter</h2>
-        <TypewriterText text={chapterIntro} className="home-description" active={visible} />
+        <p className="home-description">{chapterIntro}</p>
       </div>
       <Photo photo={homePhotos.introGroup} className="home-intro-photo" />
     </section>

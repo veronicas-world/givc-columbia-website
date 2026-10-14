@@ -134,27 +134,22 @@ describe('limited motion with an observer and normal motion', () => {
     expect(visibleTypedText(heading)).toBe(headingText);
   });
 
-  it('types the supplied description and reveals its photo together on scroll entry, without replaying', () => {
+  it('shows the description immediately and reveals its photo once on scroll entry', () => {
     render(<MemoryRouter><ChapterIntro /></MemoryRouter>);
     const intro = screen.getByRole('region', { name: 'About the chapter' });
     const paragraph = within(intro).getByRole('paragraph');
     expect(intro).toHaveAttribute('data-intro-state', 'waiting');
-    expect(paragraph).toHaveAttribute('data-typewriter', 'waiting');
-    expect(paragraph.querySelector('.visually-hidden')).toHaveTextContent(chapterIntro);
-    expect(visibleTypedText(paragraph)).toBe('');
+    expect(paragraph).toHaveClass('home-description');
+    expect(paragraph).toHaveTextContent(chapterIntro);
+    expect(paragraph).not.toHaveAttribute('data-typewriter');
     expect(within(intro).getByRole('img')).toBeInTheDocument();
 
     act(() => FakeIntersectionObserver.enter(intro));
     expect(intro).toHaveAttribute('data-intro-state', 'entered');
-    tick(200);
-    expect(visibleTypedText(paragraph)).toBe(chapterIntro.slice(0, 10));
-    tick(chapterIntro.length * 20);
-    expect(paragraph).toHaveAttribute('data-typewriter', 'done');
-    expect(visibleTypedText(paragraph)).toBe(chapterIntro);
+    expect(paragraph).toHaveTextContent(chapterIntro);
     expect(FakeIntersectionObserver.observing(intro)).toBe(false);
     act(() => FakeIntersectionObserver.enter(intro));
-    tick(200);
-    expect(visibleTypedText(paragraph)).toBe(chapterIntro);
+    expect(paragraph).toHaveTextContent(chapterIntro);
   });
 
   it('rolls each figure through other digits once and settles on 2, 7, 8 and 9', () => {
@@ -258,22 +253,22 @@ describe('reduced motion requested after the page has loaded', () => {
     return { ...view, heading, section, panel: section.querySelector('.figures-panel')! };
   }
 
-  it('finishes the description and shows its photo immediately when reduced motion is enabled mid-typing', () => {
+  it('keeps the description visible and reveals its photo when reduced motion is enabled mid-visit', () => {
     const preference = liveReducedMotion(false);
     render(<MemoryRouter><ChapterIntro /></MemoryRouter>);
     const intro = screen.getByRole('region', { name: 'About the chapter' });
     const paragraph = within(intro).getByRole('paragraph');
-    act(() => FakeIntersectionObserver.enter(intro));
-    tick(200);
-    expect(paragraph).toHaveAttribute('data-typewriter', 'typing');
+    expect(paragraph).toHaveTextContent(chapterIntro);
+    expect(paragraph).not.toHaveAttribute('data-typewriter');
+    expect(intro).toHaveAttribute('data-intro-state', 'waiting');
+
     preference.set(true);
     expect(intro).toHaveAttribute('data-intro-state', 'entered');
-    expect(paragraph).toHaveAttribute('data-typewriter', 'done');
-    expect(visibleTypedText(paragraph)).toBe(chapterIntro);
+    expect(paragraph).toHaveTextContent(chapterIntro);
     expect(vi.getTimerCount()).toBe(0);
     preference.set(false);
     tick(200);
-    expect(visibleTypedText(paragraph)).toBe(chapterIntro);
+    expect(paragraph).toHaveTextContent(chapterIntro);
   });
 
   it('settles content immediately before entry and never starts it later', () => {
@@ -378,8 +373,8 @@ describe('motion fallbacks', () => {
     const intro = screen.getByRole('region', { name: 'About the chapter' });
     const paragraph = within(intro).getByRole('paragraph');
     expect(intro).toHaveAttribute('data-intro-state', 'entered');
-    expect(paragraph).toHaveAttribute('data-typewriter', 'done');
-    expect(visibleTypedText(paragraph)).toBe(chapterIntro);
+    expect(paragraph).toHaveTextContent(chapterIntro);
+    expect(paragraph).not.toHaveAttribute('data-typewriter');
     expect(within(intro).getByRole('img')).toBeInTheDocument();
     expect(FakeIntersectionObserver.instances).toHaveLength(0);
   });

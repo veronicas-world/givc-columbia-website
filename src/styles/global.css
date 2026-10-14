@@ -225,10 +225,11 @@ a:hover {
 .menu-toggle {
   display: none;
   font: inherit;
+  font-family: var(--font-body);
   padding: 0.45rem 0.9rem;
   border: 1px solid var(--navy);
   border-radius: 999px;
-  background: var(--white);
+  background: var(--pink);
   color: var(--navy);
   cursor: pointer;
 }
@@ -1170,7 +1171,7 @@ main.main-full {
 
 .site-header-overlay .menu-toggle {
   border-color: var(--navy);
-  background: transparent;
+  background: var(--pink);
   color: var(--navy);
 }
 
