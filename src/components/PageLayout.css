@@ -68,47 +68,25 @@ main.main-bands {
   border-color: var(--pink-placeholder);
 }
 
-/* The chapter's own photos are small, so the photo column is capped near their native width. */
-.activity-section-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(2rem, 5vw, 4.5rem);
+.speaker-events {
+  text-align: center;
 }
 
-.activity-section-grid[data-photo-side='right'] {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
-}
-
-.activity-section-grid[data-photo-side='right'] .activity-section-photo {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.activity-section-grid[data-photo-side='right'] .activity-section-copy {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.activity-section-photo img {
-  aspect-ratio: 3 / 2;
-}
-
-.activity-section-copy h2 {
+.speaker-events > h2 {
   color: var(--pink-dark);
 }
 
-.activity-section-copy > p {
-  max-width: 40rem;
+.speaker-events > p {
+  max-width: 42rem;
+  margin-inline: auto;
 }
 
 .speaker-list-title {
-  margin: 1.75rem 0 0.75rem;
+  margin: 2rem 0 1.25rem;
   font-size: 1.2rem;
 }
 
 .speaker-figures,
-.speaker-names,
 .fellowship-format {
   margin: 0;
   padding: 0;
@@ -118,22 +96,23 @@ main.main-bands {
 .speaker-figures {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  justify-content: center;
+  gap: 2rem 1.75rem;
 }
 
 .speaker-figures figure {
-  width: 9rem;
+  width: 9.5rem;
   margin: 0;
 }
 
-.speaker-figure-photo img {
+/* Beats the shared 4:3 photo ratio so headshots stay circular. */
+.speaker-figures .speaker-figure-photo img {
   aspect-ratio: 1;
   border-radius: 50%;
 }
 
 .speaker-figures figcaption {
-  margin-top: 0.6rem;
-  text-align: center;
+  margin-top: 0.75rem;
 }
 
 .speaker-name,
@@ -153,15 +132,25 @@ main.main-bands {
   font-size: 0.85rem;
 }
 
-.speaker-names {
+.activity-columns {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem 1.5rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.75rem, 3.5vw, 3rem);
+  align-items: start;
+}
+
+.activity-column h2 {
+  margin-top: 1.25rem;
+  color: var(--pink-dark);
+  font-size: clamp(1.6rem, 2.6vw, 2rem);
+}
+
+.activity-column .activity-column-photo img {
+  aspect-ratio: 3 / 2;
 }
 
 .fellowship-format > li {
   position: relative;
-  max-width: 40rem;
   margin-bottom: 0.75rem;
   padding-left: 1.25rem;
 }
@@ -177,20 +166,21 @@ main.main-bands {
   background: var(--logo-pink);
 }
 
+@media (max-width: 60rem) {
+  .activity-columns {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 34rem;
+    margin-inline: auto;
+  }
+}
+
 @media (max-width: 47.99rem) {
-  .activity-section-grid,
-  .activity-section-grid[data-photo-side='right'] {
-    grid-template-columns: minmax(0, 1fr);
+  .speaker-figures {
+    gap: 1.5rem 1rem;
   }
 
-  .activity-section-grid[data-photo-side] .activity-section-photo,
-  .activity-section-grid[data-photo-side] .activity-section-copy {
-    grid-column: 1;
-    grid-row: auto;
-  }
-
-  .speaker-names {
-    grid-template-columns: minmax(0, 1fr);
+  .speaker-figures figure {
+    width: 8rem;
   }
 }
 

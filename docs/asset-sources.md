@@ -36,13 +36,16 @@ Photos carry no visible captions or credits on the site, with one exception: the
 | `panel-discussion.jpg` | 1340 x 1292 | Girls Into VC official photo `606A6646.jpg` (2500 x 1667), https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/ef749f90-8a66-4144-804b-0b8e4754ec0d/606A6646.jpg, from https://www.girlsintovc.com/join-us | Cropped to the left of the frame (box 0, 375, 1340, 1667) so the projected slide naming panelists is excluded. Not resized. |
 | `registration-table.jpg` | 1600 x 1068 | Girls Into VC official photo `606A9109.jpg` (2500 x 1668), https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/c6dd56ed-2a8c-4ed5-9d48-2e5b27694e87/606A9109.jpg, from https://www.girlsintovc.com/join-us | Resized from the 2500-pixel original. |
 | `community-conversation.jpg` | 800 x 533 | Supplied by the user, `design-preview/refresh-inputs/community-coffee.jpeg` | Copied byte for byte; displayed at most about 400 CSS pixels wide. |
-| `chapter-speaker-event.jpg` | 434 x 281 | Chapter Instagram slide "What we do at GIVC" (`IMG_6202.png`, 1206 x 2622) | Guest-speaker panel cropped inside its rounded frame. Speaker events section on About. The speaker is not named because the slide does not name her. |
-| `chapter-workshop.jpg` | 437 x 281 | Same slide | Workshops panel. Workshops section on About. |
-| `chapter-fellowship.jpg` | 434 x 307 | Same slide | Fellowship panel. Fellowship section on About. |
-| `chapter-community.jpg` | 437 x 307 | Same slide | Community panel. Community section on About. |
-| `speaker-avni-barman.jpg` | 483 x 483 | Chapter Instagram speaker-event slide (`IMG_6205.png`) | Square crop of the portrait, excluding the slide's text and figure boxes. Captioned "Founder and CEO, GenShe"; the slide shows "…nder & CEO, GenShe" with the first letters covered. |
-| `speaker-andrea-wang.jpg` | 389 x 389 | Chapter Instagram fireside-chat slide (`IMG_6207.png`) | Square crop inside the headshot frame. Captioned "General Partner, SV Angel", as confirmed by the chapter. |
-| `speaker-joshua-browder.jpg` | 389 x 389 | Chapter Instagram fireside-chat slide (`IMG_6207.png`) | Square crop inside the headshot frame. Captioned "Founder and CEO, DoNotPay", matching the slide and the announcement. |
+| `chapter-workshop.jpg` | 1000 x 615 | Chapter Instagram slide "What we do at GIVC" (`IMG_6202.png`), Workshops panel | Workshops column on About. Resized with Lanczos and light sharpening, not AI, because AI upscaling garbled the backdrop lettering. |
+| `chapter-community.jpg` | 1000 x 676 | Same slide, Community panel (lecture hall) | Shown in the Fellowship column at the chapter's request. AI-upscaled. |
+| `chapter-fellowship.jpg` | 1000 x 677 | Same slide, Fellowship panel (four women with flowers) | Shown in the Community column at the chapter's request. AI-upscaled. |
+| `speaker-avni-barman.jpg` | 640 x 640 | Chapter Instagram speaker-event slide (`IMG_6205.png`) | Captioned "Founder and CEO, GenShe"; the slide shows "…nder & CEO, GenShe" with the first letters covered. AI-upscaled. |
+| `speaker-andrea-wang.jpg` | 640 x 640 | Chapter Instagram fireside-chat slide (`IMG_6207.png`), left headshot | Captioned "General Partner, SV Angel", as confirmed by the chapter. AI-upscaled. |
+| `speaker-joshua-browder.jpg` | 640 x 640 | Same slide, right headshot | Captioned "Founder and CEO, DoNotPay". AI-upscaled. |
+| `speaker-daniella-cohen.jpg` | 640 x 640 | Chapter Instagram Women Investors in VC slide (`IMG_6206.png`), top-left headshot | Names are matched to headshots in the slide's reading order (top left, top right, bottom left, bottom right), which is the order the speakers were recorded in; confirm with the chapter. AI-upscaled. |
+| `speaker-lori-berenberg.jpg` | 640 x 640 | Same slide, top-right headshot | See above. AI-upscaled. |
+| `speaker-nicole-ripka.jpg` | 640 x 640 | Same slide, bottom-left headshot | See above. AI-upscaled. |
+| `speaker-irene-wu.jpg` | 640 x 640 | Same slide, bottom-right headshot | See above. AI-upscaled. |
 
 The 2500-pixel files were downloaded in full and their decoded dimensions checked; they are not a CDN size parameter. Girls Into VC publishes no license or photographer credit for its photos. They are used with the user's authorization; confirm publication rights before a public launch.
 
@@ -63,7 +66,9 @@ These are the parent website’s original collage graphics, not newly assembled 
 
 ## Chapter Instagram crops
 
-The six `chapter-*` and `speaker-*` photos above were cut with Pillow from 1012 x 2200 review copies of the chapter's Instagram screenshots (the 1206 x 2622 originals were later unreadable from Messages). They are saved as JPEG at quality 90 and never upscaled, so they are small; the About layout caps the activity photo column near their native width. Replace them with the chapter's original photo files when available. The fireside-chat investor is captioned Andrea Wang, General Partner, SV Angel, as confirmed by the chapter on 2026-10-14; the recap slide's "Andrea Weng, Partner, Andreessen Horowitz" is not used. Earlier crops in `public/images/chapter/` and `public/images/events/` remain retired and are only in Git history.
+The `chapter-*` and `speaker-*` photos come from crops of the chapter's 1206 x 2622 Instagram screenshots (`IMG_6202.png`, `IMG_6205.png`, `IMG_6206.png`, `IMG_6207.png`) that earlier versions of the site shipped in `public/images/chapter/` and `public/images/events/`. They were recovered from Git history (commits `7d9ed5e` and `6930807`) because the screenshots themselves are no longer readable. Headshots are square crops centered on each face.
+
+"AI-upscaled" means 4x super-resolution with the Real-ESRGAN x4plus model (run locally through `spandrel` and PyTorch), then a Lanczos resize to the listed size and JPEG quality 88. The model sharpens existing detail without generating new faces, but it can smooth skin and hair slightly; replace these with the chapter's original photo files when available. The fireside-chat investor is captioned Andrea Wang, General Partner, SV Angel, as confirmed by the chapter on 2026-10-14; the recap slide's "Andrea Weng, Partner, Andreessen Horowitz" is not used.
 
 ## Board portraits (`public/images/board/`)
 

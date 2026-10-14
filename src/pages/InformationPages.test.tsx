@@ -175,28 +175,31 @@ describe('HomePage', () => {
 });
 
 describe('AboutPage', () => {
-  it('titles the page for the Columbia chapter without repeating the introduction', () => {
+  it('titles the page for the Columbia chapter without an introduction paragraph', () => {
     renderPage(<AboutPage />);
     expect(screen.getByRole('heading', { level: 1, name: 'About the Columbia chapter' })).toBeInTheDocument();
-    expect(screen.getAllByText(chapterIntro)).toHaveLength(1);
+    expect(screen.queryByText(chapterIntro)).toBeNull();
     expect(screen.queryByRole('heading', { name: 'The Columbia chapter' })).toBeNull();
-    expect(screen.queryByText(/through the chapter activities below/)).toBeNull();
     expect(screen.getByRole('heading', { level: 2, name: 'The Girls Into VC network' })).toBeInTheDocument();
   });
 
-  it('gives each chapter activity its own section with a chapter photo', () => {
-    renderPage(<AboutPage />);
+  it('shows speaker events without a side photo, then workshops, fellowship and community side by side', () => {
+    const { container } = renderPage(<AboutPage />);
+    const speakers = screen.getByRole('region', { name: 'Speaker events' });
+    expect(speakers.querySelectorAll('.photo-frame:not(.speaker-figure-photo)')).toHaveLength(0);
+    const columns = container.querySelector('.activity-columns')!;
     const expected = [
-      ['Speaker events', chapterActivityPhotos.speakerEvents],
       ['Workshops', chapterActivityPhotos.workshops],
       ['Fellowship', chapterActivityPhotos.fellowship],
       ['Community', chapterActivityPhotos.community],
     ] as const;
+    expect([...columns.querySelectorAll(':scope > section h2')].map((h) => h.textContent)).toEqual(expected.map(([name]) => name));
     for (const [name, photo] of expected) {
-      const section = screen.getByRole('region', { name });
-      expect(within(section).getByRole('heading', { level: 2, name })).toBeInTheDocument();
+      const section = within(columns as HTMLElement).getByRole('region', { name });
       expect(within(section).getByRole('img', { name: photo.alt })).toHaveAttribute('src', photo.src);
     }
+    expect(chapterActivityPhotos.fellowship.src).toMatch(/chapter-community\.jpg$/);
+    expect(chapterActivityPhotos.community.src).toMatch(/chapter-fellowship\.jpg$/);
   });
 
   it('describes the 10-week fellowship every new member completes, using the parent program wording', () => {
@@ -209,20 +212,26 @@ describe('AboutPage', () => {
     expect(fellowship.textContent).not.toMatch(/five hours|workbook|one-hour/);
   });
 
-  it('captions past speakers with names and roles but no dates', () => {
+  it('captions every past speaker headshot with a name and role but no dates', () => {
     renderPage(<AboutPage />);
     const speakers = screen.getByRole('region', { name: 'Speaker events' });
-    const captions = [...speakers.querySelectorAll('figcaption')].map((caption) => caption.textContent);
-    expect(captions).toEqual([
+    const figures = [...speakers.querySelectorAll('figure')];
+    expect(figures.map((figure) => figure.querySelector('figcaption')?.textContent)).toEqual([
       'Avni BarmanFounder and CEO, GenShe',
       'Andrea WangGeneral Partner, SV Angel',
       'Joshua BrowderFounder and CEO, DoNotPay',
+      'Daniella Cohen2048 Ventures',
+      'Lori BerenbergBloomberg Beta',
+      'Nicole RipkaThe Collaborative Fund',
+      'Irene WuAngel investor',
     ]);
-    for (const name of ['Daniella Cohen', 'Lori Berenberg', 'Nicole Ripka', 'Irene Wu']) {
-      expect(within(speakers).getByText(name)).toBeInTheDocument();
+    for (const figure of figures) {
+      const name = figure.querySelector('.speaker-name')!.textContent!;
+      expect(within(figure).getByRole('img', { name: `Portrait of ${name}` })).toBeInTheDocument();
     }
     expect(speakers.textContent).not.toMatch(/Weng|Andreessen|January|February|March|April|May \d|Pupin|Lerner/);
   });
+
 
   it('adds the parent mission, leadership, programs, and distinct global impact figures', () => {
     renderPage(<AboutPage />);

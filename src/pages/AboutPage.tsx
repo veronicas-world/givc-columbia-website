@@ -3,42 +3,29 @@ import { PageHeader } from '../components/PageHeader';
 import { PageSection } from '../components/PageSection';
 import { Photo } from '../components/Photo';
 import { NetworkStats } from '../components/NetworkStats';
-import {
-  activities,
-  chapterIntro,
-  fellowshipFormat,
-  headlineSpeakers,
-  womenInvestorsPanel,
-  type Activity,
-  type FeaturedSpeaker,
-} from '../content/chapter';
-import { chapterActivityPhotos, networkPhotos, speakerPhotos, type SitePhoto } from '../content/photos';
+import { activities, fellowshipFormat, pastSpeakers, type Activity } from '../content/chapter';
+import { chapterActivityPhotos, networkPhotos, speakerPhotos } from '../content/photos';
 import { networkDescription, networkGraphics, networkLeadership, networkPrograms } from '../content/network';
 
 function activity(id: Activity['id']): Activity {
   return activities.find((candidate) => candidate.id === id)!;
 }
 
-const speakerFigures: Array<{ speaker: FeaturedSpeaker; photo: SitePhoto }> = [
-  { speaker: headlineSpeakers.avniBarman, photo: speakerPhotos.avniBarman },
-  { speaker: headlineSpeakers.andreaWang, photo: speakerPhotos.andreaWang },
-  { speaker: headlineSpeakers.joshuaBrowder, photo: speakerPhotos.joshuaBrowder },
-];
-
 export function AboutPage() {
+  const speakerEvents = activity('speaker-events');
   return (
     <>
-      <PageHeader title="About the Columbia chapter">
-        <p>{chapterIntro}</p>
-      </PageHeader>
+      <PageHeader title="About the Columbia chapter" />
 
-      <ActivitySection activity={activity('speaker-events')} photo={chapterActivityPhotos.speakerEvents} photoSide="left">
+      <PageSection labelledBy="speaker-events-title" className="speaker-events">
+        <h2 id="speaker-events-title">{speakerEvents.title}</h2>
+        <p>{speakerEvents.detail}</p>
         <h3 className="speaker-list-title">Past speakers</h3>
         <ul className="speaker-figures">
-          {speakerFigures.map(({ speaker, photo }) => (
-            <li key={speaker.name}>
+          {pastSpeakers.map((speaker) => (
+            <li key={speaker.id}>
               <figure>
-                <Photo photo={photo} className="speaker-figure-photo" />
+                <Photo photo={speakerPhotos[speaker.id]} className="speaker-figure-photo" />
                 <figcaption>
                   <span className="speaker-name">{speaker.name}</span>
                   <span className="speaker-role">{speaker.role}</span>
@@ -47,28 +34,22 @@ export function AboutPage() {
             </li>
           ))}
         </ul>
-        <h3 className="speaker-list-title">Women Investors in VC panel</h3>
-        <ul className="speaker-names">
-          {womenInvestorsPanel.map((speaker) => (
-            <li key={speaker.name}>
-              <span className="speaker-name">{speaker.name}</span>
-              <span className="speaker-role">{speaker.role}</span>
-            </li>
-          ))}
-        </ul>
-      </ActivitySection>
+      </PageSection>
 
-      <ActivitySection activity={activity('workshops')} photo={chapterActivityPhotos.workshops} photoSide="right" tone="pale" />
-
-      <ActivitySection activity={activity('fellowship')} photo={chapterActivityPhotos.fellowship} photoSide="left">
-        <ul className="fellowship-format">
-          {fellowshipFormat.map((point) => (
-            <li key={point}>{point}</li>
-          ))}
-        </ul>
-      </ActivitySection>
-
-      <ActivitySection activity={activity('community')} photo={chapterActivityPhotos.community} photoSide="right" tone="pale" />
+      <PageSection labelledBy="activities-title" tone="pale">
+        <h2 id="activities-title" className="visually-hidden">Chapter activities</h2>
+        <div className="activity-columns">
+          <ActivitySection activity={activity('workshops')} photo={chapterActivityPhotos.workshops} />
+          <ActivitySection activity={activity('fellowship')} photo={chapterActivityPhotos.fellowship}>
+            <ul className="fellowship-format">
+              {fellowshipFormat.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
+          </ActivitySection>
+          <ActivitySection activity={activity('community')} photo={chapterActivityPhotos.community} />
+        </div>
+      </PageSection>
 
       <PageSection labelledBy="network-title">
         <div className="network-about-grid">

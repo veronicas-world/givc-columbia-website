@@ -12,7 +12,7 @@ interface HomeFeatureProps {
   children: ReactNode;
 }
 
-/** Alternating editorial sections, with centered copy inside one half of the layout. */
+/** Alternating editorial sections, with a centered title and left-aligned copy inside one half of the layout. */
 export function HomeFeature({ id, title, photo, photoSide, pale = false, photoFooter, children }: HomeFeatureProps) {
   return (
     <section

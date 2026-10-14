@@ -47,23 +47,22 @@ export const fellowshipFormat: string[] = [
   'Along the way, fellows build a community of peers and mentors who offer support and guidance.',
 ];
 
-export interface FeaturedSpeaker {
+export interface PastSpeaker {
+  /** Matches the speaker's key in `speakerPhotos`. */
+  id: 'avniBarman' | 'andreaWang' | 'joshuaBrowder' | 'daniellaCohen' | 'loriBerenberg' | 'nicoleRipka' | 'ireneWu';
   name: string;
   role: string;
 }
 
-/** Past chapter speakers whose names and roles agree across the supplied event materials. */
-export const headlineSpeakers = {
-  avniBarman: { name: 'Avni Barman', role: 'Founder and CEO, GenShe' },
-  andreaWang: { name: 'Andrea Wang', role: 'General Partner, SV Angel' },
-  joshuaBrowder: { name: 'Joshua Browder', role: 'Founder and CEO, DoNotPay' },
-} satisfies Record<string, FeaturedSpeaker>;
-
-export const womenInvestorsPanel: FeaturedSpeaker[] = [
-  { name: 'Daniella Cohen', role: '2048 Ventures' },
-  { name: 'Lori Berenberg', role: 'Bloomberg Beta' },
-  { name: 'Nicole Ripka', role: 'The Collaborative Fund' },
-  { name: 'Irene Wu', role: 'Angel investor' },
+/** Past chapter speakers, as named on the chapter's event materials and confirmed by the chapter. */
+export const pastSpeakers: PastSpeaker[] = [
+  { id: 'avniBarman', name: 'Avni Barman', role: 'Founder and CEO, GenShe' },
+  { id: 'andreaWang', name: 'Andrea Wang', role: 'General Partner, SV Angel' },
+  { id: 'joshuaBrowder', name: 'Joshua Browder', role: 'Founder and CEO, DoNotPay' },
+  { id: 'daniellaCohen', name: 'Daniella Cohen', role: '2048 Ventures' },
+  { id: 'loriBerenberg', name: 'Lori Berenberg', role: 'Bloomberg Beta' },
+  { id: 'nicoleRipka', name: 'Nicole Ripka', role: 'The Collaborative Fund' },
+  { id: 'ireneWu', name: 'Irene Wu', role: 'Angel investor' },
 ];
 
 export const reasonsToJoin: string[] = [

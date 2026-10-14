@@ -1311,6 +1311,10 @@ main.main-full {
 .home-feature-copy {
   grid-column: 2;
   grid-row: 1;
+  text-align: left;
+}
+
+.home-feature-copy > h2 {
   text-align: center;
 }
 
@@ -1333,11 +1337,16 @@ main.main-full {
 .home-feature-copy .open-grid {
   grid-template-columns: minmax(0, 1fr);
   margin-top: 1.75rem;
+  text-align: left;
 }
 
 .home-feature-copy .open-grid > li {
   padding: 1.25rem 0.75rem;
   border-left: 0;
+}
+
+.home-feature-copy .open-grid p {
+  margin-inline: 0;
 }
 
 @media (min-width: 64rem) {

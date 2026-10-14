@@ -1,3 +1,5 @@
+import type { PastSpeaker } from './chapter';
+
 /**
  * Photographs shown on the site. Width and height are the shipped file's
  * intrinsic pixels. Provenance lives in `docs/asset-sources.md` and in
@@ -96,71 +98,99 @@ export const networkPhotos = {
 } satisfies Record<string, SitePhoto>;
 
 const chapterRecapNote =
-  'Cropped from the chapter Instagram slide “What we do at GIVC” (IMG_6202), via a 1012 x 2200 review copy of the 1206 x 2622 screenshot. Not upscaled.';
+  'Panel from the chapter Instagram slide “What we do at GIVC” (IMG_6202), recovered from Git history at full screenshot resolution, upscaled 4x with Real-ESRGAN x4plus and resized to 1000 pixels wide.';
 
-/** Chapter photos from the chapter's own "What we do" slide, one per About activity section. */
+/** Chapter photos from the chapter's own "What we do" slide. */
 export const chapterActivityPhotos = {
-  speakerEvents: {
-    src: '/images/photos/chapter-speaker-event.jpg',
-    alt: 'A guest speaker in a camel blazer talking at a seminar table',
-    width: 434,
-    height: 281,
-    focus: '50% 40%',
-    sourceNote: `${chapterRecapNote} Guest speaker panel.`,
-  },
   workshops: {
     src: '/images/photos/chapter-workshop.jpg',
     alt: 'Students in a lecture hall facing a presenter at a Girls Into VC lectern',
-    width: 437,
-    height: 281,
+    width: 1000,
+    height: 615,
     focus: '50% 50%',
-    sourceNote: `${chapterRecapNote} Workshops panel.`,
+    sourceNote:
+      'Workshops panel from the chapter Instagram slide “What we do at GIVC” (IMG_6202), recovered from Git history. Resized with Lanczos and light sharpening instead of AI upscaling, which garbled the Girls Into VC backdrop lettering.',
   },
   fellowship: {
-    src: '/images/photos/chapter-fellowship.jpg',
-    alt: 'Four women standing together, one holding a bouquet of flowers',
-    width: 434,
-    height: 307,
-    focus: '50% 35%',
-    sourceNote: `${chapterRecapNote} Fellowship panel.`,
-  },
-  community: {
     src: '/images/photos/chapter-community.jpg',
     alt: 'A full lecture hall of students, several raising their hands',
-    width: 437,
-    height: 307,
+    width: 1000,
+    height: 676,
     focus: '50% 50%',
-    sourceNote: `${chapterRecapNote} Community panel.`,
+    sourceNote: `${chapterRecapNote} Community panel, shown with Fellowship at the chapter's request.`,
+  },
+  community: {
+    src: '/images/photos/chapter-fellowship.jpg',
+    alt: 'Four women standing together, one holding a bouquet of flowers',
+    width: 1000,
+    height: 677,
+    focus: '50% 35%',
+    sourceNote: `${chapterRecapNote} Fellowship panel, shown with Community at the chapter's request.`,
   },
 } satisfies Record<string, SitePhoto>;
 
-/** Speaker headshots from the chapter's event recap slides. */
+const speakerNote =
+  'Headshot from a chapter Instagram event slide, recovered from Git history at full screenshot resolution, upscaled 4x with Real-ESRGAN x4plus and resized to 640 x 640.';
+
+/** Speaker headshots, keyed by `PastSpeaker.id`. */
 export const speakerPhotos = {
   avniBarman: {
     src: '/images/photos/speaker-avni-barman.jpg',
     alt: 'Portrait of Avni Barman',
-    width: 483,
-    height: 483,
-    focus: '50% 40%',
-    sourceNote: 'Cropped from the chapter Instagram speaker-event slide (IMG_6205) review copy, avoiding the slide text. Not upscaled.',
+    width: 640,
+    height: 640,
+    focus: '50% 50%',
+    sourceNote: `${speakerNote} Square crop from the speaker-event slide (IMG_6205).`,
   },
   andreaWang: {
     src: '/images/photos/speaker-andrea-wang.jpg',
     alt: 'Portrait of Andrea Wang',
-    width: 389,
-    height: 389,
-    focus: '50% 40%',
-    sourceNote: 'Cropped from the chapter Instagram fireside-chat slide (IMG_6207) review copy, inside the headshot frame. Not upscaled.',
+    width: 640,
+    height: 640,
+    focus: '50% 50%',
+    sourceNote: `${speakerNote} Square crop from the fireside-chat slide (IMG_6207).`,
   },
   joshuaBrowder: {
     src: '/images/photos/speaker-joshua-browder.jpg',
     alt: 'Portrait of Joshua Browder',
-    width: 389,
-    height: 389,
-    focus: '50% 40%',
-    sourceNote: 'Cropped from the chapter Instagram fireside-chat slide (IMG_6207) review copy, inside the headshot frame. Not upscaled.',
+    width: 640,
+    height: 640,
+    focus: '50% 50%',
+    sourceNote: `${speakerNote} Square crop from the fireside-chat slide (IMG_6207).`,
   },
-} satisfies Record<string, SitePhoto>;
+  daniellaCohen: {
+    src: '/images/photos/speaker-daniella-cohen.jpg',
+    alt: 'Portrait of Daniella Cohen',
+    width: 640,
+    height: 640,
+    focus: '50% 50%',
+    sourceNote: `${speakerNote} Square crop from the Women Investors in VC slide (IMG_6206), top left.`,
+  },
+  loriBerenberg: {
+    src: '/images/photos/speaker-lori-berenberg.jpg',
+    alt: 'Portrait of Lori Berenberg',
+    width: 640,
+    height: 640,
+    focus: '50% 50%',
+    sourceNote: `${speakerNote} Square crop from the Women Investors in VC slide (IMG_6206), top right.`,
+  },
+  nicoleRipka: {
+    src: '/images/photos/speaker-nicole-ripka.jpg',
+    alt: 'Portrait of Nicole Ripka',
+    width: 640,
+    height: 640,
+    focus: '50% 50%',
+    sourceNote: `${speakerNote} Square crop from the Women Investors in VC slide (IMG_6206), bottom left.`,
+  },
+  ireneWu: {
+    src: '/images/photos/speaker-irene-wu.jpg',
+    alt: 'Portrait of Irene Wu',
+    width: 640,
+    height: 640,
+    focus: '50% 50%',
+    sourceNote: `${speakerNote} Square crop from the Women Investors in VC slide (IMG_6206), bottom right.`,
+  },
+} satisfies Record<PastSpeaker['id'], SitePhoto>;
 
 export const allSitePhotos: SitePhoto[] = [
   ...Object.values(homePhotos),
