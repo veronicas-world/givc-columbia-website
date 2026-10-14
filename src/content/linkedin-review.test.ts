@@ -6,7 +6,7 @@ import { approvedMemberLinkedIns, members } from './members';
 const reviewPath = resolve(process.cwd(), 'docs/linkedin-review.md');
 const review = readFileSync(reviewPath, 'utf8');
 
-const statuses = new Set(['likely', 'low-confidence', 'ambiguous', 'unknown']);
+const statuses = new Set(['likely', 'low-confidence', 'ambiguous', 'unknown', 'supplied', 'not-researched']);
 
 interface ReviewRow {
   name: string;
@@ -37,32 +37,44 @@ describe('LinkedIn review document', () => {
   const rows = reviewRows();
 
   it('has exactly one row for every roster member', () => {
-    expect(rows).toHaveLength(31);
+    expect(rows).toHaveLength(56);
     expect(rows.map((row) => row.name)).toEqual(members.map((member) => member.name));
   });
 
-  it('records a query, an explicit status and pending approval for every member', () => {
+  it('records research and the current approval status for every member', () => {
     for (const row of rows) {
-      expect(row.queries).toMatch(/`[^`]+`/);
+      if (row.status === 'not-researched') {
+        expect(row.queries).toBe('not researched');
+        expect(row.candidate).toBe('none');
+      } else {
+        expect(row.queries).toMatch(/`[^`]+`/);
+      }
       expect(statuses.has(row.status)).toBe(true);
-      expect(row.approval).toBe('pending');
+      expect(row.approval).toBe(approvedMemberLinkedIns[row.name] ? 'approved' : 'pending');
+      if (row.approval === 'approved') {
+        expect(row.candidate).toBe(approvedMemberLinkedIns[row.name]);
+      }
     }
+    expect(rows.filter((row) => row.approval === 'approved')).toHaveLength(6);
+    expect(rows.filter((row) => row.status === 'not-researched')).toHaveLength(25);
   });
 
-  it('lists a candidate URL only for likely or low-confidence rows', () => {
+  it('lists URLs only for supplied, likely or low-confidence rows', () => {
     for (const row of rows) {
       const hasUrl = /^https:\/\/www\.linkedin\.com\/in\//.test(row.candidate);
-      expect(hasUrl).toBe(row.status === 'likely' || row.status === 'low-confidence');
+      expect(hasUrl).toBe(['supplied', 'likely', 'low-confidence'].includes(row.status));
     }
   });
 
-  it('keeps every review candidate out of live member links', () => {
+  it('keeps unapproved research candidates out of live member links', () => {
     const liveUrls = new Set([
       ...Object.values(approvedMemberLinkedIns),
       ...members.flatMap((member) => (member.linkedInUrl ? [member.linkedInUrl] : [])),
     ]);
-    for (const url of review.match(/https:\/\/[^\s|`)]+/g) ?? []) {
-      expect(liveUrls.has(url)).toBe(false);
+    for (const row of rows.filter((row) => row.approval === 'pending')) {
+      for (const url of row.candidate.match(/https:\/\/[^\s|`)]+/g) ?? []) {
+        expect(liveUrls.has(url)).toBe(false);
+      }
     }
   });
 

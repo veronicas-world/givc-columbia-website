@@ -53,20 +53,18 @@ describe('past event records', () => {
     ]);
   });
 
-  it('does not pick a side in the fireside chat date, spelling or affiliation conflicts', () => {
+  it('uses the chapter-confirmed fireside investor and leaves the conflicting date pending', () => {
     const event = byId('fireside-chat-vc-entrepreneurship');
     const text = publicText(event);
     expect(event.date).toBeNull();
-    expect(text).not.toMatch(/May 2|April 27|Weng|Wang|Andreessen|SV Angel|General Partner/);
+    expect(text).not.toMatch(/May 2|April 27|Weng|Andreessen/);
     expect(event.speakers).toContainEqual({ name: 'Joshua Browder', affiliation: 'Founder and CEO, DoNotPay' });
-    const andrea = event.speakers.find((speaker) => speaker.name.startsWith('Andrea'));
-    expect(andrea?.affiliation).toBeNull();
-    expect(andrea?.pending).toMatch(/to be confirmed/i);
+    expect(event.speakers).toContainEqual({ name: 'Andrea Wang', affiliation: 'General Partner, SV Angel' });
   });
 
   it('records every source conflict for user confirmation', () => {
     const notes = eventSourceConflicts.join(' ');
-    for (const fragment of ['April 10', 'March 31', 'Lerner 568', 'May 2', 'April 27', 'Weng', 'Wang', 'Andreessen Horowitz', 'SV Angel']) {
+    for (const fragment of ['April 10', 'March 31', 'Lerner 568', 'May 2', 'April 27']) {
       expect(notes).toContain(fragment);
     }
   });

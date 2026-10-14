@@ -61,24 +61,23 @@ export const pastEvents: PastEvent[] = [
     format: 'Fireside chat',
     summary: 'A fireside chat on venture capital and entrepreneurship with an investor and a founder.',
     speakers: [
-      { name: 'Andrea', affiliation: null, pending: 'Surname spelling and firm to be confirmed' },
+      { name: 'Andrea Wang', affiliation: 'General Partner, SV Angel' },
       { name: 'Joshua Browder', affiliation: 'Founder and CEO, DoNotPay' },
     ],
     date: null,
     location: null,
     partner: 'In collaboration with women@core',
     sourceNote:
-      'Chapter Instagram recap slide (IMG_6207) and a separately supplied announcement. Joshua Browder and DoNotPay agree. Date, the investor speaker surname and her firm conflict, so they are pending. The room appears only on the recap template, whose other details conflict, so it is also pending.',
+      'Chapter Instagram recap slide (IMG_6207) and a separately supplied announcement. Joshua Browder and DoNotPay agree. The chapter confirmed the investor speaker as Andrea Wang, General Partner, SV Angel, matching the announcement (the recap’s Andrea Weng of Andreessen Horowitz is wrong). The date conflicts, so it is pending. The room appears only on the recap template, whose other details conflict, so it is also pending.',
   },
 ];
 
-/** Id of the Resources section that holds the archive; the legacy /events route redirects to it. */
+/** Anchor id used by the retained past-event archive component. */
 export const pastEventsAnchor = 'past-events';
 
 /** Conflicts between supplied event sources, kept for the chapter to confirm. */
 export const eventSourceConflicts: string[] = [
   'Women Investors in VC: the recap slide says April 10 in Pupin 428; the announcement says March 31, 2026 in Lerner 568.',
   'Fireside chat date: the recap slide says May 2; the announcement says Monday, April 27, 4 to 5 pm.',
-  'Fireside chat speaker: the recap slide says Andrea Weng, Partner, Andreessen Horowitz; the announcement says Andrea Wang, General Partner, SV Angel.',
   'No source gives a year for the Avni Barman event, the fireside chat or the Women Investors recap. Years are not inferred from weekdays or post dates.',
 ];

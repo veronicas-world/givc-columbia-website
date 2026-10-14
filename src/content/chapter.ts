@@ -4,6 +4,7 @@ export const chapterIntro =
   'Girls Into VC (GIVC) is a student-led organization at Columbia University dedicated to increasing the participation of women in venture capital through education, community, and access.';
 
 export interface Activity {
+  id: 'speaker-events' | 'workshops' | 'fellowship' | 'community';
   title: string;
   summary: string;
   detail: string;
@@ -11,24 +12,28 @@ export interface Activity {
 
 export const activities: Activity[] = [
   {
+    id: 'speaker-events',
     title: 'Speaker events',
     summary: 'Conversations with investors, founders, and operators.',
     detail:
       'The chapter hosts speaker events and fireside chats where people working in and around venture capital talk about their work and answer student questions.',
   },
   {
+    id: 'workshops',
     title: 'Workshops',
     summary: 'Résumé reviews, technical training, and career panels.',
     detail:
       'Workshops focus on practical preparation, including résumé reviews, technical training, and career panels.',
   },
   {
+    id: 'fellowship',
     title: 'Fellowship',
-    summary: 'Deeper learning, mentorship, and hands-on venture capital context.',
+    summary: 'A 10-week introduction to venture capital for every new member.',
     detail:
-      'The chapter fellowship offers deeper learning, mentorship, and hands-on context for how venture capital works. This site does not list fellowship dates or requirements; chapter announcements are shared on Instagram and with the interest list.',
+      'All new members complete the Girls Into VC Fellowship, a 10-week educational program that equips young women with knowledge and skills in venture capital and the startup ecosystem.',
   },
   {
+    id: 'community',
     title: 'Community',
     summary: 'Members who meet and learn from each other.',
     detail:
@@ -36,9 +41,35 @@ export const activities: Activity[] = [
   },
 ];
 
+/** Program format as described on girlsintovc.com/fellowship. */
+export const fellowshipFormat: string[] = [
+  'The fellowship ends with an investment simulation, in which groups write an investment memo and a term sheet.',
+  'Along the way, fellows build a community of peers and mentors who offer support and guidance.',
+];
+
+export interface FeaturedSpeaker {
+  name: string;
+  role: string;
+}
+
+/** Past chapter speakers whose names and roles agree across the supplied event materials. */
+export const headlineSpeakers = {
+  avniBarman: { name: 'Avni Barman', role: 'Founder and CEO, GenShe' },
+  andreaWang: { name: 'Andrea Wang', role: 'General Partner, SV Angel' },
+  joshuaBrowder: { name: 'Joshua Browder', role: 'Founder and CEO, DoNotPay' },
+} satisfies Record<string, FeaturedSpeaker>;
+
+export const womenInvestorsPanel: FeaturedSpeaker[] = [
+  { name: 'Daniella Cohen', role: '2048 Ventures' },
+  { name: 'Lori Berenberg', role: 'Bloomberg Beta' },
+  { name: 'Nicole Ripka', role: 'The Collaborative Fund' },
+  { name: 'Irene Wu', role: 'Angel investor' },
+];
+
 export const reasonsToJoin: string[] = [
   'Learn directly from investors, founders, and operators.',
   'Meet other students interested in venture capital, at Columbia and beyond.',
+  'Access the broader Girls Into VC network and community across campus chapters and countries.',
   'Build practical skills for venture capital and related careers.',
   'Take part in events, the fellowship, and shared career resources.',
 ];

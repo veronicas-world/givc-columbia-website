@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { SiteFooter } from './SiteFooter';
 import { SiteHeader } from './SiteHeader';
 import { useSectionReveals } from '../motion/useSectionReveals';
+import './ContentDensity.css';
 
 export function SiteShell() {
   const { pathname, hash, key } = useLocation();
@@ -35,7 +36,13 @@ export function SiteShell() {
         Skip to main content
       </a>
       <SiteHeader overlay={isHome} />
-      <main id="main" ref={mainRef} tabIndex={-1} className={isHome ? 'main-full' : undefined}>
+      <main
+        id="main"
+        ref={mainRef}
+        tabIndex={-1}
+        className={isHome ? 'main-full' : 'main-bands'}
+        data-content-density={isHome || pathname === '/about' ? 'compact' : 'standard'}
+      >
         <Outlet />
       </main>
       <SiteFooter />

@@ -18,10 +18,12 @@ const expectedNames = [
   'Brookfield',
   'Fox Sports',
   'NewYork-Presbyterian',
+  'Dorm Room Fund',
+  'Alumni Ventures',
 ];
 
 describe('represented organizations', () => {
-  it('lists the fourteen supplied organizations in order', () => {
+  it('lists the sixteen supplied organizations in order', () => {
     expect(representedOrganizations.map((organization) => organization.name)).toEqual(expectedNames);
   });
 

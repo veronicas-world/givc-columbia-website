@@ -1,18 +1,22 @@
 import { BoardCard } from '../components/BoardCard';
 import { MemberRow } from '../components/MemberRow';
 import { PageHeader } from '../components/PageHeader';
+import { PageSection } from '../components/PageSection';
 import { boardIsPending, boardMembers } from '../content/board';
-import { memberClassGroups, members } from '../content/members';
+import { memberClassGroups } from '../content/members';
+
+const boardNames = new Set(boardMembers.filter((person) => !person.isExample).map((person) => person.name));
+const generalMemberClassGroups = memberClassGroups
+  .map((group) => ({ ...group, members: group.members.filter((member) => !boardNames.has(member.name)) }))
+  .filter((group) => group.members.length > 0);
 
 export function PeoplePage() {
   return (
     <>
-      <PageHeader title="People">
-        <p>The students who lead and take part in Girls Into VC at Columbia.</p>
-      </PageHeader>
+      <PageHeader title="Executive Board" />
 
-      <section className="section" aria-labelledby="board-heading">
-        <h2 id="board-heading">Board</h2>
+      <PageSection labelledBy="board-heading" className="board-section">
+        <h2 id="board-heading" className="visually-hidden">Executive Board</h2>
         {boardIsPending ? (
           <p className="pending">
             The board list and portraits are not yet published. The cards below are examples that show how board
@@ -24,14 +28,11 @@ export function PeoplePage() {
             <BoardCard key={`${person.name}-${index}`} person={person} />
           ))}
         </ul>
-      </section>
+      </PageSection>
 
-      <section className="section" aria-labelledby="members-heading">
+      <PageSection labelledBy="members-heading" tone="pale">
         <h2 id="members-heading">Members</h2>
-        <p>
-          {members.length} members across Columbia College, Columbia Engineering and Barnard College.
-        </p>
-        {memberClassGroups.map((group) => (
+        {generalMemberClassGroups.map((group) => (
           <section
             key={group.classYear}
             className="member-group"
@@ -45,7 +46,7 @@ export function PeoplePage() {
             </ul>
           </section>
         ))}
-      </section>
+      </PageSection>
     </>
   );
 }

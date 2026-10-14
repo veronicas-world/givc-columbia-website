@@ -33,7 +33,7 @@ export const representedOrganizations: RepresentedOrganization[] = [
     name: 'Factory',
     logo: '/images/organizations/factory.svg',
     source: 'https://factory.ai/',
-    scale: 0.7,
+    scale: 0.9,
   },
   {
     id: 'elliott-management',
@@ -66,14 +66,14 @@ export const representedOrganizations: RepresentedOrganization[] = [
     name: 'General Catalyst',
     logo: '/images/organizations/general-catalyst.svg',
     source: 'https://commons.wikimedia.org/wiki/File:General_Catalyst_Logo.svg',
-    scale: 1,
+    scale: 1.2,
   },
   {
     id: 'exceptional-capital',
     name: 'Exceptional Capital',
     logo: '/images/organizations/exceptional-capital.png',
     source: 'https://www.exceptionalcap.com/',
-    scale: 0.85,
+    scale: 1.05,
   },
   {
     id: 'kkr',
@@ -87,14 +87,14 @@ export const representedOrganizations: RepresentedOrganization[] = [
     name: 'TowerBrook',
     logo: '/images/organizations/towerbrook.svg',
     source: 'https://commons.wikimedia.org/wiki/File:TowerBrook_Capital_Partners_(logo).svg',
-    scale: 0.7,
+    scale: 0.9,
   },
   {
     id: 'brookfield',
     name: 'Brookfield',
     logo: '/images/organizations/brookfield.svg',
     source: 'https://commons.wikimedia.org/wiki/File:Brookfield_Asset_Management_logo.svg',
-    scale: 0.75,
+    scale: 0.9,
   },
   {
     id: 'fox-sports',
@@ -109,5 +109,19 @@ export const representedOrganizations: RepresentedOrganization[] = [
     logo: '/images/organizations/newyork-presbyterian.svg',
     source: 'https://www.nyp.org/',
     scale: 1.8,
+  },
+  {
+    id: 'dorm-room-fund',
+    name: 'Dorm Room Fund',
+    logo: '/images/organizations/dorm-room-fund.svg',
+    source: 'https://www.dormroomfund.com/',
+    scale: 1.5,
+  },
+  {
+    id: 'alumni-ventures',
+    name: 'Alumni Ventures',
+    logo: '/images/organizations/alumni-ventures.svg',
+    source: 'https://commons.wikimedia.org/wiki/File:Alumni_Ventures.svg',
+    scale: 1.4,
   },
 ];

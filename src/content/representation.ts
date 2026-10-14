@@ -20,4 +20,4 @@ export const representationFigures: RepresentationFigure[] = [
 ];
 
 export const whyWeExist =
-  'Women remain a small share of the people who work in venture capital and of the founders it funds. Girls Into VC works to change that, and the Columbia chapter brings that work to campus.';
+  'Women remain a small share of the people who work in venture capital and of the founders it funds. Girls Into VC works to change that.';

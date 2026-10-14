@@ -1,0 +1,32 @@
+name: Website checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test -- --maxWorkers=1
+      - name: Check TypeScript
+        run: npm run typecheck
+      - name: Check lint
+        run: npm run lint
+      - name: Build website
+        run: npm run build

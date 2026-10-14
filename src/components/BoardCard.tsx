@@ -8,7 +8,15 @@ export function BoardCard({ person }: BoardCardProps) {
   return (
     <li className="board-card" data-example={person.isExample ? 'true' : undefined}>
       {person.portrait ? (
-        <img className="board-portrait" src={person.portrait.src} alt={person.portrait.alt} />
+        <img
+          className="board-portrait"
+          src={person.portrait.src}
+          alt={person.portrait.alt}
+          width={person.portrait.width}
+          height={person.portrait.height}
+          loading="lazy"
+          decoding="async"
+        />
       ) : (
         <div className="board-portrait board-portrait-placeholder">
           <span>Portrait pending</span>
@@ -16,7 +24,7 @@ export function BoardCard({ person }: BoardCardProps) {
       )}
       <div className="board-card-body">
         {person.isExample ? <p className="board-example-label">Example</p> : null}
-        <h3>{person.name}</h3>
+        <h3 className="board-name">{person.name}</h3>
         {person.role ? <p className="board-role">{person.role}</p> : null}
         <p className="board-detail">{person.school}</p>
         <p className="board-detail">{person.classYear}</p>

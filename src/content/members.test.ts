@@ -33,21 +33,48 @@ const expectedRoster: [name: string, classYear: number, school: string][] = [
   ['Chloe Slack', 2029, 'Columbia College'],
   ['Natalie So', 2029, 'Columbia College'],
   ['Lola Raghavan', 2029, 'Columbia Engineering'],
+  ['Anoushka Poddar', 2030, 'Columbia Engineering'],
+  ['Angel Ruhil', 2030, 'Columbia College'],
+  ['Danwoo Kim', 2030, 'Columbia College'],
+  ['Samara Sujan', 2029, 'Columbia College'],
+  ['Emilie Fann', 2030, 'Columbia College'],
+  ['Ilona Pasicinicov', 2030, 'Columbia College'],
+  ['Advaita Ayuluri', 2030, 'Barnard College'],
+  ['Mai First', 2029, 'Columbia School of General Studies'],
+  ['Lea Nepomuceno', 2028, 'Columbia School of General Studies'],
+  ['Sophia Bao', 2029, 'Columbia College'],
+  ['Audrey Donnelly', 2030, 'Columbia College'],
+  ['Gemma Schaeffer', 2030, 'Columbia College'],
+  ['Arki Hunter', 2030, 'Columbia College'],
+  ['Josephine Lee', 2030, 'Columbia College'],
+  ['Kaylee Hwang', 2029, 'Columbia Engineering'],
+  ['Sophia Zhang', 2030, 'Barnard College'],
+  ['Margot Houle', 2028, 'Columbia College'],
+  ['Aurora Arendsen', 2030, 'Columbia College'],
+  ['Kathryn Bean', 2030, 'Barnard College'],
+  ['Aya Abed', 2029, 'Columbia Engineering'],
+  ['Lucy Markow', 2028, 'Columbia College'],
+  ['Natalie Saiia', 2030, 'Barnard College'],
+  ['Caroline Racanelli', 2030, 'Columbia College'],
+  ['Helena Schlosser', 2030, 'Columbia College'],
+  ['Allison Wu', 2029, 'Columbia College'],
 ];
 
 describe('members', () => {
-  it('matches the supplied 31-member roster exactly, each once', () => {
-    expect(members).toHaveLength(31);
+  it('matches both supplied rosters exactly, with all 56 people appearing once', () => {
+    expect(members).toHaveLength(56);
     const actual = members.map((member) => [member.name, member.classYear, schoolName(member.school)]);
     expect(actual).toEqual(expectedRoster);
-    expect(new Set(members.map((member) => member.name)).size).toBe(31);
+    expect(new Set(members.map((member) => member.name)).size).toBe(56);
   });
 
   it('treats BC as Barnard College, not a separate school', () => {
     const caroline = members.find((member) => member.name === 'Caroline Keohane');
     expect(caroline && schoolName(caroline.school)).toBe('Barnard College');
     const schools = new Set(members.map((member) => schoolName(member.school)));
-    expect([...schools].sort()).toEqual(['Barnard College', 'Columbia College', 'Columbia Engineering']);
+    expect([...schools].sort()).toEqual([
+      'Barnard College', 'Columbia College', 'Columbia Engineering', 'Columbia School of General Studies',
+    ]);
   });
 
   it('exposes only public fields on every record', () => {
@@ -57,6 +84,7 @@ describe('members', () => {
         expect(allowed.has(key)).toBe(true);
       }
     }
+    expect(JSON.stringify(members)).not.toMatch(/[\w.+-]+@[\w-]+\.[\w.]+/);
   });
 
   it('only links members whose exact LinkedIn URL is approved', () => {
@@ -70,10 +98,11 @@ describe('members', () => {
     }
   });
 
-  it('groups the roster into Class of 2028 (13) and Class of 2029 (18) without loss or duplication', () => {
+  it('groups all three class years without loss or duplication', () => {
     expect(memberClassGroups.map((group) => [group.classYear, group.members.length])).toEqual([
-      [2028, 13],
-      [2029, 18],
+      [2028, 16],
+      [2029, 24],
+      [2030, 16],
     ]);
     const union = memberClassGroups.flatMap((group) => group.members);
     expect(union).toHaveLength(members.length);

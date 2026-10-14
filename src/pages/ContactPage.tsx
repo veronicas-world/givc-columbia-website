@@ -1,6 +1,7 @@
 import { ContactForm } from '../components/ContactForm';
 import { ExternalLink } from '../components/ExternalLink';
 import { PageHeader } from '../components/PageHeader';
+import { PageSection } from '../components/PageSection';
 import { instagramHandle, siteLinks } from '../content/links';
 
 export function ContactPage() {
@@ -12,10 +13,10 @@ export function ContactPage() {
           reach us is <ExternalLink href={siteLinks.instagram}>{`Instagram (${instagramHandle})`}</ExternalLink>.
         </p>
       </PageHeader>
-      <section className="section" aria-labelledby="contact-form-heading">
+      <PageSection labelledBy="contact-form-heading">
         <h2 id="contact-form-heading">Send a message</h2>
         <ContactForm />
-      </section>
+      </PageSection>
     </>
   );
 }

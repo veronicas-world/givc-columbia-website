@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { MemoryRouter, useLocation, useNavigate } from 'react-router-dom';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { AppRoutes } from './App';
 import { siteLinks } from './content/links';
 
@@ -30,8 +30,7 @@ function renderAt(path: string | string[], initialIndex = 0) {
 const routes: Array<[string, RegExp]> = [
   ['/', /Girls Into VC at Columbia/],
   ['/about', /About/],
-  ['/people', /People/],
-  ['/resources', /Resources/],
+  ['/people', /Executive Board/],
   ['/contact', /Contact/],
 ];
 
@@ -43,8 +42,8 @@ describe('site routes', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('shows a not-found page for unknown paths', () => {
-    renderAt('/missing');
+  it.each(['/missing', '/resources', '/events'])('shows a not-found page for removed paths such as %s', (path) => {
+    renderAt(path);
     expect(screen.getByRole('heading', { level: 1, name: /Page not found/ })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Go to the home page' })).toHaveAttribute('href', '/');
   });
@@ -52,23 +51,38 @@ describe('site routes', () => {
   it('navigates between pages from the main navigation', () => {
     renderAt('/');
     const nav = screen.getByRole('navigation', { name: 'Main' });
-    fireEvent.click(within(nav).getByRole('link', { name: 'Resources' }));
-    expect(screen.getByRole('heading', { level: 1, name: 'Resources' })).toBeInTheDocument();
-    expect(within(nav).getByRole('link', { name: 'Resources' })).toHaveAttribute('aria-current', 'page');
+    fireEvent.click(within(nav).getByRole('link', { name: 'People' }));
+    expect(screen.getByRole('heading', { level: 1, name: 'Executive Board' })).toBeInTheDocument();
+    expect(within(nav).getByRole('link', { name: 'People' })).toHaveAttribute('aria-current', 'page');
     expect(screen.getByRole('main')).toHaveFocus();
   });
 
-  it('lists exactly the five primary pages in the header and footer', () => {
+  it('opens About from the main navigation', () => {
     renderAt('/');
-    const expected = ['Home', 'About', 'People', 'Resources', 'Contact'];
+    fireEvent.click(within(screen.getByRole('navigation', { name: 'Main' })).getByRole('link', { name: 'About' }));
+    expect(screen.getByRole('heading', { level: 1, name: 'About the Columbia chapter' })).toBeInTheDocument();
+  });
+
+  it('returns Home from the header logo', () => {
+    renderAt('/about');
+    fireEvent.click(screen.getByRole('link', { name: 'Girls Into VC at Columbia home' }));
+    expect(screen.getByRole('heading', { level: 1, name: 'Girls Into VC at Columbia' })).toBeInTheDocument();
+  });
+
+  it('lists About, People and Contact in the header and footer', () => {
+    renderAt('/');
+    const expected = ['About', 'People', 'Contact'];
     const main = screen.getByRole('navigation', { name: 'Main' });
     expect(within(main).getAllByRole('link').map((link) => link.textContent)).toEqual(expected);
     const footer = screen.getByRole('contentinfo');
-    for (const label of expected) {
-      expect(within(footer).getAllByRole('link', { name: label }).length).toBeGreaterThan(0);
-    }
+    const footerNav = within(footer).getByRole('navigation', { name: 'Footer' });
+    expect(within(footerNav).getAllByRole('link').map((link) => link.textContent)).toEqual(['About', 'People', 'Contact']);
+    expect(within(footer).getByRole('link', { name: 'About' })).toHaveAttribute('href', '/about');
+    expect(within(footer).getByRole('link', { name: 'People' })).toHaveAttribute('href', '/people');
+    expect(within(footer).getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '/contact');
     expect(within(footer).queryByRole('link', { name: 'Events' })).toBeNull();
     expect(document.querySelector('a[href="/events"]')).toBeNull();
+    expect(document.querySelector('a[href="/resources"]')).toBeNull();
   });
 
   it('offers a skip link to the main content', () => {
@@ -90,95 +104,77 @@ describe('final copy across the five routes', () => {
   it.each(routePaths)('%s ends with the shared footer actions', (path) => {
     renderAt(path);
     const footer = screen.getByRole('contentinfo');
-    expect(within(footer).getByRole('link', { name: /Join our interest list/ })).toBeInTheDocument();
+    expect(within(footer).getByRole('link', {
+      name: 'Stay in touch by joining our interest list',
+    })).toHaveAttribute('href', siteLinks.interestForm);
     expect(within(footer).getByRole('link', { name: /Instagram/ })).toBeInTheDocument();
     expect(within(footer).getByRole('link', { name: 'Contact' })).toBeInTheDocument();
-    expect(within(footer).getByText(/Chapter LinkedIn: coming soon/)).toBeInTheDocument();
+    expect(within(footer).getByRole('link', { name: /LinkedIn/ })).toHaveAttribute('href', siteLinks.chapterLinkedIn);
+    expect(screen.getAllByRole('link', { name: /joining our interest list/ })).toHaveLength(1);
+    expect(screen.queryByRole('heading', { name: 'Stay in touch' })).toBeNull();
+  });
+
+  it.each(routePaths)('%s frames its opening and shared footer with decorative sketches', (path) => {
+    renderAt(path);
+    const main = screen.getByRole('main');
+    const mainSketches = main.querySelectorAll('.sketch-accent');
+    expect(mainSketches).toHaveLength(10);
+    for (const sketch of mainSketches) {
+      expect(sketch.closest(path === '/' ? '.home-hero' : '.page-header')).not.toBeNull();
+      expect(sketch).toHaveAttribute('aria-hidden', 'true');
+    }
+    const sketches = screen.getByRole('contentinfo').querySelectorAll('.sketch-accent');
+    expect(sketches).toHaveLength(16);
+    for (const sketch of sketches) {
+      expect(sketch.closest('footer')).toBe(screen.getByRole('contentinfo'));
+    }
+  });
+
+  it.each([
+    ['/about', ['white', 'pale', 'white', 'pale', 'white', 'pink', 'white']],
+    ['/people', ['white', 'pale']],
+    ['/contact', ['white']],
+  ] as const)('%s divides its content into full-width color bands', (path, tones) => {
+    renderAt(path);
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('main-bands');
+    const bands = [...main.querySelectorAll(':scope > .page-band')];
+    expect(bands).toHaveLength(tones.length);
+    bands.forEach((band, index) => {
+      expect(band).toHaveClass(`page-band-${tones[index]}`);
+      expect(band.querySelector(':scope > .page-band-inner')).not.toBeNull();
+      expect(band).toHaveAttribute('aria-labelledby');
+    });
   });
 });
 
 describe('footer', () => {
-  it('offers the interest list, Instagram, Contact and an honest pending LinkedIn state', () => {
+  it('offers the shared interest list and only the supplied social accounts without copyright', () => {
     renderAt('/about');
     const footer = screen.getByRole('contentinfo');
-    expect(within(footer).getByRole('link', { name: /Join our interest list/ })).toHaveAttribute(
+    const interestLink = within(footer).getByRole('link', {
+      name: 'Stay in touch by joining our interest list',
+    });
+    expect(interestLink).toHaveAttribute(
       'href',
       siteLinks.interestForm,
     );
+    expect(interestLink).toHaveAttribute('target', '_blank');
+    expect(interestLink).toHaveAttribute('rel', 'noopener noreferrer');
+    expect(interestLink.textContent).not.toMatch(/opens in a new tab/);
+    expect(within(footer).queryByRole('heading', { name: 'Pages' })).toBeNull();
+    expect(footer.textContent).not.toMatch(/Follow along for chapter news/);
     expect(within(footer).getByRole('link', { name: /Instagram/ })).toHaveAttribute('href', siteLinks.instagram);
     expect(within(footer).getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '/contact');
-    expect(within(footer).queryByRole('link', { name: /LinkedIn/ })).toBeNull();
-    expect(within(footer).getByText(/Chapter LinkedIn: coming soon/)).toBeInTheDocument();
-  });
-});
-
-describe('legacy /events route and the Resources archive anchor', () => {
-  const scrollIntoView = vi.fn();
-  Element.prototype.scrollIntoView = scrollIntoView;
-
-  beforeEach(() => {
-    scrollIntoView.mockClear();
-    vi.mocked(window.scrollTo).mockClear();
-  });
-
-  function archive() {
-    return screen.getByRole('region', { name: 'Past events' });
-  }
-
-  it('replaces /events with /resources#past-events and lands on the archive', () => {
-    renderAt('/events');
-    expect(probe.location).toBe('/resources#past-events');
-    expect(screen.getByRole('heading', { level: 1, name: 'Resources' })).toBeInTheDocument();
-    expect(scrollIntoView).toHaveBeenCalled();
-    expect(scrollIntoView.mock.contexts.at(-1)).toBe(archive());
-    expect(archive()).toHaveFocus();
-    expect(window.scrollTo).not.toHaveBeenCalled();
-  });
-
-  it('does not keep /events in history, so Back skips the redirect', () => {
-    renderAt(['/about', '/events'], 1);
-    expect(probe.location).toBe('/resources#past-events');
-    probe.navigate!(-1);
-    return vi.waitFor(() => {
-      expect(probe.location).toBe('/about');
-      expect(screen.getByRole('heading', { level: 1, name: 'About' })).toBeInTheDocument();
-    });
-  });
-
-  it('scrolls to the archive on a direct /resources#past-events load', () => {
-    renderAt('/resources#past-events');
-    expect(scrollIntoView.mock.contexts.at(-1)).toBe(archive());
-    expect(archive()).toHaveFocus();
-  });
-
-  it('scrolls to the archive from the same-page link', () => {
-    renderAt('/resources');
-    expect(scrollIntoView).not.toHaveBeenCalled();
-    fireEvent.click(screen.getByRole('link', { name: 'Jump to past events' }));
-    expect(probe.location).toBe('/resources#past-events');
-    expect(scrollIntoView.mock.contexts.at(-1)).toBe(archive());
-    expect(archive()).toHaveFocus();
-  });
-
-  it('reaches the archive from the Home link', () => {
-    renderAt('/');
-    fireEvent.click(screen.getByRole('link', { name: /See past events/ }));
-    expect(probe.location).toBe('/resources#past-events');
-    expect(scrollIntoView.mock.contexts.at(-1)).toBe(archive());
-    expect(window.scrollTo).not.toHaveBeenCalled();
-  });
-
-  it('returns to the archive on Forward after going Back', async () => {
-    renderAt('/about');
-    fireEvent.click(within(screen.getByRole('navigation', { name: 'Main' })).getByRole('link', { name: 'Resources' }));
-    fireEvent.click(screen.getByRole('link', { name: 'Jump to past events' }));
-    probe.navigate!(-1);
-    await vi.waitFor(() => expect(probe.location).toBe('/resources'));
-    probe.navigate!(-1);
-    await vi.waitFor(() => expect(screen.getByRole('heading', { level: 1, name: 'About' })).toBeInTheDocument());
-    scrollIntoView.mockClear();
-    probe.navigate!(2);
-    await vi.waitFor(() => expect(probe.location).toBe('/resources#past-events'));
-    expect(scrollIntoView.mock.contexts.at(-1)).toBe(archive());
+    expect(within(footer).getByRole('link', { name: /LinkedIn/ })).toHaveAttribute('href', siteLinks.chapterLinkedIn);
+    const socialLinks = within(within(footer).getByRole('list', { name: 'Social media' })).getAllByRole('link');
+    expect(socialLinks).toHaveLength(2);
+    for (const link of socialLinks) {
+      expect(link).toHaveAttribute('target', '_blank');
+      expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    }
+    expect(footer.textContent).not.toMatch(/copyright|©|coming soon/i);
+    expect(footer.querySelectorAll('.sketch-accent[aria-hidden="true"]')).toHaveLength(16);
+    expect(footer.querySelectorAll('.sketch-scatter')).toHaveLength(1);
   });
 });

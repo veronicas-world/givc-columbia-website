@@ -12,8 +12,8 @@ describe('siteLinks', () => {
     expect(siteLinks.instagram).toBe('https://www.instagram.com/girlsintovc.columbia/');
   });
 
-  it('keeps the chapter LinkedIn unconfigured until a verified URL is supplied', () => {
-    expect(siteLinks.chapterLinkedIn).toBeNull();
+  it('uses the supplied chapter LinkedIn page', () => {
+    expect(siteLinks.chapterLinkedIn).toBe('https://www.linkedin.com/company/girls-into-vc-at-columbia/');
   });
 
   it('points parent information at the real Girls Into VC pages', () => {

@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { SketchScatter } from './SketchScatter';
+import './PageLayout.css';
 
 interface PageHeaderProps {
   title: string;
@@ -7,9 +9,12 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, children }: PageHeaderProps) {
   return (
-    <header className="page-header">
-      <h1>{title}</h1>
-      {children ? <div className="page-lede">{children}</div> : null}
+    <header className="page-header sketch-section">
+      <SketchScatter arrangement="title" />
+      <div className="page-header-inner">
+        <h1>{title}</h1>
+        {children ? <div className="page-lede">{children}</div> : null}
+      </div>
     </header>
   );
 }

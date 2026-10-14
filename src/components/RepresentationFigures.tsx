@@ -10,7 +10,7 @@ export function RepresentationFigures() {
   const inView = useInViewOnce(panelRef, animate);
 
   return (
-    <section className="home-band home-figures" aria-labelledby="why-title" data-figures="true">
+    <section className="home-band home-band-pink home-figures" aria-labelledby="why-title" data-figures="true">
       <div className="home-inner home-centered">
         <h2 id="why-title">Why we exist</h2>
         <p>{whyWeExist}</p>

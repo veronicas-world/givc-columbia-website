@@ -1,0 +1,44 @@
+/* Match the 80% desktop reference without changing browser zoom, the landing
+   screen, shared navigation/footer, or People and Contact. Keep phones unscaled. */
+@media (min-width: 48rem) {
+  main[data-content-density='compact'] > :not(.home-hero) {
+    zoom: 0.8;
+  }
+
+  /* CSS zoom does not expand viewport units like browser zoom does. Compensate
+     by 1 / 0.8 so the responsive spacing also matches the reference. */
+  main[data-content-density='compact'] .home-intro,
+  main[data-content-density='compact'] .network-about-grid,
+  main[data-content-density='compact'] .network-impact-grid {
+    gap: clamp(2rem, 6.25vw, 4rem);
+  }
+
+  main[data-content-density='compact'] .home-intro {
+    padding-block: clamp(4rem, 10vw, 7rem);
+  }
+
+  main[data-content-density='compact'] .home-description {
+    font-size: clamp(1.35rem, 3vw, 1.875rem);
+  }
+
+  main[data-content-density='compact'] .home-band {
+    padding-block: clamp(3.5rem, 10vw, 6.5rem);
+  }
+
+  main[data-content-density='compact'] .home-feature-inner {
+    gap: clamp(2rem, 6.25vw, 5rem);
+  }
+
+  main[data-content-density='compact'] .home-figures,
+  main[data-content-density='compact'] .page-band-inner.section {
+    padding-block: clamp(3rem, 7.5vw, 5rem);
+  }
+
+  main[data-content-density='compact'] .page-header-inner {
+    padding-inline: clamp(5rem, 16.25vw, 12rem);
+  }
+
+  main[data-content-density='compact'] .page-photo img {
+    height: clamp(14rem, 42.5vw, 28rem);
+  }
+}

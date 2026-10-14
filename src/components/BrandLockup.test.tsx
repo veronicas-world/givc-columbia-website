@@ -39,13 +39,14 @@ describe('chapter identity', () => {
     expect(heading.querySelector('img')).toHaveAttribute('src', parentMark.white);
   });
 
-  it('uses the pink artwork in the standard header and white over the pink opening', () => {
+  it('uses the pink artwork on the light-pink header, including the Home opening', () => {
     const { unmount } = render(
       <MemoryRouter>
         <SiteHeader />
       </MemoryRouter>,
     );
-    const link = screen.getByRole('link', { name: 'Girls Into VC at Columbia' });
+    const link = screen.getByRole('link', { name: 'Girls Into VC at Columbia home' });
+    expect(link).toHaveAttribute('href', '/');
     expect(link.querySelector('img')).toHaveAttribute('src', parentMark.pink);
     unmount();
 
@@ -54,9 +55,8 @@ describe('chapter identity', () => {
         <SiteHeader overlay />
       </MemoryRouter>,
     );
-    expect(screen.getByRole('link', { name: 'Girls Into VC at Columbia' }).querySelector('img')).toHaveAttribute(
-      'src',
-      parentMark.white,
-    );
+    const overlayLink = screen.getByRole('link', { name: 'Girls Into VC at Columbia home' });
+    expect(overlayLink).toHaveAttribute('href', '/');
+    expect(overlayLink.querySelector('img')).toHaveAttribute('src', parentMark.pink);
   });
 });

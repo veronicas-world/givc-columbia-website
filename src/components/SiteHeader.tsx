@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { navItems } from '../content/navigation';
+import { useMotionAllowed } from '../motion/motion';
 import { BrandLockup } from './BrandLockup';
 
 interface SiteHeaderProps {
@@ -9,6 +10,7 @@ interface SiteHeaderProps {
 }
 
 export function SiteHeader({ overlay = false }: SiteHeaderProps) {
+  const motionAllowed = useMotionAllowed();
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
@@ -25,10 +27,19 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
   }, [menuOpen]);
 
   return (
-    <header className={overlay ? 'site-header site-header-overlay' : 'site-header'} data-menu-open={menuOpen}>
+    <header
+      className={overlay ? 'site-header site-header-overlay' : 'site-header'}
+      data-menu-open={menuOpen}
+      data-home-intro={overlay && motionAllowed ? 'running' : 'static'}
+    >
       <div className="site-header-inner">
-        <Link to="/" className="site-wordmark">
-          <BrandLockup tone={overlay ? 'white' : 'pink'} />
+        <Link
+          to="/"
+          className="site-wordmark"
+          aria-label="Girls Into VC at Columbia home"
+          onClick={() => setMenuOpen(false)}
+        >
+          <BrandLockup tone="pink" />
         </Link>
         <button
           ref={toggleRef}

@@ -12,13 +12,23 @@ function renderHeader() {
 }
 
 describe('SiteHeader', () => {
-  it('lists the five pages in the main navigation', () => {
+  it('lists About, People and Contact in the main navigation', () => {
     renderHeader();
     const names = screen
       .getAllByRole('link')
       .filter((link) => link.closest('nav'))
       .map((link) => link.textContent);
-    expect(names).toEqual(['Home', 'About', 'People', 'Resources', 'Contact']);
+    expect(names).toEqual(['About', 'People', 'Contact']);
+  });
+
+  it('uses the logo as a link to the landing page', () => {
+    renderHeader();
+    const logo = screen.getByRole('link', { name: 'Girls Into VC at Columbia home' });
+    expect(logo).toHaveAttribute('href', '/');
+    const button = screen.getByRole('button', { name: 'Menu' });
+    fireEvent.click(button);
+    fireEvent.click(logo);
+    expect(button).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('toggles the mobile menu with an accessible button', () => {
@@ -45,7 +55,7 @@ describe('SiteHeader', () => {
     renderHeader();
     const button = screen.getByRole('button', { name: 'Menu' });
     fireEvent.click(button);
-    fireEvent.click(screen.getByRole('link', { name: 'About' }));
+    fireEvent.click(screen.getByRole('link', { name: 'People' }));
     expect(button).toHaveAttribute('aria-expanded', 'false');
   });
 });

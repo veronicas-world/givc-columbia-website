@@ -61,7 +61,7 @@ describe('BoardCard', () => {
       role: 'President',
       school: 'Columbia College',
       classYear: 'Class of 2028',
-      portrait: { src: '/test-portrait.jpg', alt: 'Portrait of Test Officer' },
+      portrait: { src: '/test-portrait.jpg', alt: 'Portrait of Test Officer', width: 800, height: 800 },
       linkedInUrl: syntheticUrl,
     });
     const card = screen.getByRole('listitem');
@@ -69,12 +69,17 @@ describe('BoardCard', () => {
       'src',
       '/test-portrait.jpg',
     );
+    expect(within(card).getByRole('img')).toHaveAttribute('width', '800');
+    expect(within(card).getByRole('img')).toHaveAttribute('height', '800');
+    expect(within(card).getByRole('img')).toHaveAttribute('loading', 'lazy');
     expect(within(card).getByRole('heading', { level: 3, name: 'Test Officer' })).toBeInTheDocument();
     expect(within(card).getByText('Columbia College')).toBeInTheDocument();
     expect(within(card).getByText('Class of 2028')).toBeInTheDocument();
     expect(within(card).queryByText('Example')).not.toBeInTheDocument();
     const link = within(card).getByRole('link', { name: 'Test Officer on LinkedIn (opens in a new tab)' });
     expect(link).toHaveAttribute('href', syntheticUrl);
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
     link.focus();
     expect(link).toHaveFocus();
   });

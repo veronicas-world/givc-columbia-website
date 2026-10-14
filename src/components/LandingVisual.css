@@ -1,0 +1,193 @@
+/* A pale menu bar, with the logo left and page links right on desktop. */
+header.site-header {
+  background: var(--pink-soft);
+}
+
+.site-header.site-header-overlay {
+  background: var(--pink-soft);
+  border-bottom: 1px solid rgb(16 38 56 / 0.1);
+}
+
+.site-header.site-header-overlay[data-home-intro='running'] {
+  animation: landing-menu-in 0.45s 1.7s both;
+}
+
+.site-header .site-header-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.site-header .site-wordmark {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+}
+
+.site-header .site-nav {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+}
+
+@media (max-width: 47.99rem) {
+  .site-header .site-header-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .site-header .site-wordmark {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .site-header .menu-toggle {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .site-header .site-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .site-header.site-header-overlay[data-menu-open='true'] {
+    background: var(--pink-soft);
+  }
+}
+
+.home-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.home-hero .home-hero-scene {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  /* The particle layer is anchored to the full hero, not this inner content box. */
+  position: static;
+  min-height: 22rem;
+}
+
+.home-hero-scene .home-title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.landing-mark {
+  display: block;
+  position: relative;
+  width: min(33rem, 78vw);
+  max-width: 100%;
+  aspect-ratio: 528 / 130;
+}
+
+.home-title .landing-mark .brand-mark {
+  width: 100%;
+}
+
+.landing-mark-outline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.landing-pieces {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.landing-piece {
+  position: absolute;
+  left: var(--piece-x);
+  top: var(--piece-y);
+  width: clamp(2rem, 7vw, var(--piece-size));
+  height: clamp(2rem, 7vw, var(--piece-size));
+  transform: translate(-50%, -50%) rotate(var(--piece-turn));
+  opacity: 0;
+  visibility: hidden;
+}
+
+.home-hero .landing-piece .sketch-accent {
+  position: static;
+  width: 100%;
+  height: 100%;
+  filter: brightness(0) invert(1);
+  opacity: 0.75;
+}
+
+.home-hero .landing-piece-rose .sketch-accent {
+  filter: brightness(0.55);
+  opacity: 0.85;
+}
+
+.landing-mark[data-mark-motion='intro'] > .brand-mark {
+  animation: landing-mark-fill 1.05s 1.15s both;
+}
+
+.landing-mark[data-mark-motion='intro'] > .landing-mark-outline {
+  animation: landing-mark-outline 1.65s 0.55s both;
+}
+
+.home-hero-scene[data-landing-motion='intro'] .home-title {
+  animation: landing-title-in 0.1s 0.55s both;
+}
+
+.home-hero-scene[data-landing-motion='intro'] .landing-piece {
+  animation: landing-piece-out 2.5s var(--piece-delay) cubic-bezier(0.22, 0.68, 0, 1) both;
+}
+
+@keyframes landing-menu-in {
+  from { opacity: 0; visibility: hidden; }
+  to { opacity: 1; visibility: visible; }
+}
+
+@keyframes landing-title-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes landing-mark-fill {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes landing-mark-outline {
+  0% { opacity: 0; }
+  8%, 60% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes landing-piece-out {
+  0% {
+    left: 50%;
+    top: 50%;
+    opacity: 0;
+    visibility: visible;
+    transform: translate(-50%, -50%) rotate(-140deg) scale(0.2);
+  }
+  15% { opacity: 1; }
+  60% {
+    left: var(--piece-x);
+    top: var(--piece-y);
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) rotate(var(--piece-turn)) scale(1);
+  }
+  99% { opacity: 1; visibility: visible; }
+  100% {
+    left: calc(50% + var(--piece-exit-x));
+    top: calc(50% + var(--piece-exit-y));
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) rotate(calc(var(--piece-turn) + 160deg)) scale(1);
+  }
+}

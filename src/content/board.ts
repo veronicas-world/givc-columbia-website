@@ -1,11 +1,16 @@
+import { approvedMemberLinkedIns } from './members';
+
 /**
- * Chapter board. The real board list and portraits have not been supplied yet,
- * so the site shows clearly labeled example cards until they are.
+ * Chapter-supplied board, portraits and LinkedIn links. School and class year
+ * follow the supplied member roster. Roles include the chapter's corrections:
+ * Mila is Treasurer and Kagan is VP of Operations.
  */
 
 export interface BoardPortrait {
   src: string;
   alt: string;
+  width?: number;
+  height?: number;
 }
 
 export interface BoardMember {
@@ -21,14 +26,85 @@ export interface BoardMember {
   isExample?: boolean;
 }
 
-export const boardIsPending = true;
+export const boardIsPending = false;
 
-const exampleCard: BoardMember = {
-  name: 'Board member name',
-  role: 'Board role',
-  school: 'School',
-  classYear: 'Class year',
-  isExample: true,
-};
-
-export const boardMembers: BoardMember[] = [exampleCard, exampleCard, exampleCard].map((card) => ({ ...card }));
+export const boardMembers: BoardMember[] = [
+  {
+    name: 'Diane Lang',
+    role: 'President',
+    school: 'Columbia College',
+    classYear: 'Class of 2028',
+    portrait: {
+      src: '/images/board/diane-lang.webp',
+      alt: 'Portrait of Diane Lang',
+      width: 504,
+      height: 600,
+    },
+    linkedInUrl: approvedMemberLinkedIns['Diane Lang']!,
+  },
+  {
+    name: 'Mali Gilbert',
+    role: 'Vice President',
+    school: 'Columbia Engineering',
+    classYear: 'Class of 2028',
+    portrait: {
+      src: '/images/board/mali-gilbert.webp',
+      alt: 'Portrait of Mali Gilbert',
+      width: 800,
+      height: 800,
+    },
+    linkedInUrl: approvedMemberLinkedIns['Mali Gilbert']!,
+  },
+  {
+    name: 'Mila Ansorge',
+    role: 'Treasurer',
+    school: 'Columbia College',
+    classYear: 'Class of 2028',
+    portrait: {
+      src: '/images/board/mila-ansorge.webp',
+      alt: 'Portrait of Mila Ansorge',
+      width: 800,
+      height: 800,
+    },
+    linkedInUrl: approvedMemberLinkedIns['Mila Ansorge']!,
+  },
+  {
+    name: 'Kagan Levine',
+    role: 'VP of Operations',
+    school: 'Barnard College',
+    classYear: 'Class of 2028',
+    portrait: {
+      src: '/images/board/kagan-levine.webp',
+      alt: 'Portrait of Kagan Levine',
+      width: 800,
+      height: 800,
+    },
+    linkedInUrl: approvedMemberLinkedIns['Kagan Levine']!,
+  },
+  {
+    name: 'Veronica Agudelo',
+    role: 'VP of Education',
+    school: 'Columbia College',
+    classYear: 'Class of 2028',
+    portrait: {
+      src: '/images/board/veronica-agudelo.webp',
+      alt: 'Portrait of Veronica Agudelo',
+      width: 800,
+      height: 800,
+    },
+    linkedInUrl: approvedMemberLinkedIns['Veronica Agudelo']!,
+  },
+  {
+    name: 'Caroline Keohane',
+    role: 'VP of Education',
+    school: 'Barnard College',
+    classYear: 'Class of 2028',
+    portrait: {
+      src: '/images/board/caroline-keohane.webp',
+      alt: 'Portrait of Caroline Keohane',
+      width: 800,
+      height: 800,
+    },
+    linkedInUrl: approvedMemberLinkedIns['Caroline Keohane']!,
+  },
+];

@@ -4,23 +4,26 @@ Local-review website for Girls Into VC at Columbia, built with React, TypeScript
 
 ## Pages
 
-All five pages share a header (with a mobile menu below 768 pixels wide) and a pale-pink footer with the interest list, Instagram, chapter LinkedIn status and Contact.
+All four pages share a light-pink header (with a mobile menu below 768 pixels wide) and a pale-pink footer with the interest list, Instagram, chapter LinkedIn status and Contact. The logo sits at the left and opens Home; About, People and Contact use the heading font (Alice) and exact logo pink at the right.
+
+Interior pages use full-width white, pale-pink and pink section bands like Home. `PageHeader` frames each main title with the existing reference sketches on a pale background; smaller screens keep the sketches at the top and bottom, away from text. `PageSection` preserves centered content widths inside each band. Their shared styling is in `src/components/PageLayout.css`. The Home landing animation and footer decoration remain unchanged.
+
+Desktop Home content below the landing screen and the About content use 80% sizing to match the supplied reference at normal browser zoom. `ContentDensity.css` scopes this to their content bands; the landing screen, shared header/footer, People, Contact and phone layouts keep their existing sizes.
 
 | Route        | Content |
 | ------------ | ------- |
-| `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo and a centered chapter introduction whose heading types itself once, reasons to join, NYC venture capital firm site visits and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%) that roll once to their values, "Where our members are represented" logos, links to People, Resources and the past events, and the interest list |
-| `/about`     | Columbia chapter activities with a campus photo, separated from the wider Girls Into VC network |
-| `/people`    | Board section with centered pale-pink square cards and centered card details (labeled examples until the real board is supplied) and the 31-member directory as centered text rows grouped under Class of 2028 (13) and Class of 2029 (18) |
-| `/resources` | Curated external venture capital learning and career links, then the past-event archive (`#past-events`) of three source-backed chapter events; unconfirmed details shown as "to be confirmed" |
-| `/events`    | Old address kept for existing links: redirects (replacing the history entry) to `/resources#past-events` |
+| `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo and a centered chapter introduction whose heading types itself once, reasons to join, NYC venture capital firm site visits and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%) that roll once to their values, "Where our members are represented" logos, a link to About and the interest list |
+| `/about`     | "About the Columbia chapter": speaker events (with captioned past speakers), workshops, the 10-week new-member fellowship and community, each in its own photo section, followed by the wider Girls Into VC network |
+| `/people`    | Executive Board: six supplied officer profiles in compact, light-pink framed cards. Members: 50 general members in centered, wrapping rows (about five across on desktop), grouped under Class of 2028 (10), Class of 2029 (24) and Class of 2030 (16), without repeating board members or introductory descriptions |
 | `/contact`   | Accessible contact form with field validation; sending is not connected yet (see below) |
 
-Design rules for future edits: the official Girls Into VC logo (never retyped in a similar font) beside a separate "at Columbia", self-hosted Alice for headings and Almarai for body and navigation, no italics, no visible photo captions or credits, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). Motion is limited to what is described under [Motion](#motion); do not add more typed headings, looping counters, scroll-pinned scenes or a motion library.
+Design rules for future edits: the official Girls Into VC logo (never retyped in a similar font) beside a separate "at Columbia", self-hosted Alice for headings and header navigation and Lora for body text, no italics, no visible photo captions or credits, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). Motion is limited to what is described under [Motion](#motion); do not add more typed headings, looping counters, scroll-pinned scenes or a motion library.
 
 ## Motion
 
-All motion is plain CSS plus `IntersectionObserver`, in `src/motion/`, with no animation library. Scrolling is never taken over.
+All motion is plain CSS plus the preference and visibility helpers in `src/motion/`, with no animation library. Scrolling is never taken over.
 
+- `LandingVisual.tsx` and `LandingMark.tsx`: Home starts as plain pink for 0.55 seconds, then the genuine GIVC logo outlines in white and fills. At 1.7 seconds the menu bar appears as the ten supplied sketches start spinning outward across the full landing screen, not the inner content box. The sketches exit completely by 4.7 seconds; the logo and "at Columbia" stay, without looping or changing to a headline. Styling is in `src/components/LandingVisual.css`; `SiteHeader` applies the delayed reveal only on Home. The logo name stays accessible throughout. Reduced motion shows the clean final state and menu immediately, without sketches or replaying.
 - `TypewriterHeading.tsx`: the Home intro heading ("A Columbia chapter for women in venture capital") types itself once when it first comes into view. It is the only typed heading. The full heading text is always present for screen readers; the typed copy is hidden from them, and the untyped remainder holds its place invisibly so the layout does not shift.
 - `RollingNumber.tsx`: each "Why we exist" figure rolls once through the digits and settles on 2%, 7%, 8% and 9% when the figures panel first comes into view. Screen readers only get the final values, and there is no live announcement.
 - `useSectionReveals.ts`: page sections that start below the fold fade up once as they are scrolled into view. Sections already on screen are never hidden.
@@ -57,11 +60,9 @@ Page copy and links live in typed files under `src/content/`:
 - `links.ts`: interest form, Instagram, chapter LinkedIn, and parent-network URLs
 - `chapter.ts`: chapter introduction and purpose, activities, reasons to join, NYC engagement
 - `representation.ts`: the four "Why we exist" figures and their labels (single-digit values, because the rolling animation is built for one digit; provenance in `docs/asset-sources.md`; never cited on the page)
-- `resources.ts`: curated resource groups and descriptions
-- `members.ts`: public member directory (name, school code, class year only), `approvedMemberLinkedIns`, and `memberClassGroups`, which groups the directory by class year in roster order
-- `board.ts`: board cards; currently labeled examples while `boardIsPending` is `true`
-- `events.ts`: past-event records shown in the Resources archive, the `past-events` anchor id, and `eventSourceConflicts`
-- `navigation.ts`: main navigation order (Home, About, People, Resources, Contact), shared by the header and footer
+- `members.ts`: full 56-person public roster from the original 31-person list plus 25 supplemental members (name, school code, class year only), `approvedMemberLinkedIns`, and `memberClassGroups`; People groups by class year and filters out current board members from its general list. `GS` denotes Columbia School of General Studies.
+- `board.ts`: six chapter-supplied board cards in leadership order; `boardIsPending` is `false`
+- `navigation.ts`: main navigation order (About, People, Contact), shared by the header and footer
 - `photos.ts`: Home and About photographs with alt text, intrinsic size, crop focus and a maintainer-only source note (never rendered)
 - `brand.ts`: the official logo files and the "at Columbia" descriptor
 - `organizations.ts`: the 14 represented-company logos on Home
@@ -72,11 +73,10 @@ Pages and the footer read from these files, so a change in one place updates eve
 ## Pending inputs
 
 - **Chapter LinkedIn:** `siteLinks.chapterLinkedIn` is `null`, so the footer shows "Chapter LinkedIn: coming soon". Set it to the verified chapter page URL once one is supplied.
-- **Board:** the real board list and portraits have not been supplied. Replace the example entries in `board.ts` with `{ name, role, school, classYear, portrait: { src, alt }, linkedInUrl }` records, put portraits under `public/`, and set `boardIsPending` to `false`. A card shows a LinkedIn icon link only when `linkedInUrl` is set.
-- **Member LinkedIn links:** no URLs are approved yet, so every member name is plain text. Add an entry to `approvedMemberLinkedIns` (exact roster name to exact `https://www.linkedin.com/in/...` URL) only after the person's profile is approved. Research candidates stay in [`docs/linkedin-review.md`](docs/linkedin-review.md), not in this file.
+- **Board updates:** the supplied six-member board is published in this order: President, Vice President, Treasurer, VP of Operations, then the two VPs of Education. Edit records in `board.ts` and put replacement portraits under `public/images/board/`; each portrait includes its `src`, `alt`, `width` and `height`. LinkedIn links come from `approvedMemberLinkedIns`. Light-pink cards have inset photos and darker pink frames, with one column on phones, two on tablets and three on desktop.
+- **Member LinkedIn links:** the six chapter-supplied board URLs are approved and appear on their board cards. Board members are excluded from the general list, whose 50 names remain plain text. Add an entry to `approvedMemberLinkedIns` (exact roster name to exact `https://www.linkedin.com/in/...` URL) only after the person's profile is approved, and update their status in [`docs/linkedin-review.md`](docs/linkedin-review.md). Unapproved research candidates stay off the site.
 - **Member privacy:** member records hold only name, school, class year and an approved LinkedIn URL. Do not add emails, phone numbers, UNIs, join dates or internship history.
-- **Event details:** some dates, rooms, a speaker surname and her firm conflict between the supplied event graphics, and no source gives a year. These fields are `null` and render as "to be confirmed". Fill them in `events.ts` only after the chapter confirms them. The conflicts are listed in [`docs/asset-sources.md`](docs/asset-sources.md).
-- **Photos and logo:** `public/images/photos/` and `public/images/brand/` are rebuilt with `python3 scripts/build-refresh-assets.py <official-originals-dir>` (needs Pillow, the supplied files in `design-preview/refresh-inputs/` and the downloaded official originals listed in [`docs/asset-sources.md`](docs/asset-sources.md)). Past events are text-led; the earlier low-resolution screenshot crops were retired. Fonts in `public/fonts/` are self-hosted OFL files.
+- **Photos and logo:** `public/images/photos/` and `public/images/brand/` are rebuilt with `python3 scripts/build-refresh-assets.py <official-originals-dir>` (needs Pillow, the supplied files in `design-preview/refresh-inputs/` and the downloaded official originals listed in [`docs/asset-sources.md`](docs/asset-sources.md)). The earlier low-resolution event screenshot crops were retired. Fonts in `public/fonts/` are self-hosted OFL files.
 - **Represented organizations:** the Home logo section reads `src/content/organizations.ts`. To add one, save the logo in `public/images/organizations/`, add a record and add a source row in [`docs/asset-sources.md`](docs/asset-sources.md). The section describes member experience, not sponsorship.
 - **Photos and publication rights:** the Girls Into VC photos come from the parent network's website without a published license, and the library-steps photo is 971 pixels wide. Supply chapter originals or a larger campus photo if available, and confirm rights and credits before a public launch.
 - **Contact inbox and email delivery:** not connected. See the next section.
