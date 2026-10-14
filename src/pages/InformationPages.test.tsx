@@ -67,6 +67,60 @@ describe('HomePage', () => {
     expect(container.textContent).not.toMatch(/not a Columbia chapter event|Photo:|chapter Instagram\./);
   });
 
+  it('moves from the pink opening straight into the campus photo and a centered intro', () => {
+    renderPage(<HomePage />);
+    const hero = screen.getByRole('heading', { level: 1 }).closest('section')!;
+    const next = hero.nextElementSibling!;
+    expect(next.querySelector('img')).toHaveAttribute('src', homePhotos.librarySteps.src);
+    const intro = screen.getByRole('region', { name: 'A Columbia chapter for women in venture capital' });
+    expect(intro).toHaveAttribute('data-intro', 'true');
+    expect(intro).toHaveClass('home-centered');
+    expect(next.contains(intro) || next.nextElementSibling === intro).toBe(true);
+  });
+
+  it('describes NYC firm site visits and the Girls Into VC NYC chapter without naming host firms', () => {
+    renderPage(<HomePage />);
+    const nyc = screen.getByRole('region', { name: 'In New York City' });
+    expect(nyc.textContent).toMatch(/site visits to NYC venture capital firms/i);
+    expect(nyc.textContent).toMatch(/Girls Into VC NYC chapter/);
+    for (const org of representedOrganizations) {
+      expect(nyc.textContent).not.toContain(org.name);
+    }
+  });
+
+  it('shows the four parent figures with their captions and no citations', () => {
+    renderPage(<HomePage />);
+    const section = screen.getByRole('region', { name: 'Why we exist' });
+    const items = within(section).getAllByRole('listitem');
+    expect(items.map((item) => item.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
+      '2% of female founders are funded by VC capital',
+      '7% of board seats at firms',
+      '8% of firm partners',
+      '9% of venture capitalists are women',
+    ]);
+    expect(within(section).getByText('Women account for only')).toBeInTheDocument();
+    expect(section.querySelectorAll('[data-figure-value]')).toHaveLength(4);
+    expect(within(section).queryAllByRole('link')).toHaveLength(0);
+    expect(section.textContent).not.toMatch(/source|study|report|survey|\b(19|20)\d{2}\b/i);
+  });
+
+  it('keeps the Columbia story ahead of the parent context and lists no event cards', () => {
+    const { container } = renderPage(<HomePage />);
+    const regions = screen.getAllByRole('region').map((region) => region.getAttribute('aria-labelledby'));
+    const intro = screen.getByRole('region', { name: 'A Columbia chapter for women in venture capital' });
+    const why = screen.getByRole('region', { name: 'Why we exist' });
+    expect(intro.compareDocumentPosition(why) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.getByRole('region', { name: 'In New York City' }).compareDocumentPosition(why) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(regions.length).toBeGreaterThan(4);
+    expect(container.querySelector('.event-card, .event-list')).toBeNull();
+  });
+
+  it('links to People and Resources', () => {
+    renderPage(<HomePage />);
+    expect(screen.getByRole('link', { name: 'Meet the board and members' })).toHaveAttribute('href', '/people');
+    expect(screen.getByRole('link', { name: 'Browse resources' })).toHaveAttribute('href', '/resources');
+  });
+
   it('shows every represented organization logo as member experience', () => {
     renderPage(<HomePage />);
     const section = screen.getByRole('region', { name: 'Where our members are represented' });

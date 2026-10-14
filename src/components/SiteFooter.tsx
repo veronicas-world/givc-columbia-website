@@ -9,7 +9,7 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="site-footer-inner">
-        <div className="footer-block">
+        <div className="footer-block footer-intro">
           <p className="footer-name">{chapterName}</p>
           <p>A student-led chapter of the Girls Into VC network.</p>
           <InterestLink />

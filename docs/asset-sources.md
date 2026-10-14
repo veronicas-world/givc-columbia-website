@@ -61,6 +61,17 @@ The only change to downloaded files: a `viewBox` matching the existing width and
 
 To add an organization, save its logo in that folder, add a record to `src/content/organizations.ts` and add a row to this table.
 
+## Home "Why we exist" figures
+
+The four figures in `src/content/representation.ts` come from the statistics visual on https://www.girlsintovc.com/ (supplied as `design-preview/refresh-inputs/parent-statistics-reference.png`, a reference only, not shipped). Under the lead "Women account for only":
+
+- 2%: of female founders are funded by VC capital
+- 7%: of board seats at firms
+- 8%: of firm partners
+- 9%: of venture capitalists are women
+
+The parent page's DOM text swaps the 2% and 9% captions; the pairings follow the visual, as the user confirmed. Girls Into VC gives no study, year or methodology for these figures, so the site adds none, shows no citation (per the user's direction) and does not restate 2% as a share of funding dollars. Replace or remove the figures if the parent organization publishes updated numbers.
+
 ## Event facts awaiting confirmation
 
 Event records live in `src/content/events.ts` and appear only in the past-event archive on Resources (`/resources#past-events`). The archive shows only facts that the supplied sources agree on. These conflicts are listed in `eventSourceConflicts` and need the chapter's confirmation before the pending fields are filled in:

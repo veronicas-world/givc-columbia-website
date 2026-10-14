@@ -3,26 +3,6 @@ export const chapterName = 'Girls Into VC at Columbia';
 export const chapterIntro =
   'Girls Into VC (GIVC) is a student-led organization at Columbia University dedicated to increasing the participation of women in venture capital through education, community, and access.';
 
-export interface Pillar {
-  title: string;
-  description: string;
-}
-
-export const pillars: Pillar[] = [
-  {
-    title: 'Education',
-    description: 'Speaker events and workshops that explain how venture capital works and how people build careers in it.',
-  },
-  {
-    title: 'Community',
-    description: 'Students at Columbia and Barnard who want to learn about venture capital, and the people they meet through the chapter.',
-  },
-  {
-    title: 'Access',
-    description: 'Direct conversations with investors, founders, and operators, plus a shared set of career resources.',
-  },
-];
-
 export interface Activity {
   title: string;
   summary: string;
@@ -61,6 +41,27 @@ export const reasonsToJoin: string[] = [
   'Meet other students interested in venture capital, at Columbia and beyond.',
   'Build practical skills for venture capital and related careers.',
   'Take part in events, the fellowship, and shared career resources.',
+];
+
+export const chapterPurpose =
+  'Venture capital can be hard to see into from campus. The chapter gives Columbia and Barnard students a place to learn how it works, meet people in it and find their own way in.';
+
+export interface Engagement {
+  title: string;
+  description: string;
+}
+
+/** User-supplied facts. No host firms or dates are listed until the chapter confirms them. */
+export const nycEngagement: Engagement[] = [
+  {
+    title: 'Site visits to NYC venture capital firms',
+    description: 'Members visit venture capital firms in New York City to learn how investment teams work.',
+  },
+  {
+    title: 'Girls Into VC NYC chapter',
+    description:
+      'The chapter connects with the Girls Into VC NYC chapter, linking Columbia members with the wider network in the city.',
+  },
 ];
 
 export const parentSummary =

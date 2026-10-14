@@ -21,29 +21,25 @@ export function AboutPage() {
           Girls Into VC at Columbia is run by Columbia students. Its work centers on education, community, and access,
           through the chapter activities below.
         </p>
-        <div className="activity-detail-list">
+        <ul className="open-grid open-grid-2">
           {activities.map((activity) => (
-            <article key={activity.title}>
+            <li key={activity.title}>
               <h3>{activity.title}</h3>
               <p>{activity.detail}</p>
-            </article>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       <section className="section" aria-labelledby="network-title">
         <h2 id="network-title">The Girls Into VC network</h2>
-        <div className="page-split">
-          <div>
-            <p>{parentSummary}</p>
-            <p>
-              Programs run by the wider network are separate from the chapter activities described above. For network
-              information, visit <ExternalLink href={siteLinks.parentSite}>girlsintovc.com</ExternalLink> or read
-              about its <ExternalLink href={siteLinks.parentCampusChapters}>campus chapters</ExternalLink>.
-            </p>
-          </div>
-          <Photo photo={homePhotos.community} className="page-split-photo" />
-        </div>
+        <p>{parentSummary}</p>
+        <p>
+          Programs run by the wider network are separate from the chapter activities described above. For network
+          information, visit <ExternalLink href={siteLinks.parentSite}>girlsintovc.com</ExternalLink> or read about its{' '}
+          <ExternalLink href={siteLinks.parentCampusChapters}>campus chapters</ExternalLink>.
+        </p>
+        <Photo photo={homePhotos.community} className="section-photo" />
       </section>
 
       <section className="section section-callout" aria-labelledby="about-interest-title">

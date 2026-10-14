@@ -8,7 +8,7 @@ All five pages share a header (with a mobile menu below 768 pixels wide) and a p
 
 | Route        | Content |
 | ------------ | ------- |
-| `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo, the chapter overview with a community photo, pillars, activities with general Girls Into VC photos, reasons to join, "Where our members are represented" logos, links to People, Resources and the past events, and the interest list |
+| `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo and a centered chapter introduction, reasons to join, NYC venture capital firm site visits and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%), "Where our members are represented" logos, links to People, Resources and the past events, and the interest list |
 | `/about`     | Columbia chapter activities with a campus photo, separated from the wider Girls Into VC network |
 | `/people`    | Board section with pale-pink square cards (labeled examples until the real board is supplied) and the 31-member directory as centered text rows grouped under Class of 2028 (13) and Class of 2029 (18) |
 | `/resources` | Curated external venture capital learning and career links, then the past-event archive (`#past-events`) of three source-backed chapter events; unconfirmed details shown as "to be confirmed" |
@@ -44,7 +44,8 @@ npm run build                # production build into dist/
 Page copy and links live in typed files under `src/content/`:
 
 - `links.ts`: interest form, Instagram, chapter LinkedIn, and parent-network URLs
-- `chapter.ts`: chapter introduction, pillars, activities, reasons to join
+- `chapter.ts`: chapter introduction and purpose, activities, reasons to join, NYC engagement
+- `representation.ts`: the four "Why we exist" figures and their captions (provenance in `docs/asset-sources.md`; never cited on the page)
 - `resources.ts`: curated resource groups and descriptions
 - `members.ts`: public member directory (name, school code, class year only), `approvedMemberLinkedIns`, and `memberClassGroups`, which groups the directory by class year in roster order
 - `board.ts`: board cards; currently labeled examples while `boardIsPending` is `true`

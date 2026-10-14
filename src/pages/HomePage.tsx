@@ -3,8 +3,16 @@ import { ExternalLink } from '../components/ExternalLink';
 import { InterestLink } from '../components/InterestLink';
 import { BrandLockup } from '../components/BrandLockup';
 import { Photo } from '../components/Photo';
+import { RepresentationFigures } from '../components/RepresentationFigures';
 import { RepresentedOrganizations } from '../components/RepresentedOrganizations';
-import { activities, chapterIntro, interestFormNote, parentSummary, pillars, reasonsToJoin } from '../content/chapter';
+import {
+  activities,
+  chapterIntro,
+  chapterPurpose,
+  interestFormNote,
+  nycEngagement,
+  reasonsToJoin,
+} from '../content/chapter';
 import { pastEventsAnchor } from '../content/events';
 import { siteLinks } from '../content/links';
 import { activityPhotos, homePhotos } from '../content/photos';
@@ -24,44 +32,55 @@ export function HomePage() {
         </div>
       </section>
 
-      <div className="home-campus">
-        <Photo photo={homePhotos.librarySteps} className="home-campus-photo" />
+      <div id="chapter" className="home-campus">
+        <Photo photo={homePhotos.librarySteps} className="home-campus-photo" loading="eager" />
       </div>
 
-      <section id="chapter" className="home-band home-band-pale" aria-labelledby="chapter-title">
-        <div className="home-inner">
-          <div className="home-heading-row">
-            <h2 id="chapter-title">The Columbia chapter</h2>
-            <div className="home-aside">
-              <p>{chapterIntro}</p>
-              <p>{parentSummary}</p>
-              <p>
-                <Link to="/about">More about the chapter</Link>
-              </p>
-            </div>
-          </div>
-          <Photo photo={homePhotos.community} className="home-wide-photo" />
+      <section className="home-intro home-centered" aria-labelledby="intro-title" data-intro="true">
+        <h2 id="intro-title" data-typewriter="true">
+          A Columbia chapter for women in venture capital
+        </h2>
+        <p className="home-lede">{chapterIntro}</p>
+        <p>{chapterPurpose}</p>
+        <p>
+          <Link to="/about">More about the chapter</Link>
+        </p>
+      </section>
+
+      <section className="home-band home-band-pale" aria-labelledby="reasons-title">
+        <div className="home-inner home-centered">
+          <h2 id="reasons-title">Why join</h2>
+          <ul className="reason-list">
+            {reasonsToJoin.map((reason) => (
+              <li key={reason}>{reason}</li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      <section className="home-band" aria-labelledby="pillars-title">
-        <div className="home-inner">
-          <h2 id="pillars-title">Education, community, and access</h2>
-          <ul className="pillar-list">
-            {pillars.map((pillar) => (
-              <li key={pillar.title}>
-                <h3>{pillar.title}</h3>
-                <p>{pillar.description}</p>
+      <section className="home-band" aria-labelledby="nyc-title">
+        <div className="home-inner home-centered">
+          <h2 id="nyc-title">In New York City</h2>
+          <p>Being at Columbia puts the chapter close to the venture capital firms of New York.</p>
+          <ul className="open-grid open-grid-2">
+            {nycEngagement.map((item) => (
+              <li key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="home-band home-band-pale" aria-labelledby="activities-title">
-        <div className="home-inner">
+      <div className="home-media">
+        <Photo photo={homePhotos.community} className="home-wide-photo" />
+      </div>
+
+      <section className="home-band" aria-labelledby="activities-title">
+        <div className="home-inner home-centered">
           <h2 id="activities-title">What we do</h2>
-          <ul className="activity-list">
+          <ul className="open-grid open-grid-4">
             {activities.map((activity) => (
               <li key={activity.title}>
                 <h3>{activity.title}</h3>
@@ -77,21 +96,12 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="home-band" aria-labelledby="reasons-title">
-        <div className="home-inner home-split">
-          <h2 id="reasons-title">Why join</h2>
-          <ul className="reason-list">
-            {reasonsToJoin.map((reason) => (
-              <li key={reason}>{reason}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <RepresentationFigures />
 
       <RepresentedOrganizations />
 
       <section className="home-band home-band-pale" aria-labelledby="explore-title">
-        <div className="home-inner">
+        <div className="home-inner home-centered">
           <h2 id="explore-title">Explore the chapter</h2>
           <ul className="explore-list">
             <li>
@@ -111,16 +121,14 @@ export function HomePage() {
       </section>
 
       <section className="home-band home-band-pink" aria-labelledby="interest-title">
-        <div className="home-inner home-split">
+        <div className="home-inner home-centered">
           <h2 id="interest-title">Stay in touch</h2>
-          <div>
-            <p>{interestFormNote}</p>
-            <div className="actions">
-              <InterestLink />
-              <ExternalLink href={siteLinks.instagram} className="button button-secondary">
-                Follow on Instagram
-              </ExternalLink>
-            </div>
+          <p>{interestFormNote}</p>
+          <div className="actions">
+            <InterestLink />
+            <ExternalLink href={siteLinks.instagram} className="button button-secondary">
+              Follow on Instagram
+            </ExternalLink>
           </div>
         </div>
       </section>
