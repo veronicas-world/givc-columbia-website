@@ -21,9 +21,9 @@ export const activities: Activity[] = [
   {
     id: 'workshops',
     title: 'Workshops',
-    summary: 'Résumé reviews, technical training, and career panels.',
+    summary: 'Recruitment advice, résumé reviews, technical training, and career panels.',
     detail:
-      'Workshops focus on practical preparation, including résumé reviews, technical training, and career panels.',
+      'Workshops focus on practical preparation for venture capital careers, including recruitment advice, career planning, résumé reviews, technical training, and career panels, plus help navigating the recruiting process.',
   },
   {
     id: 'fellowship',

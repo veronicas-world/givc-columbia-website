@@ -279,6 +279,8 @@ describe('AboutPage', () => {
       expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument();
     }
     expect(container.textContent).toMatch(/résumé reviews/);
+    expect(container.textContent).toMatch(/recruitment advice, career planning/);
+    expect(container.textContent).toMatch(/help navigating the recruiting process/);
     expect(container.textContent).toMatch(/technical training/);
     expect(container.textContent).toMatch(/career panels/);
     expect(container.textContent).toMatch(/peers and mentors/);
