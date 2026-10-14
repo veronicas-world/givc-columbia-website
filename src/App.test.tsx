@@ -50,6 +50,26 @@ describe('site routes', () => {
   });
 });
 
+const routePaths = routes.map(([path]) => path);
+const stockPhrases = /empower|supportive|passionate|unlock|game.?chang|next generation|journey|world.?class|cutting.?edge/i;
+
+describe('final copy across the six routes', () => {
+  it.each(routePaths)('%s uses matter-of-fact copy without italic elements', (path) => {
+    const { container } = renderAt(path);
+    expect(container.querySelector('em, i, cite')).toBeNull();
+    expect(container.textContent).not.toMatch(stockPhrases);
+  });
+
+  it.each(routePaths)('%s ends with the shared footer actions', (path) => {
+    renderAt(path);
+    const footer = screen.getByRole('contentinfo');
+    expect(within(footer).getByRole('link', { name: /Join our interest list/ })).toBeInTheDocument();
+    expect(within(footer).getByRole('link', { name: /Instagram/ })).toBeInTheDocument();
+    expect(within(footer).getByRole('link', { name: 'Contact' })).toBeInTheDocument();
+    expect(within(footer).getByText(/Chapter LinkedIn: coming soon/)).toBeInTheDocument();
+  });
+});
+
 describe('footer', () => {
   it('offers the interest list, Instagram, Contact and an honest pending LinkedIn state', () => {
     renderAt('/about');

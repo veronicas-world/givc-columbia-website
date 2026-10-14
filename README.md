@@ -2,20 +2,20 @@
 
 Local-review website for Girls Into VC at Columbia, built with React, TypeScript, Vite, and React Router, styled with plain CSS.
 
-## Current state
+## Pages
 
-This is the content-first foundation. All six pages have real routes inside a shared header, mobile menu, and footer:
+All six pages share a header (with a mobile menu below 768 pixels wide) and a pale-pink footer with the interest list, Instagram, chapter LinkedIn status and Contact.
 
-| Route        | Status |
-| ------------ | ------ |
-| `/`          | Chapter introduction, pillars, activities, reasons to join, past-event highlights, links to People and Resources, interest-list links |
-| `/about`     | Columbia chapter activities, separated from the wider Girls Into VC network |
-| `/people`    | Board section with labeled example cards (real board pending) and the 31-member directory |
+| Route        | Content |
+| ------------ | ------- |
+| `/`          | Full-height pink opening with the white title "Girls Into VC at Columbia", then the chapter overview with campus and community photos, pillars, chapter activity photos, reasons to join, past-event highlights, "Where our members are represented" logos, links to People and Resources, and the interest list |
+| `/about`     | Columbia chapter activities with a campus photo, separated from the wider Girls Into VC network |
+| `/people`    | Board section with pale-pink square cards (labeled examples until the real board is supplied) and the 31-member directory as text rows |
 | `/resources` | Curated external venture capital learning and career links |
-| `/events`    | Past-event archive of three source-backed chapter events; unconfirmed details shown as pending |
+| `/events`    | Past-event archive of three source-backed chapter events; unconfirmed details shown as "to be confirmed" |
 | `/contact`   | Accessible contact form with field validation; sending is not connected yet (see below) |
 
-The final visual design (pink opening, photography, represented-company logos) has not been applied yet. The current styling is intentionally plain.
+Design rules for future edits: plain sans-serif type with no italics, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). The only motion is the browser's own; the `prefers-reduced-motion` rule in `src/styles/global.css` turns off transitions, animations and smooth scrolling if any are added later.
 
 ## Requirements
 
@@ -28,7 +28,7 @@ npm ci
 npm run dev
 ```
 
-The development server runs at http://127.0.0.1:3100 and binds to localhost only.
+The development server runs at http://127.0.0.1:3100 and binds to localhost only. `--strictPort` makes it stop with an error instead of switching ports if 3100 is busy. `npm run preview` serves the production build from `dist/` on the same address after `npm run build`.
 
 ## Checks
 
@@ -50,8 +50,11 @@ Page copy and links live in typed files under `src/content/`:
 - `board.ts`: board cards; currently labeled examples while `boardIsPending` is `true`
 - `events.ts`: past-event records used by both the Events archive and the Home highlights (`highlight: true`), plus `eventSourceConflicts`
 - `navigation.ts`: main navigation order
+- `photos.ts`: Home and About photographs, with captions and whether each is a campus, parent-network or chapter photo
+- `organizations.ts`: the 14 represented-company logos on Home
+- `contact.ts`: contact validation and the email delivery boundary
 
-Pages and the footer read from these files, so a change in one place updates every page.
+Pages and the footer read from these files, so a change in one place updates every page. Styling is in `src/styles/global.css`. Images are served from `public/images/`, and every image's source and terms are listed in [`docs/asset-sources.md`](docs/asset-sources.md); add a row there whenever you add or replace an image.
 
 ## Pending inputs
 
@@ -63,7 +66,7 @@ Pages and the footer read from these files, so a change in one place updates eve
 - **Event photos:** `public/images/events/` holds crops of the chapter's Instagram slides, rebuilt with `python3 scripts/crop-event-images.py` (needs Pillow and the original screenshots). Sources are in [`docs/asset-sources.md`](docs/asset-sources.md).
 - **Home photos:** chapter activity photos in `public/images/chapter/` are rebuilt with `python3 scripts/crop-chapter-photos.py`. They come from a phone screenshot, so they are shown at card size; replace them with original photo files when available. Photo records and their parent-network or chapter context live in `src/content/photos.ts`.
 - **Represented organizations:** the Home logo section reads `src/content/organizations.ts`. To add one, save the logo in `public/images/organizations/`, add a record and add a source row in [`docs/asset-sources.md`](docs/asset-sources.md). The section describes member experience, not sponsorship.
-- **Publication rights:** the Girls Into VC community photo comes from the parent network's website without a published license. Confirm rights and credits before a public launch.
+- **Higher-resolution photos and publication rights:** the chapter and event photos are crops of phone screenshots, so they are kept at card size. The Girls Into VC community photo comes from the parent network's website without a published license. Supply original files and confirm rights and credits before a public launch.
 - **Contact inbox and email delivery:** not connected. See the next section.
 
 ## Contact form and email delivery
@@ -97,6 +100,10 @@ Setting `recipientInbox` on its own does not turn sending on. `isContactDelivery
 3. Set `recipientInbox` to the approved inbox and `provider` to that implementation.
 4. Keep API keys and secrets out of the repository. Browser code is public, so a secret key needs a server-side or provider-hosted step. Public site keys should come from environment variables (`import.meta.env.VITE_...`) in an uncommitted `.env.local`.
 5. Verify real delivery separately before launch: send a test message to the approved inbox, confirm it arrives, and confirm that a provider failure shows the retry message. The current automated tests only cover validation and the unconfigured state; they do not prove that email delivery works.
+
+## Deployment
+
+The site has not been deployed. It is a static Vite build (`npm run build` writes `dist/`), so it can later be hosted on any static host that rewrites unknown paths to `index.html` for the client-side routes. Choosing a host, a domain and the email provider are decisions for the chapter; none is configured in this repository.
 
 ## Design references
 

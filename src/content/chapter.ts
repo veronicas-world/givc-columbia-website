@@ -15,7 +15,7 @@ export const pillars: Pillar[] = [
   },
   {
     title: 'Community',
-    description: 'A supportive group of students who are curious about venture capital, at Columbia and beyond.',
+    description: 'Students at Columbia and Barnard who want to learn about venture capital, and the people they meet through the chapter.',
   },
   {
     title: 'Access',
@@ -50,21 +50,21 @@ export const activities: Activity[] = [
   },
   {
     title: 'Community',
-    summary: 'A supportive network of members.',
+    summary: 'Members who meet and learn from each other.',
     detail:
-      'Members meet, learn from each other, and support one another as they explore venture capital and related careers.',
+      'Members meet, compare notes, and help each other as they look into venture capital and related careers.',
   },
 ];
 
 export const reasonsToJoin: string[] = [
   'Learn directly from investors, founders, and operators.',
-  'Build a supportive network at Columbia and beyond.',
-  'Develop practical skills and confidence for venture capital and related careers.',
+  'Meet other students interested in venture capital, at Columbia and beyond.',
+  'Build practical skills for venture capital and related careers.',
   'Take part in events, the fellowship, and shared career resources.',
 ];
 
 export const parentSummary =
-  'Girls Into VC is a broader network that empowers women to explore venture capital through education, mentorship, and community. Its campus chapters are student-led groups at individual universities.';
+  'Girls Into VC is a broader network that helps women learn about venture capital through education, mentorship, and community. Its campus chapters are student-led groups at individual universities.';
 
 export const interestFormNote =
   'The interest list is a Google Form. It asks for your name and Columbia or Barnard email so the chapter can send event reminders and mailing-list updates.';

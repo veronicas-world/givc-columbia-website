@@ -27,7 +27,9 @@ Cropped from `IMG_6202.png`, the chapter's "What We Do at GIVC" Instagram slide,
 
 No people in these photos are named on the site. Replace them with the chapter's original photo files when available.
 
-## Home photos (`public/images/photos/`)
+## Home and About photos (`public/images/photos/`)
+
+The About page reuses these two files with the same captions.
 
 | File | Source | Context and terms |
 | --- | --- | --- |

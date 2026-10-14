@@ -1,8 +1,10 @@
 import { ExternalLink } from '../components/ExternalLink';
 import { InterestLink } from '../components/InterestLink';
 import { PageHeader } from '../components/PageHeader';
+import { PhotoFigure } from '../components/PhotoFigure';
 import { activities, chapterIntro, parentSummary } from '../content/chapter';
 import { siteLinks } from '../content/links';
+import { homePhotos } from '../content/photos';
 
 export function AboutPage() {
   return (
@@ -10,6 +12,8 @@ export function AboutPage() {
       <PageHeader title="About">
         <p>{chapterIntro}</p>
       </PageHeader>
+
+      <PhotoFigure photo={homePhotos.campus} className="page-photo" />
 
       <section className="section" aria-labelledby="chapter-title">
         <h2 id="chapter-title">The Columbia chapter</h2>
@@ -29,12 +33,17 @@ export function AboutPage() {
 
       <section className="section" aria-labelledby="network-title">
         <h2 id="network-title">The Girls Into VC network</h2>
-        <p>{parentSummary}</p>
-        <p>
-          Programs run by the wider network are separate from the chapter activities described above. For network
-          information, visit <ExternalLink href={siteLinks.parentSite}>girlsintovc.com</ExternalLink> or read about its{' '}
-          <ExternalLink href={siteLinks.parentCampusChapters}>campus chapters</ExternalLink>.
-        </p>
+        <div className="page-split">
+          <div>
+            <p>{parentSummary}</p>
+            <p>
+              Programs run by the wider network are separate from the chapter activities described above. For network
+              information, visit <ExternalLink href={siteLinks.parentSite}>girlsintovc.com</ExternalLink> or read
+              about its <ExternalLink href={siteLinks.parentCampusChapters}>campus chapters</ExternalLink>.
+            </p>
+          </div>
+          <PhotoFigure photo={homePhotos.community} />
+        </div>
       </section>
 
       <section className="section section-callout" aria-labelledby="about-interest-title">
