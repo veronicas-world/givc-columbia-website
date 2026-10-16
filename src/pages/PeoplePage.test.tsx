@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { boardMembers } from '../content/board';
-import { members, schoolName } from '../content/members';
+import { memberDisplayName, members, schoolName } from '../content/members';
 import { PeoplePage } from './PeoplePage';
 
 const boardNames = new Set(boardMembers.map((person) => person.name));
@@ -17,7 +17,7 @@ function renderPeople() {
 }
 
 describe('PeoplePage', () => {
-  it('lists the 50 general members once without repeating board members', () => {
+  it('lists the 50 general members once by first name and last initial, without repeating board members', () => {
     renderPeople();
     const directory = screen.getByRole('region', { name: 'Members' });
     const rows = within(directory).getAllByRole('listitem');
@@ -25,8 +25,14 @@ describe('PeoplePage', () => {
     expect(within(directory).getByRole('heading', { level: 2, name: 'Members' })).toBeInTheDocument();
     expect(directory.querySelector(':scope > p')).toBeNull();
     for (const member of generalMembers) {
-      const matching = rows.filter((row) => row.querySelector('.member-name')?.textContent === member.name);
+      const matching = rows.filter(
+        (row) =>
+          row.querySelector('.member-name')?.textContent === memberDisplayName(member.name) &&
+          row.textContent?.includes(`Class of ${member.classYear}`) &&
+          row.textContent?.includes(schoolName(member.school)),
+      );
       expect(matching).toHaveLength(1);
+      expect(directory).not.toHaveTextContent(member.name);
       expect(matching[0]).toHaveTextContent(schoolName(member.school));
       expect(matching[0]).toHaveTextContent(`Class of ${member.classYear}`);
     }
@@ -53,7 +59,9 @@ describe('PeoplePage', () => {
       const names = within(groups[index]!)
         .getAllByRole('listitem')
         .map((row) => row.querySelector('.member-name')?.textContent);
-      const expectedNames = generalMembers.filter((member) => member.classYear === year).map((member) => member.name);
+      const expectedNames = generalMembers
+        .filter((member) => member.classYear === year)
+        .map((member) => memberDisplayName(member.name));
       expect(names).toHaveLength(count);
       expect(names).toEqual(expectedNames);
     });
@@ -66,7 +74,7 @@ describe('PeoplePage', () => {
     expect(within(directory).queryAllByRole('link')).toHaveLength(linked.length);
   });
 
-  it('shows the supplied board in leadership order with portraits and LinkedIn buttons', () => {
+  it('shows the supplied board in leadership order with LinkedIn buttons and no photos', () => {
     renderPeople();
     const board = screen.getByRole('region', { name: 'Executive Board' });
     expect(board).not.toHaveTextContent(/examples|not yet|pending/i);
@@ -85,13 +93,11 @@ describe('PeoplePage', () => {
       expect(within(card).getByText(person.role!)).toBeInTheDocument();
       expect(within(card).getByText(person.school)).toBeInTheDocument();
       expect(within(card).getByText(person.classYear)).toBeInTheDocument();
-      expect(within(card).getByRole('img', { name: person.portrait!.alt })).toHaveAttribute(
-        'src', person.portrait!.src,
-      );
       expect(within(card).getByRole('link', { name: `${person.name} on LinkedIn (opens in a new tab)` }))
         .toHaveAttribute('href', person.linkedInUrl);
       expect(card).not.toHaveAttribute('data-example');
     });
+    expect(board.querySelector('img')).toBeNull();
   });
 
   it('uses only the Executive Board title, without the old introductory sentence', () => {

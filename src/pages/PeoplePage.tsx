@@ -19,7 +19,7 @@ export function PeoplePage() {
         <h2 id="board-heading" className="visually-hidden">Executive Board</h2>
         {boardIsPending ? (
           <p className="pending">
-            The board list and portraits are not yet published. The cards below are examples that show how board
+            The board list is not yet published. The cards below are examples that show how board
             members will appear.
           </p>
         ) : null}

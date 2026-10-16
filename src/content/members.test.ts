@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { approvedMemberLinkedIns, memberClassGroups, members, schoolName } from './members';
+import { approvedMemberLinkedIns, memberClassGroups, memberDisplayName, members, schoolName } from './members';
 
 const expectedRoster: [name: string, classYear: number, school: string][] = [
   ['Mali Gilbert', 2028, 'Columbia Engineering'],
@@ -110,5 +110,12 @@ describe('members', () => {
     for (const group of memberClassGroups) {
       expect(group.members.every((member) => member.classYear === group.classYear)).toBe(true);
     }
+  });
+
+  it('shortens names to first name and last initial', () => {
+    expect(memberDisplayName('Grace Benson')).toBe('Grace B.');
+    expect(memberDisplayName('Jaya De Rycker')).toBe('Jaya D.');
+    expect(memberDisplayName('Frankie (Francesca) Welch')).toBe('Frankie W.');
+    expect(memberDisplayName('Cher')).toBe('Cher');
   });
 });

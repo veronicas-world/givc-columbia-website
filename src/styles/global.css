@@ -621,31 +621,12 @@ a:hover {
   text-align: center;
 }
 
-.board-portrait {
-  display: block;
-  width: 100%;
-  max-width: 11rem;
-  margin-inline: auto;
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: cover;
-}
-
-.board-portrait-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--pink-placeholder);
-  color: var(--ink-muted);
-  font-size: 0.9rem;
-}
-
 .board-card-body {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.1rem;
-  padding: 0.45rem 0 0;
+  padding: 0.9rem 0.4rem;
   line-height: 1.35;
 }
 

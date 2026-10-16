@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { boardIsPending, boardMembers } from './board';
@@ -32,18 +32,8 @@ describe('chapter board', () => {
     }
   });
 
-  it('ships optimized portraits with alt text and intrinsic dimensions', () => {
-    for (const person of boardMembers) {
-      expect(person.portrait).toBeDefined();
-      const portrait = person.portrait!;
-      expect(portrait.alt).toBe(`Portrait of ${person.name}`);
-      expect(portrait.width).toBeGreaterThanOrEqual(500);
-      expect(portrait.height).toBeGreaterThanOrEqual(500);
-      expect(portrait.src).toMatch(/^\/images\/board\/[a-z-]+\.webp$/);
-      const bytes = readFileSync(resolve(process.cwd(), 'public', portrait.src.slice(1)));
-      expect(bytes.toString('ascii', 0, 4)).toBe('RIFF');
-      expect(bytes.toString('ascii', 8, 12)).toBe('WEBP');
-      expect(bytes.length).toBeLessThan(100_000);
-    }
+  it('has no board portraits or portrait files', () => {
+    for (const person of boardMembers) expect(person).not.toHaveProperty('portrait');
+    expect(existsSync(resolve(process.cwd(), 'public/images/board'))).toBe(false);
   });
 });

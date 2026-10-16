@@ -29,7 +29,8 @@ describe('MemberRow', () => {
     const row = screen.getByRole('listitem');
     expect(within(row).queryByRole('link')).not.toBeInTheDocument();
     expect(row.querySelector('a')).toBeNull();
-    expect(within(row).getByText('Test Person')).toBeInTheDocument();
+    expect(within(row).getByText('Test P.')).toBeInTheDocument();
+    expect(row).not.toHaveTextContent('Test Person');
     expect(within(row).getByText('Barnard College')).toBeInTheDocument();
     expect(within(row).getByText('Class of 2028')).toBeInTheDocument();
     expect(row.querySelector('img')).toBeNull();
@@ -37,41 +38,35 @@ describe('MemberRow', () => {
 
   it('links the name to the exact approved URL', () => {
     renderRow({ name: 'Test Person', school: 'SEAS', classYear: 2029, linkedInUrl: syntheticUrl });
-    const link = screen.getByRole('link', { name: /Test Person/ });
+    const link = screen.getByRole('link', { name: /Test P\./ });
     expect(link).toHaveAttribute('href', syntheticUrl);
-    expect(link).toHaveAccessibleName('Test Person on LinkedIn (opens in a new tab)');
+    expect(link).toHaveTextContent('Test P.');
+    expect(link).toHaveAccessibleName('Test P. on LinkedIn (opens in a new tab)');
     link.focus();
     expect(link).toHaveFocus();
   });
 });
 
 describe('BoardCard', () => {
-  it('labels example cards and uses a neutral placeholder without a live control', () => {
+  it('labels example cards without a photo, placeholder or live control', () => {
     renderCard({ name: 'Board member name', school: 'School', classYear: 'Class year', isExample: true });
     const card = screen.getByRole('listitem');
     expect(within(card).getByText('Example')).toBeInTheDocument();
-    expect(within(card).getByText('Portrait pending')).toBeInTheDocument();
+    expect(within(card).queryByText('Portrait pending')).toBeNull();
     expect(card.querySelector('img')).toBeNull();
     expect(card.querySelector('a, button')).toBeNull();
   });
 
-  it('shows supplied portrait, name, school, year and an accessible LinkedIn control', () => {
+  it('shows name, school, year and an accessible LinkedIn control without a photo', () => {
     renderCard({
       name: 'Test Officer',
       role: 'President',
       school: 'Columbia College',
       classYear: 'Class of 2028',
-      portrait: { src: '/test-portrait.jpg', alt: 'Portrait of Test Officer', width: 800, height: 800 },
       linkedInUrl: syntheticUrl,
     });
     const card = screen.getByRole('listitem');
-    expect(within(card).getByRole('img', { name: 'Portrait of Test Officer' })).toHaveAttribute(
-      'src',
-      '/test-portrait.jpg',
-    );
-    expect(within(card).getByRole('img')).toHaveAttribute('width', '800');
-    expect(within(card).getByRole('img')).toHaveAttribute('height', '800');
-    expect(within(card).getByRole('img')).toHaveAttribute('loading', 'lazy');
+    expect(card.querySelector('img')).toBeNull();
     expect(within(card).getByRole('heading', { level: 3, name: 'Test Officer' })).toBeInTheDocument();
     expect(within(card).getByText('Columbia College')).toBeInTheDocument();
     expect(within(card).getByText('Class of 2028')).toBeInTheDocument();

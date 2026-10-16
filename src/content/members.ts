@@ -108,6 +108,16 @@ export const memberClassGroups: MemberClassGroup[] = [...new Set(members.map((me
   .sort((a, b) => a - b)
   .map((classYear) => ({ classYear, members: members.filter((member) => member.classYear === classYear) }));
 
+/**
+ * The general member list shows only a first name and last initial ("Jaya De Rycker" -> "Jaya D.").
+ * Parenthetical alternate names are dropped, and a multi-word surname uses its first letter.
+ */
+export function memberDisplayName(name: string) {
+  const [first, ...rest] = name.replace(/\([^)]*\)/g, ' ').trim().split(/\s+/);
+  const initial = rest.join(' ').charAt(0).toUpperCase();
+  return initial ? `${first} ${initial}.` : first!;
+}
+
 export function schoolName(code: SchoolCode) {
   return schoolNames[code];
 }

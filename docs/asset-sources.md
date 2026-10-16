@@ -72,18 +72,9 @@ The `chapter-*` and `speaker-*` photos come from crops of the chapter's 1206 x 2
 
 "AI-upscaled" means 4x super-resolution with the Real-ESRGAN x4plus model (run locally through `spandrel` and PyTorch), then a Lanczos resize to the listed size and JPEG quality 88. The model sharpens existing detail without generating new faces, but it can smooth skin and hair slightly; replace these with the chapter's original photo files when available. The fireside-chat investor is captioned Andrea Wang, General Partner, SV Angel, as confirmed by the chapter on 2026-10-14; the recap slide's "Andrea Weng, Partner, Andreessen Horowitz" is not used.
 
-## Board portraits (`public/images/board/`)
+## Board
 
-Supplied by the chapter in `GIVC Board members.pdf` on 2026-10-14 for publication on the board cards. Extracted directly from each page's embedded image with `pypdf`, not from screenshots of the PDF. Saved as RGB WebP at quality 90 using Pillow, without upscaling, retouching or retaining image metadata. At the chapter's request, Diane's original 516 x 604 image is cropped by 10 pixels on the left, 4 on top and 2 on the right to remove its white edge. Other files retain their original dimensions. Square photo framing is display-only via CSS. The original PDF is unchanged and is not shipped.
-
-| File | Pixels | Source page |
-| --- | --- | --- |
-| `kagan-levine.webp` | 800 x 800 | 1 |
-| `mali-gilbert.webp` | 800 x 800 | 2 |
-| `diane-lang.webp` | 504 x 600 | 3 |
-| `veronica-agudelo.webp` | 800 x 800 | 4 |
-| `caroline-keohane.webp` | 800 x 800 | 5 |
-| `mila-ansorge.webp` | 800 x 800 | 6 |
+Board cards no longer show portraits; the chapter asked for them to be removed on 2026-10-16, and the files in `public/images/board/` were deleted.
 
 Names and LinkedIn links follow the same PDF; schools and class years follow the member roster. Subsequent chapter corrections set Mila Ansorge's role to Treasurer and Kagan Levine's to VP of Operations.
 

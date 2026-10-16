@@ -1,10 +1,11 @@
-import { schoolName, type Member } from '../content/members';
+import { memberDisplayName, schoolName, type Member } from '../content/members';
 
 interface MemberRowProps {
   member: Member;
 }
 
 export function MemberRow({ member }: MemberRowProps) {
+  const name = memberDisplayName(member.name);
   return (
     <li className="member-row">
       <span className="member-name">
@@ -13,12 +14,12 @@ export function MemberRow({ member }: MemberRowProps) {
             href={member.linkedInUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`${member.name} on LinkedIn (opens in a new tab)`}
+            aria-label={`${name} on LinkedIn (opens in a new tab)`}
           >
-            {member.name}
+            {name}
           </a>
         ) : (
-          member.name
+          name
         )}
       </span>
       <span className="member-school">{schoolName(member.school)}</span>
