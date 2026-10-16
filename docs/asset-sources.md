@@ -42,13 +42,13 @@ Photos carry no visible captions or credits on the site, with one exception: the
 | `chapter-workshop.jpg` | 996 x 1024 | User-supplied photo of a speaker addressing students at a Girls Into VC event (2026-10-16) | Pre-Professional Workshops column on About. Copied unchanged from the supplied JPEG. |
 | `chapter-fellowship.jpg` | 1024 x 539 | User-supplied photo of students in a lecture hall at a Girls Into VC event (2026-10-16) | Fellowship column on About. Copied unchanged from the supplied JPEG. |
 | `chapter-community.jpg` | 1024 x 889 | User-supplied group photo of four women at a Girls Into VC event (2026-10-16) | Community column on About. Copied unchanged from the supplied JPEG. |
-| `speaker-avni-barman.jpg` | 640 x 640 | Chapter Instagram speaker-event slide (`IMG_6205.png`) | Captioned "Founder and CEO, GenShe"; the slide shows "…nder & CEO, GenShe" with the first letters covered. AI-upscaled. |
-| `speaker-andrea-wang.jpg` | 640 x 640 | Chapter Instagram fireside-chat slide (`IMG_6207.png`), left headshot | Captioned "General Partner, SV Angel", as confirmed by the chapter. AI-upscaled. |
-| `speaker-joshua-browder.jpg` | 640 x 640 | Same slide, right headshot | Captioned "Founder and CEO, DoNotPay". AI-upscaled. |
-| `speaker-daniella-cohen.jpg` | 640 x 640 | Chapter Instagram Women Investors in VC slide (`IMG_6206.png`), top-left headshot | Names are matched to headshots in the slide's reading order (top left, top right, bottom left, bottom right), which is the order the speakers were recorded in; confirm with the chapter. AI-upscaled. |
-| `speaker-lori-berenberg.jpg` | 640 x 640 | Same slide, top-right headshot | See above. AI-upscaled. |
-| `speaker-nicole-ripka.jpg` | 640 x 640 | Same slide, bottom-left headshot | See above. AI-upscaled. |
-| `speaker-irene-wu.jpg` | 640 x 640 | Same slide, bottom-right headshot | See above. AI-upscaled. |
+| `speaker-avni-barman.jpg` | 800 x 800 | User-supplied photo (2026-10-16) | Portrait of Avni Barman on About. Copied unchanged from the supplied JPEG. |
+| `speaker-andrea-wang.jpg` | 800 x 800 | User-supplied photo (2026-10-16) | Portrait of Andrea Wang on About. Copied unchanged from the supplied JPEG. |
+| `speaker-joshua-browder.jpg` | 640 x 640 | Chapter Instagram fireside-chat slide (`IMG_6207.png`), right headshot | Captioned "Founder and CEO, DoNotPay". AI-upscaled; unchanged in the 2026-10-16 photo update. |
+| `speaker-daniella-cohen.jpg` | 800 x 800 | User-supplied photo (2026-10-16) | Portrait of Daniella Cohen on About. Copied unchanged from the supplied JPEG. |
+| `speaker-lori-berenberg.jpg` | 800 x 800 | User-supplied photo (2026-10-16) | Portrait of Lori Berenberg on About. Copied unchanged from the supplied JPEG. |
+| `speaker-nicole-ripka.jpg` | 800 x 800 | User-supplied photo (2026-10-16) | Portrait of Nicole Ripka on About. Copied unchanged from the supplied JPEG. |
+| `speaker-irene-wu.jpg` | 800 x 800 | User-supplied photo (2026-10-16) | Portrait of Irene Wu on About. Copied unchanged from the supplied JPEG. |
 
 The 2500-pixel files were downloaded in full and their decoded dimensions checked; they are not a CDN size parameter. Girls Into VC publishes no license or photographer credit for its photos. They are used with the user's authorization; confirm publication rights before a public launch.
 

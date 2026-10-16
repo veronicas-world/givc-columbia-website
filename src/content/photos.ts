@@ -128,23 +128,25 @@ export const chapterActivityPhotos = {
 const speakerNote =
   'Headshot from a chapter Instagram event slide, recovered from Git history at full screenshot resolution, upscaled 4x with Real-ESRGAN x4plus and resized to 640 x 640.';
 
+const suppliedSpeakerNote = 'Photo supplied by the user on 2026-10-16; copied unchanged.';
+
 /** Speaker headshots, keyed by `PastSpeaker.id`. */
 export const speakerPhotos = {
   avniBarman: {
     src: '/images/photos/speaker-avni-barman.jpg',
     alt: 'Portrait of Avni Barman',
-    width: 640,
-    height: 640,
+    width: 800,
+    height: 800,
     focus: '50% 50%',
-    sourceNote: `${speakerNote} Square crop from the speaker-event slide (IMG_6205).`,
+    sourceNote: suppliedSpeakerNote,
   },
   andreaWang: {
     src: '/images/photos/speaker-andrea-wang.jpg',
     alt: 'Portrait of Andrea Wang',
-    width: 640,
-    height: 640,
+    width: 800,
+    height: 800,
     focus: '50% 50%',
-    sourceNote: `${speakerNote} Square crop from the fireside-chat slide (IMG_6207).`,
+    sourceNote: suppliedSpeakerNote,
   },
   joshuaBrowder: {
     src: '/images/photos/speaker-joshua-browder.jpg',
@@ -157,34 +159,34 @@ export const speakerPhotos = {
   daniellaCohen: {
     src: '/images/photos/speaker-daniella-cohen.jpg',
     alt: 'Portrait of Daniella Cohen',
-    width: 640,
-    height: 640,
+    width: 800,
+    height: 800,
     focus: '50% 50%',
-    sourceNote: `${speakerNote} Square crop from the Women Investors in VC slide (IMG_6206), top left.`,
+    sourceNote: suppliedSpeakerNote,
   },
   loriBerenberg: {
     src: '/images/photos/speaker-lori-berenberg.jpg',
     alt: 'Portrait of Lori Berenberg',
-    width: 640,
-    height: 640,
+    width: 800,
+    height: 800,
     focus: '50% 50%',
-    sourceNote: `${speakerNote} Square crop from the Women Investors in VC slide (IMG_6206), top right.`,
+    sourceNote: suppliedSpeakerNote,
   },
   nicoleRipka: {
     src: '/images/photos/speaker-nicole-ripka.jpg',
     alt: 'Portrait of Nicole Ripka',
-    width: 640,
-    height: 640,
+    width: 800,
+    height: 800,
     focus: '50% 50%',
-    sourceNote: `${speakerNote} Square crop from the Women Investors in VC slide (IMG_6206), bottom left.`,
+    sourceNote: suppliedSpeakerNote,
   },
   ireneWu: {
     src: '/images/photos/speaker-irene-wu.jpg',
     alt: 'Portrait of Irene Wu',
-    width: 640,
-    height: 640,
+    width: 800,
+    height: 800,
     focus: '50% 50%',
-    sourceNote: `${speakerNote} Square crop from the Women Investors in VC slide (IMG_6206), bottom right.`,
+    sourceNote: suppliedSpeakerNote,
   },
 } satisfies Record<PastSpeaker['id'], SitePhoto>;
 
