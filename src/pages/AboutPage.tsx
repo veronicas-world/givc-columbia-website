@@ -46,7 +46,11 @@ export function AboutPage() {
       <PageSection labelledBy="activities-title" tone="pale">
         <h2 id="activities-title" className="visually-hidden">Chapter activities</h2>
         <div className="activity-columns">
-          <ActivitySection activity={activity('workshops')} photo={chapterActivityPhotos.workshops} />
+          <ActivitySection
+            activity={activity('workshops')}
+            title="Pre-Professional Workshops"
+            photo={chapterActivityPhotos.workshops}
+          />
           <ActivitySection activity={activity('fellowship')} photo={chapterActivityPhotos.fellowship}>
             <ul className="fellowship-format">
               {fellowshipFormat.map((point) => (

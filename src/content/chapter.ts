@@ -16,7 +16,7 @@ export const activities: Activity[] = [
     title: 'Speaker events',
     summary: 'Conversations with investors, founders, and operators.',
     detail:
-      'The chapter hosts speaker events and fireside chats where people working in and around venture capital talk about their work and answer student questions.',
+      'The chapter hosts speaker events and fireside chats that give students direct access to learn from major players in the industry.',
   },
   {
     id: 'workshops',

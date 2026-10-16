@@ -189,7 +189,7 @@ describe('AboutPage', () => {
     expect(speakers.querySelectorAll('.photo-frame:not(.speaker-figure-photo)')).toHaveLength(0);
     const columns = container.querySelector('.activity-columns')!;
     const expected = [
-      ['Workshops', chapterActivityPhotos.workshops],
+      ['Pre-Professional Workshops', chapterActivityPhotos.workshops],
       ['Fellowship', chapterActivityPhotos.fellowship],
       ['Community', chapterActivityPhotos.community],
     ] as const;
@@ -275,7 +275,7 @@ describe('AboutPage', () => {
 
   it('describes speaker events, workshops, fellowship and community without invented commitments', () => {
     const { container } = renderPage(<AboutPage />);
-    for (const name of ['Speaker events', 'Workshops', 'Fellowship', 'Community']) {
+    for (const name of ['Speaker events', 'Pre-Professional Workshops', 'Fellowship', 'Community']) {
       expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument();
     }
     expect(container.textContent).toMatch(/résumé reviews/);
@@ -284,6 +284,16 @@ describe('AboutPage', () => {
     expect(container.textContent).toMatch(/technical training/);
     expect(container.textContent).toMatch(/career panels/);
     expect(container.textContent).toMatch(/peers and mentors/);
+    expect(container.textContent).toMatch(
+      'The chapter hosts speaker events and fireside chats that give students direct access to learn from major players in the industry.',
+    );
+    expect(container.textContent).not.toMatch(/talk about their work/);
     expect(container.textContent).not.toMatch(unsupportedPromises);
+  });
+
+  it('keeps the short Workshops title on Home', () => {
+    renderPage(<HomePage />);
+    const home = screen.getByRole('region', { name: 'What we do' });
+    expect(within(home).getByRole('heading', { level: 3, name: 'Workshops' })).toBeInTheDocument();
   });
 });
