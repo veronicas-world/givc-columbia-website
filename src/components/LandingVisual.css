@@ -60,6 +60,18 @@ header.site-header {
   overflow: hidden;
 }
 
+/* Translucent pink cover over the photo, faded in by useHeroTint as the landing scrolls away.
+   It sits below the logo, which stays white and sharp. */
+.home-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--pink);
+  opacity: calc(var(--hero-tint, 0) * 0.7);
+  pointer-events: none;
+}
+
 .home-hero .home-hero-scene {
   display: flex;
   flex: 1;

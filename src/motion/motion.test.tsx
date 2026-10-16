@@ -488,6 +488,79 @@ describe('section lift while scrolling through Home', () => {
   });
 });
 
+describe('pink cover over the landing photo while scrolling', () => {
+  beforeEach(() => {
+    FakeIntersectionObserver.instances = [];
+    vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver);
+    frames.length = 0;
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => frames.push(callback));
+    vi.stubGlobal('cancelAnimationFrame', () => {
+      frames.length = 0;
+    });
+    setReducedMotion(false);
+  });
+
+  const frames: FrameRequestCallback[] = [];
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  function renderHero(path = '/') {
+    let heroTop = 0;
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+      return { top: this.classList.contains('home-hero') ? heroTop : 0, height: 0 } as DOMRect;
+    });
+    vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(1000);
+    render(
+      <MemoryRouter initialEntries={[path]}>
+        <Routes>
+          <Route element={<SiteShell />}>
+            <Route path="*" element={<section className="home-hero" aria-label="Hero" />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+    const hero = screen.getByRole('region', { name: 'Hero' });
+    const scrollTo = (top: number) => {
+      heroTop = -top;
+      act(() => {
+        window.dispatchEvent(new Event('scroll'));
+        for (const frame of frames.splice(0)) frame(0);
+      });
+    };
+    return { hero, scrollTo };
+  }
+
+  it('fades the cover in as the landing scrolls away, and back out at the top', () => {
+    const { hero, scrollTo } = renderHero();
+    expect(hero.style.getPropertyValue('--hero-tint')).toBe('0.000');
+    scrollTo(300);
+    expect(hero.style.getPropertyValue('--hero-tint')).toBe('0.500');
+    scrollTo(900);
+    expect(hero.style.getPropertyValue('--hero-tint')).toBe('1.000');
+    scrollTo(0);
+    expect(hero.style.getPropertyValue('--hero-tint')).toBe('0.000');
+  });
+
+  it('removes the cover when reduced motion is requested and does not bring it back', () => {
+    const preference = liveReducedMotion(false);
+    const { hero, scrollTo } = renderHero();
+    scrollTo(300);
+    preference.set(true);
+    expect(hero.style.getPropertyValue('--hero-tint')).toBe('');
+    scrollTo(600);
+    expect(hero.style.getPropertyValue('--hero-tint')).toBe('');
+  });
+
+  it('does nothing outside Home', () => {
+    const { hero, scrollTo } = renderHero('/about');
+    scrollTo(300);
+    expect(hero.style.getPropertyValue('--hero-tint')).toBe('');
+  });
+});
+
 describe('motion fallbacks', () => {
   beforeEach(() => {
     FakeIntersectionObserver.instances = [];

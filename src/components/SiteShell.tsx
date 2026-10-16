@@ -4,6 +4,7 @@ import { SiteFooter } from './SiteFooter';
 import { SiteHeader } from './SiteHeader';
 import { useSectionReveals } from '../motion/useSectionReveals';
 import { useSectionLift } from '../motion/useSectionLift';
+import { useHeroTint } from '../motion/useHeroTint';
 import './ContentDensity.css';
 
 export function SiteShell() {
@@ -31,6 +32,7 @@ export function SiteShell() {
 
   useSectionReveals(pathname);
   useSectionLift(isHome);
+  useHeroTint(isHome);
 
   return (
     <>
