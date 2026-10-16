@@ -4,7 +4,7 @@ export const chapterIntro =
   'Girls Into VC (GIVC) is a student-led organization at Columbia University dedicated to increasing the participation of women in venture capital through education, community, and access.';
 
 export interface Activity {
-  id: 'speaker-events' | 'workshops' | 'fellowship' | 'community';
+  id: 'speaker-events' | 'workshops' | 'fellowship' | 'continued-education' | 'community';
   title: string;
   summary: string;
   detail: string;
@@ -23,28 +23,28 @@ export const activities: Activity[] = [
     title: 'Workshops',
     summary: 'Recruitment advice, résumé reviews, technical training, and career panels.',
     detail:
-      'Workshops focus on practical preparation for venture capital careers, including recruitment advice, career planning, résumé reviews, technical training, and career panels, plus help navigating the recruiting process.',
+      'Workshops help members prepare for VC careers with recruiting advice, career planning, résumé reviews, technical training, and career panels.',
   },
   {
     id: 'fellowship',
     title: 'Fellowship',
     summary: 'A 10-week introduction to venture capital for every new member.',
     detail:
-      'All new members complete the Girls Into VC Fellowship, a 10-week educational program that equips young women with knowledge and skills in venture capital and the startup ecosystem.',
+      'All new members complete a 10-week fellowship on venture capital and startups, ending with a team simulation that includes an investment memo and term sheet.',
+  },
+  {
+    id: 'continued-education',
+    title: 'Continued Education',
+    summary: 'Ongoing learning and investment practice beyond the fellowship.',
+    detail:
+      'After the fellowship, members explore sectors and market trends, practice evaluating pitches in mock investment committees, learn from investors and alumni, and access Girls Into VC resources and programs.',
   },
   {
     id: 'community',
     title: 'Community',
     summary: 'Members who meet and learn from each other.',
-    detail:
-      'Members meet, compare notes, and help each other as they look into venture capital and related careers.',
+    detail: 'Members share insights and support one another as they explore venture capital and related careers.',
   },
-];
-
-/** Program format as described on girlsintovc.com/fellowship. */
-export const fellowshipFormat: string[] = [
-  'The fellowship ends with an investment simulation, in which groups write an investment memo and a term sheet.',
-  'Along the way, fellows build a community of peers and mentors who offer support and guidance.',
 ];
 
 export interface PastSpeaker {

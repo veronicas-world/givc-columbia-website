@@ -39,7 +39,7 @@ export function HomePage() {
         </ul>
       </HomeFeature>
 
-      <HomeFeature id="nyc-title" title="In New York City" photo={homeFeaturePhotos.nyc} photoSide="right">
+      <HomeFeature id="nyc-title" title="New York City" photo={homeFeaturePhotos.nyc} photoSide="right">
         <p>Being at Columbia puts the chapter close to the venture capital firms of New York.</p>
         <ul className="open-grid">
           {nycEngagement.map((item) => (

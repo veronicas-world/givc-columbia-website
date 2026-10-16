@@ -13,7 +13,7 @@ Desktop Home content below the landing screen and the About content use 80% sizi
 | Route        | Content |
 | ------------ | ------- |
 | `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo and a centered static chapter introduction, reasons to join, NYC venture capital firm site visits and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%) that roll once to their values, "Where our members are represented" logos, a link to About and the interest list |
-| `/about`     | "About the Columbia chapter": speaker events with captioned past-speaker headshots, then workshops, the 10-week new-member fellowship and community side by side with chapter photos, followed by the wider Girls Into VC network |
+| `/about`     | "About the Columbia chapter": speaker events with captioned past-speaker headshots, then Pre-Professional Workshops, the 10-week fellowship, Continued Education and Community in four responsive columns, followed by the wider Girls Into VC network |
 | `/people`    | Executive Board: six supplied officer profiles in compact, light-pink framed cards. Members: 50 general members in centered, wrapping rows (about five across on desktop), grouped under Class of 2028 (10), Class of 2029 (24) and Class of 2030 (16), without repeating board members or introductory descriptions |
 | `/contact`   | Accessible contact form with field validation; sending is not connected yet (see below) |
 

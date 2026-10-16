@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { chapterIntro } from '../content/chapter';
 import { representedOrganizations } from '../content/organizations';
-import { chapterActivityPhotos, homeFeaturePhotos, homePhotos } from '../content/photos';
+import { activityPhotos, chapterActivityPhotos, homeFeaturePhotos, homePhotos } from '../content/photos';
 import { networkGraphics } from '../content/network';
 import { AboutPage } from './AboutPage';
 import { HomePage } from './HomePage';
@@ -78,7 +78,7 @@ describe('HomePage', () => {
     renderPage(<HomePage />);
     const sections = [
       { name: 'Why join', side: 'left', photo: homeFeaturePhotos.whyJoin },
-      { name: 'In New York City', side: 'right', photo: homeFeaturePhotos.nyc },
+      { name: 'New York City', side: 'right', photo: homeFeaturePhotos.nyc },
       { name: 'What we do', side: 'left', photo: homeFeaturePhotos.activities },
     ];
     for (const { name, side, photo } of sections) {
@@ -114,7 +114,7 @@ describe('HomePage', () => {
 
   it('describes NYC firm site visits and the Girls Into VC NYC chapter without naming host firms', () => {
     renderPage(<HomePage />);
-    const nyc = screen.getByRole('region', { name: 'In New York City' });
+    const nyc = screen.getByRole('region', { name: 'New York City' });
     expect(nyc.textContent).toMatch(/site visits to NYC venture capital firms/i);
     expect(nyc.textContent).toMatch(/Girls Into VC NYC chapter/);
     for (const org of representedOrganizations) {
@@ -183,7 +183,7 @@ describe('AboutPage', () => {
     expect(screen.getByRole('heading', { level: 2, name: 'The Girls Into VC network' })).toBeInTheDocument();
   });
 
-  it('shows speaker events without a side photo, then workshops, fellowship and community side by side', () => {
+  it('shows speaker events without a side photo, then the four activities in order', () => {
     const { container } = renderPage(<AboutPage />);
     const speakers = screen.getByRole('region', { name: 'Speaker events' });
     expect(speakers.querySelectorAll('.photo-frame:not(.speaker-figure-photo)')).toHaveLength(0);
@@ -191,23 +191,25 @@ describe('AboutPage', () => {
     const expected = [
       ['Pre-Professional Workshops', chapterActivityPhotos.workshops],
       ['Fellowship', chapterActivityPhotos.fellowship],
+      ['Continued Education', activityPhotos[0]!],
       ['Community', chapterActivityPhotos.community],
     ] as const;
     expect([...columns.querySelectorAll(':scope > section h2')].map((h) => h.textContent)).toEqual(expected.map(([name]) => name));
     for (const [name, photo] of expected) {
       const section = within(columns as HTMLElement).getByRole('region', { name });
       expect(within(section).getByRole('img', { name: photo.alt })).toHaveAttribute('src', photo.src);
+      expect(section.querySelectorAll(':scope > p')).toHaveLength(1);
     }
+    expect(columns.querySelector('.fellowship-format')).toBeNull();
     expect(chapterActivityPhotos.fellowship.src).toMatch(/chapter-community\.jpg$/);
     expect(chapterActivityPhotos.community.src).toMatch(/chapter-fellowship\.jpg$/);
   });
 
-  it('describes the 10-week fellowship every new member completes, using the parent program wording', () => {
+  it('describes the 10-week fellowship every new member completes', () => {
     renderPage(<AboutPage />);
     const fellowship = screen.getByRole('region', { name: 'Fellowship' });
-    expect(fellowship.textContent).toMatch(/All new members complete the Girls Into VC Fellowship, a 10-week educational program/);
-    expect(fellowship.textContent).toMatch(/venture capital and the startup ecosystem/);
-    expect(fellowship.textContent).toMatch(/investment memo and a term sheet/);
+    expect(fellowship.textContent).toMatch(/All new members complete a 10-week fellowship on venture capital and startups/);
+    expect(fellowship.textContent).toMatch(/team simulation that includes an investment memo and term sheet/);
     expect(fellowship.textContent).not.toMatch(/does not list fellowship dates/);
     expect(fellowship.textContent).not.toMatch(/five hours|workbook|one-hour/);
   });
@@ -273,17 +275,19 @@ describe('AboutPage', () => {
     expect(screen.queryByRole('link', { name: /campus chapters/i })).not.toBeInTheDocument();
   });
 
-  it('describes speaker events, workshops, fellowship and community without invented commitments', () => {
+  it('describes the activities concisely without invented commitments', () => {
     const { container } = renderPage(<AboutPage />);
-    for (const name of ['Speaker events', 'Pre-Professional Workshops', 'Fellowship', 'Community']) {
+    for (const name of ['Speaker events', 'Pre-Professional Workshops', 'Fellowship', 'Continued Education', 'Community']) {
       expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument();
     }
     expect(container.textContent).toMatch(/résumé reviews/);
-    expect(container.textContent).toMatch(/recruitment advice, career planning/);
-    expect(container.textContent).toMatch(/help navigating the recruiting process/);
+    expect(container.textContent).toMatch(/recruiting advice, career planning/);
     expect(container.textContent).toMatch(/technical training/);
     expect(container.textContent).toMatch(/career panels/);
-    expect(container.textContent).toMatch(/peers and mentors/);
+    expect(container.textContent).toMatch(/sectors and market trends/);
+    expect(container.textContent).toMatch(/evaluating pitches in mock investment committees/);
+    expect(container.textContent).toMatch(/investors and alumni/);
+    expect(container.textContent).toMatch(/Girls Into VC resources and programs/);
     expect(container.textContent).toMatch(
       'The chapter hosts speaker events and fireside chats that give students direct access to learn from major players in the industry.',
     );
@@ -291,9 +295,10 @@ describe('AboutPage', () => {
     expect(container.textContent).not.toMatch(unsupportedPromises);
   });
 
-  it('keeps the short Workshops title on Home', () => {
+  it('keeps the Home activity titles concise', () => {
     renderPage(<HomePage />);
     const home = screen.getByRole('region', { name: 'What we do' });
     expect(within(home).getByRole('heading', { level: 3, name: 'Workshops' })).toBeInTheDocument();
+    expect(within(home).getByRole('heading', { level: 3, name: 'Continued Education' })).toBeInTheDocument();
   });
 });

@@ -86,8 +86,7 @@ main.main-bands {
   font-size: 1.2rem;
 }
 
-.speaker-figures,
-.fellowship-format {
+.speaker-figures {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -134,8 +133,8 @@ main.main-bands {
 
 .activity-columns {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1.75rem, 3.5vw, 3rem);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2rem);
   align-items: start;
 }
 
@@ -149,32 +148,19 @@ main.main-bands {
   aspect-ratio: 3 / 2;
 }
 
-.fellowship-format > li {
-  position: relative;
-  margin-bottom: 0.75rem;
-  padding-left: 1.25rem;
+@media (max-width: 74rem) {
+  .activity-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-.fellowship-format > li::before {
-  content: '';
-  position: absolute;
-  top: 0.65em;
-  left: 0;
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 50%;
-  background: var(--logo-pink);
-}
-
-@media (max-width: 60rem) {
+@media (max-width: 47.99rem) {
   .activity-columns {
     grid-template-columns: minmax(0, 1fr);
     max-width: 34rem;
     margin-inline: auto;
   }
-}
 
-@media (max-width: 47.99rem) {
   .speaker-figures {
     gap: 1.5rem 1rem;
   }

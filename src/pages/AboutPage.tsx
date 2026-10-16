@@ -3,9 +3,9 @@ import { PageHeader } from '../components/PageHeader';
 import { PageSection } from '../components/PageSection';
 import { Photo } from '../components/Photo';
 import { ExternalLink } from '../components/ExternalLink';
-import { activities, fellowshipFormat, pastSpeakers, type Activity } from '../content/chapter';
+import { activities, pastSpeakers, type Activity } from '../content/chapter';
 import { siteLinks } from '../content/links';
-import { chapterActivityPhotos, networkPhotos, speakerPhotos } from '../content/photos';
+import { activityPhotos, chapterActivityPhotos, networkPhotos, speakerPhotos } from '../content/photos';
 import {
   networkDescriptionRest,
   networkGraphics,
@@ -51,14 +51,12 @@ export function AboutPage() {
             title="Pre-Professional Workshops"
             photo={chapterActivityPhotos.workshops}
           />
-          <ActivitySection activity={activity('fellowship')} photo={chapterActivityPhotos.fellowship}>
-            <ul className="fellowship-format">
-              {fellowshipFormat.map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
-          </ActivitySection>
-          <ActivitySection activity={activity('community')} photo={chapterActivityPhotos.community} />
+          <ActivitySection activity={activity('fellowship')} photo={chapterActivityPhotos.fellowship} />
+          <ActivitySection activity={activity('continued-education')} photo={activityPhotos[0]!} />
+          <ActivitySection
+            activity={activity('community')}
+            photo={chapterActivityPhotos.community}
+          />
         </div>
       </PageSection>
 
