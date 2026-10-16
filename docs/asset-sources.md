@@ -85,7 +85,7 @@ Shown under "Where our members are represented" on Home. They describe where mem
 
 | File | Organization | Source |
 | --- | --- | --- |
-| `blackstone.svg` | Blackstone | https://commons.wikimedia.org/wiki/File:The_Blackstone_Group_logo_(2).svg |
+| `blackrock.svg` | BlackRock | https://commons.wikimedia.org/wiki/File:BlackRock_wordmark.svg (Sketch title, description and comment removed) |
 | `jp-morgan.svg` | J.P. Morgan | https://commons.wikimedia.org/wiki/File:J_P_Morgan_Logo_2008.svg |
 | `factory.svg` | Factory | https://factory.ai/ (site header wordmark) |
 | `elliott-management.svg` | Elliott Management | https://commons.wikimedia.org/wiki/File:Elliott_Management_Corporation_logo.svg |
@@ -102,7 +102,7 @@ Shown under "Where our members are represented" on Home. They describe where mem
 | `dorm-room-fund.svg` | Dorm Room Fund | https://www.dormroomfund.com/ (site header logo) |
 | `alumni-ventures.svg` | Alumni Ventures | https://commons.wikimedia.org/wiki/File:Alumni_Ventures.svg |
 
-Source-file edits: a `viewBox` matching the existing width and height was added to `blackstone.svg` and `jp-morgan.svg` so they scale cleanly. The Factory wordmark was copied from the inline SVG in the factory.ai header, with its layout classes removed. The Dorm Room Fund logo was downloaded from the site header and recolored purple for the homepage; the Alumni Ventures logo is the unchanged Wikimedia Commons SVG.
+Source-file edits: a `viewBox` matching the existing width and height was added to `jp-morgan.svg` so they scale cleanly. The Factory wordmark was copied from the inline SVG in the factory.ai header, with its layout classes removed. The Dorm Room Fund logo was downloaded from the site header and recolored purple for the homepage; the Alumni Ventures logo is the unchanged Wikimedia Commons SVG.
 
 To add an organization, save its logo in that folder, add a record to `src/content/organizations.ts` and add a row to this table.
 

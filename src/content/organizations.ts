@@ -16,11 +16,10 @@ export interface RepresentedOrganization {
 
 export const representedOrganizations: RepresentedOrganization[] = [
   {
-    id: 'blackstone',
-    name: 'Blackstone',
-    logo: '/images/organizations/blackstone.svg',
-    source: 'https://commons.wikimedia.org/wiki/File:The_Blackstone_Group_logo_(2).svg',
-    scale: 1.25,
+    id: 'blackrock',
+    name: 'BlackRock',
+    logo: '/images/organizations/blackrock.svg',
+    source: 'https://commons.wikimedia.org/wiki/File:BlackRock_wordmark.svg',
   },
   {
     id: 'jp-morgan',

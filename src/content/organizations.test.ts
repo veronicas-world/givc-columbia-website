@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { representedOrganizations } from './organizations';
 
 const expectedNames = [
-  'Blackstone',
+  'BlackRock',
   'J.P. Morgan',
   'Factory',
   'Elliott Management',
