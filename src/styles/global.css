@@ -1147,11 +1147,16 @@ main.main-full {
   }
 }
 
+/* Alma Mater and Butler Library behind the landing logo. A navy tint keeps the white
+   logo readable over the pale sky and stone; pink shows while the photo loads. */
 .home-hero {
   display: flex;
   min-height: 100vh;
   min-height: 100svh;
-  background: var(--pink);
+  background:
+    linear-gradient(rgb(16 38 56 / 0.5), rgb(16 38 56 / 0.5)),
+    url('/images/photos/landing-alma-mater.jpg') center 40% / cover no-repeat,
+    var(--pink);
   color: var(--white);
 }
 
