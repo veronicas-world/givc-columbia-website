@@ -201,8 +201,8 @@ describe('AboutPage', () => {
       expect(section.querySelectorAll(':scope > p')).toHaveLength(1);
     }
     expect(columns.querySelector('.fellowship-format')).toBeNull();
-    expect(chapterActivityPhotos.fellowship.src).toMatch(/chapter-community\.jpg$/);
-    expect(chapterActivityPhotos.community.src).toMatch(/chapter-fellowship\.jpg$/);
+    expect(chapterActivityPhotos.fellowship.src).toMatch(/chapter-fellowship\.jpg$/);
+    expect(chapterActivityPhotos.community.src).toMatch(/chapter-community\.jpg$/);
   });
 
   it('describes the 10-week fellowship every new member completes', () => {

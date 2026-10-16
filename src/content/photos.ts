@@ -97,35 +97,31 @@ export const networkPhotos = {
   },
 } satisfies Record<string, SitePhoto>;
 
-const chapterRecapNote =
-  'Panel from the chapter Instagram slide “What we do at GIVC” (IMG_6202), recovered from Git history at full screenshot resolution, upscaled 4x with Real-ESRGAN x4plus and resized to 1000 pixels wide.';
-
-/** Chapter photos from the chapter's own "What we do" slide. */
+/** User-supplied higher-resolution photos for the About activities. */
 export const chapterActivityPhotos = {
   workshops: {
     src: '/images/photos/chapter-workshop.jpg',
-    alt: 'Students in a lecture hall facing a presenter at a Girls Into VC lectern',
-    width: 1000,
-    height: 615,
+    alt: 'A speaker addresses students in a lecture hall at a Girls Into VC event',
+    width: 996,
+    height: 1024,
     focus: '50% 50%',
-    sourceNote:
-      'Workshops panel from the chapter Instagram slide “What we do at GIVC” (IMG_6202), recovered from Git history. Resized with Lanczos and light sharpening instead of AI upscaling, which garbled the Girls Into VC backdrop lettering.',
+    sourceNote: 'Photo supplied by the user on 2026-10-16 for Pre-Professional Workshops; copied unchanged.',
   },
   fellowship: {
-    src: '/images/photos/chapter-community.jpg',
-    alt: 'A full lecture hall of students, several raising their hands',
-    width: 1000,
-    height: 676,
+    src: '/images/photos/chapter-fellowship.jpg',
+    alt: 'Students fill a lecture hall at a Girls Into VC event',
+    width: 1024,
+    height: 539,
     focus: '50% 50%',
-    sourceNote: `${chapterRecapNote} Community panel, shown with Fellowship at the chapter's request.`,
+    sourceNote: 'Photo supplied by the user on 2026-10-16 for Fellowship; copied unchanged.',
   },
   community: {
-    src: '/images/photos/chapter-fellowship.jpg',
-    alt: 'Four women standing together, one holding a bouquet of flowers',
-    width: 1000,
-    height: 677,
-    focus: '50% 35%',
-    sourceNote: `${chapterRecapNote} Fellowship panel, shown with Community at the chapter's request.`,
+    src: '/images/photos/chapter-community.jpg',
+    alt: 'Four women stand together at a Girls Into VC event, one holding a bouquet',
+    width: 1024,
+    height: 889,
+    focus: '50% 50%',
+    sourceNote: 'Photo supplied by the user on 2026-10-16 for Community; copied unchanged.',
   },
 } satisfies Record<string, SitePhoto>;
 
