@@ -19,6 +19,12 @@ function reply(response: ServerResponse, status: number, body: object) {
   response.end(JSON.stringify(body));
 }
 
+// Only fixed reason codes are returned or logged: never provider bodies, the recipient, or message contents.
+function providerFailure(response: ServerResponse, reason: string) {
+  console.error(`Contact forwarding failed: ${reason}`);
+  reply(response, 502, { success: false, reason });
+}
+
 export default async function contact(request: IncomingMessage, response: ServerResponse) {
   const recipient = process.env.CONTACT_RECIPIENT?.trim();
   const ready = process.env.VERCEL_ENV === 'production'
@@ -123,12 +129,23 @@ export default async function contact(request: IncomingMessage, response: Server
         _captcha: 'false',
       }),
     });
-    const result: unknown = upstream.ok ? await upstream.json() : null;
+    if (!upstream.ok) {
+      providerFailure(response, `provider-http-${upstream.status}`);
+      return;
+    }
+    let result: unknown;
+    try {
+      result = JSON.parse(await upstream.text());
+    } catch {
+      providerFailure(response, 'provider-invalid-response');
+      return;
+    }
     const accepted = result && typeof result === 'object' && 'success' in result
       && (result.success === true || result.success === 'true');
-    reply(response, accepted ? 200 : 502, { success: Boolean(accepted) });
-  } catch {
-    // Never expose provider errors, the recipient, or message contents.
-    reply(response, 502, { success: false });
+    if (accepted) reply(response, 200, { success: true });
+    else providerFailure(response, 'provider-rejected');
+  } catch (error) {
+    const timedOut = error instanceof Error && (error.name === 'TimeoutError' || error.name === 'AbortError');
+    providerFailure(response, timedOut ? 'provider-timeout' : 'provider-unreachable');
   }
 }

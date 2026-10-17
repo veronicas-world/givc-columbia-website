@@ -194,14 +194,31 @@ describe('private contact server', () => {
     expect(await (await post()).json()).toEqual({ success: true });
   });
 
-  it.each(['activation', 'http', 'malformed', 'network'])('does not claim success or expose details on %s failures', async (failure) => {
+  it.each([
+    ['activation', 'provider-rejected'],
+    ['http', 'provider-http-429'],
+    ['malformed', 'provider-invalid-response'],
+    ['network', 'provider-unreachable'],
+    ['timeout', 'provider-timeout'],
+  ])('does not claim success or expose details on %s failures', async (failure, reason) => {
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {});
     if (failure === 'network') providerFetch.mockRejectedValueOnce(new Error(`Private details: ${recipient}`));
+    else if (failure === 'timeout') providerFetch.mockRejectedValueOnce(new DOMException(recipient, 'TimeoutError'));
     else if (failure === 'http') providerFetch.mockResolvedValueOnce(new Response(recipient, { status: 429 }));
     else if (failure === 'malformed') providerFetch.mockResolvedValueOnce(new Response(recipient));
     else providerFetch.mockResolvedValueOnce(Response.json({ success: false, message: recipient }));
     const response = await post();
     expect(response.status).toBe(502);
-    expect(await response.json()).toEqual({ success: false });
+    const text = await response.text();
+    expect(JSON.parse(text)).toEqual({ success: false, reason });
+    expect(text).not.toContain(recipient);
+    expect(log).toHaveBeenCalledExactlyOnceWith(`Contact forwarding failed: ${reason}`);
     expect(providerFetch).toHaveBeenCalledTimes(1);
+    log.mockRestore();
+  });
+
+  it('accepts a provider JSON acknowledgment served as text/html', async () => {
+    providerFetch.mockResolvedValueOnce(new Response('{"success":"true"}', { headers: { 'Content-Type': 'text/html' } }));
+    expect(await (await post()).json()).toEqual({ success: true });
   });
 });
