@@ -17,8 +17,9 @@ export function useHeroTint(enabled: boolean) {
     let frame = 0;
     const update = () => {
       frame = 0;
-      const height = hero.offsetHeight || window.innerHeight;
-      const scrolled = -hero.getBoundingClientRect().top;
+      const rect = hero.getBoundingClientRect();
+      const height = rect.height || hero.offsetHeight || window.innerHeight;
+      const scrolled = -rect.top;
       const tint = Math.min(1, Math.max(0, scrolled / (height * fullTintAt)));
       hero.style.setProperty('--hero-tint', tint.toFixed(3));
     };

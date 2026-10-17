@@ -8,7 +8,7 @@ All four pages share a light-pink header (with a mobile menu below 768 pixels wi
 
 Interior pages use full-width white, pale-pink and pink section bands like Home. `PageHeader` frames each main title with the existing reference sketches on a pale background; smaller screens keep the sketches at the top and bottom, away from text. `PageSection` preserves centered content widths inside each band. Their shared styling is in `src/components/PageLayout.css`. The Home landing animation and footer decoration remain unchanged.
 
-Desktop Home content below the landing screen and the About content use 80% sizing to match the supplied reference at normal browser zoom. `ContentDensity.css` scopes this to their content bands; the landing screen, shared header/footer, People, Contact and phone layouts keep their existing sizes.
+Desktop pages use a shared 90% visual scale, including navigation and footer, without changing browser zoom. The landing screen still fills the viewport. Within that scale, Home content below the landing screen and About body content retain their 80% editorial sizing, and secondary-page headers share the same compact size. People and Contact body content keep standard density. Phone layouts remain unscaled.
 
 | Route        | Content |
 | ------------ | ------- |

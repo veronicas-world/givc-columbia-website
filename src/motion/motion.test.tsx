@@ -507,10 +507,11 @@ describe('pink cover over the landing photo while scrolling', () => {
     vi.unstubAllGlobals();
   });
 
-  function renderHero(path = '/') {
+  function renderHero(path = '/', renderedHeight = 1000) {
     let heroTop = 0;
     vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
-      return { top: this.classList.contains('home-hero') ? heroTop : 0, height: 0 } as DOMRect;
+      const isHero = this.classList.contains('home-hero');
+      return { top: isHero ? heroTop : 0, height: isHero ? renderedHeight : 0 } as DOMRect;
     });
     vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(1000);
     render(
@@ -542,6 +543,12 @@ describe('pink cover over the landing photo while scrolling', () => {
     expect(hero.style.getPropertyValue('--hero-tint')).toBe('1.000');
     scrollTo(0);
     expect(hero.style.getPropertyValue('--hero-tint')).toBe('0.000');
+  });
+
+  it('uses the rendered landing height when the page is visually scaled', () => {
+    const { hero, scrollTo } = renderHero('/', 900);
+    scrollTo(270);
+    expect(hero.style.getPropertyValue('--hero-tint')).toBe('0.500');
   });
 
   it('removes the cover when reduced motion is requested and does not bring it back', () => {

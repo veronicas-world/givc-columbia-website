@@ -16,6 +16,7 @@
 }
 
 :root {
+  --site-scale: 1;
   --pink: #f174a2;
   --logo-pink: #f172a1;
   --pink-dark: #b8336a;
@@ -41,6 +42,13 @@
   font-synthesis: none;
 }
 
+@media (min-width: 48rem) {
+  :root {
+    --site-scale: 0.9;
+    zoom: var(--site-scale);
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -49,13 +57,13 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: calc(100vh / var(--site-scale));
 }
 
 #root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: calc(100vh / var(--site-scale));
 }
 
 main {
@@ -1209,8 +1217,8 @@ main.main-full {
    logo readable over the pale sky and stone; pink shows while the photo loads. */
 .home-hero {
   display: flex;
-  min-height: 100vh;
-  min-height: 100svh;
+  min-height: calc(100vh / var(--site-scale));
+  min-height: calc(100svh / var(--site-scale));
   background:
     linear-gradient(rgb(16 38 56 / 0.5), rgb(16 38 56 / 0.5)),
     url('/images/photos/landing-alma-mater.jpg') center 40% / cover no-repeat,
