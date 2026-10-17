@@ -74,19 +74,21 @@ describe('HomePage', () => {
     expect(container.textContent).not.toMatch(/not a Columbia chapter event|Photo:|chapter Instagram\./);
   });
 
-  it('alternates distinct photos left, right, and left beside the three section descriptions', () => {
+  it('orders the Home features and alternates their photos and background colors', () => {
     renderPage(<HomePage />);
     const sections = [
-      { name: 'Why join', side: 'left', photo: homeFeaturePhotos.whyJoin },
-      { name: 'New York City', side: 'right', photo: homeFeaturePhotos.nyc },
-      { name: 'What we do', side: 'left', photo: homeFeaturePhotos.activities },
+      { name: 'Why join', side: 'left', photo: homeFeaturePhotos.whyJoin, pale: true },
+      { name: 'What we do', side: 'right', photo: homeFeaturePhotos.activities, pale: false },
+      { name: 'New York City', side: 'left', photo: homeFeaturePhotos.nyc, pale: true },
     ];
-    for (const { name, side, photo } of sections) {
+    for (const { name, side, photo, pale } of sections) {
       const section = screen.getByRole('region', { name });
       expect(section).toHaveClass('home-feature');
       expect(section).toHaveAttribute('data-photo-side', side);
-      if (name === 'Why join' || name === 'What we do') {
+      if (pale) {
         expect(section).toHaveClass('home-band-pale');
+      } else {
+        expect(section).not.toHaveClass('home-band-pale');
       }
       expect(within(section).getAllByRole('img')).toHaveLength(1);
       expect(within(section).getByRole('img', { name: photo.alt })).toHaveAttribute('src', photo.src);
@@ -94,6 +96,9 @@ describe('HomePage', () => {
         within(section).getByRole('heading', { level: 2, name }),
       );
     }
+    expect(
+      [...document.querySelectorAll('.home-feature h2')].map((heading) => heading.textContent),
+    ).toEqual(sections.map(({ name }) => name));
   });
 
   it('moves from the pink opening into the static description on the left and supplied group photo on the right', () => {

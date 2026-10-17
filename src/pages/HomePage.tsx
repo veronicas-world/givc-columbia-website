@@ -39,24 +39,24 @@ export function HomePage() {
         </ul>
       </HomeFeature>
 
-      <HomeFeature id="nyc-title" title="New York City" photo={homeFeaturePhotos.nyc} photoSide="right">
+      <HomeFeature id="activities-title" title="What we do" photo={homeFeaturePhotos.activities} photoSide="right">
+        <ul className="open-grid home-activity-list">
+          {activities.map((activity) => (
+            <li key={activity.title}>
+              <h3>{activity.title}</h3>
+              <p>{activity.summary}</p>
+            </li>
+          ))}
+        </ul>
+      </HomeFeature>
+
+      <HomeFeature id="nyc-title" title="New York City" photo={homeFeaturePhotos.nyc} photoSide="left" pale>
         <p>Being at Columbia puts the chapter close to the venture capital firms of New York.</p>
         <ul className="open-grid">
           {nycEngagement.map((item) => (
             <li key={item.title}>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-            </li>
-          ))}
-        </ul>
-      </HomeFeature>
-
-      <HomeFeature id="activities-title" title="What we do" photo={homeFeaturePhotos.activities} photoSide="left" pale>
-        <ul className="open-grid home-activity-list">
-          {activities.map((activity) => (
-            <li key={activity.title}>
-              <h3>{activity.title}</h3>
-              <p>{activity.summary}</p>
             </li>
           ))}
         </ul>
