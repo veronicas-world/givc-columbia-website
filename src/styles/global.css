@@ -744,6 +744,69 @@ a:hover {
   color: var(--white);
 }
 
+.contact-form {
+  max-width: 42rem;
+  margin: 2rem auto 3rem;
+}
+
+.contact-form h3,
+.contact-recipient {
+  text-align: center;
+}
+
+.contact-form fieldset {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.contact-form input:not([type="hidden"]),
+.contact-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--pink-placeholder);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--navy);
+  font: inherit;
+  font-weight: 400;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible {
+  outline: 2px solid var(--pink-dark);
+  outline-offset: 3px;
+}
+
+.contact-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-status {
+  padding: 1rem;
+  background: var(--pink-soft);
+}
+
+.contact-privacy {
+  margin-top: 1.25rem;
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+}
+
 .contact-channels {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));

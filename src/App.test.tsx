@@ -42,12 +42,10 @@ describe('site routes', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('highlights the interest list, then lists the president email, LinkedIn and Instagram without a form', () => {
+  it('highlights the interest list, then offers a private contact form and social links', () => {
     renderAt('/contact');
     const main = screen.getByRole('main');
-    expect(within(main).queryByRole('form')).toBeNull();
-    expect(main.querySelector('input, textarea')).toBeNull();
-    expect(main).not.toHaveTextContent(/email is not connected|has not been sent/i);
+    expect(main.querySelector('a[href^="mailto:"]')).toBeNull();
 
     const interest = screen.getByRole('region', { name: 'Join our interest list' });
     expect(interest).toHaveClass('page-band-pink');
@@ -58,10 +56,8 @@ describe('site routes', () => {
     const channels = screen.getByRole('region', { name: 'Get in touch' });
     expect(interest.compareDocumentPosition(channels) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(channels).toHaveTextContent('Diane Lang, President');
-    expect(within(channels).getByRole('link', { name: 'dal2206@columbia.edu' })).toHaveAttribute(
-      'href',
-      'mailto:dal2206@columbia.edu',
-    );
+    const form = within(channels).getByRole('form', { name: 'Message the president' });
+    expect(form.getAttribute('action') ?? '').not.toContain('@');
     expect(within(channels).getByRole('link', { name: /LinkedIn/ })).toHaveAttribute('href', siteLinks.chapterLinkedIn);
     expect(within(channels).getByRole('link', { name: /Instagram/ })).toHaveAttribute('href', siteLinks.instagram);
   });

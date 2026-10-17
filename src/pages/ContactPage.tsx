@@ -1,7 +1,7 @@
 import { ExternalLink } from '../components/ExternalLink';
+import { ContactForm } from '../components/ContactForm';
 import { PageHeader } from '../components/PageHeader';
 import { PageSection } from '../components/PageSection';
-import { presidentContact } from '../content/contact';
 import { instagramHandle, siteLinks } from '../content/links';
 
 export function ContactPage() {
@@ -16,14 +16,8 @@ export function ContactPage() {
       </PageSection>
       <PageSection labelledBy="contact-channels-heading">
         <h2 id="contact-channels-heading">Get in touch</h2>
+        <ContactForm />
         <ul className="contact-channels">
-          <li>
-            <h3>Email</h3>
-            <p>
-              {presidentContact.name}, {presidentContact.role}
-            </p>
-            <a href={`mailto:${presidentContact.email}`}>{presidentContact.email}</a>
-          </li>
           <li>
             <h3>LinkedIn</h3>
             <p>Girls Into VC at Columbia</p>

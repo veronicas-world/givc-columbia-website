@@ -15,7 +15,7 @@ Desktop Home content below the landing screen and the About content use 80% sizi
 | `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo and a centered static chapter introduction, reasons to join, NYC venture capital firm site visits and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%) that roll once to their values, "Where our members are represented" logos, a link to About and the interest list |
 | `/about`     | "About the Columbia chapter": speaker events with captioned past-speaker headshots, then Pre-Professional Workshops, the 10-week fellowship, Continued Education and Community in four responsive columns, followed by the wider Girls Into VC network |
 | `/people`    | Executive Board: six supplied officer profiles in compact, light-pink framed cards. Members: 50 general members in centered, wrapping rows (about five across on desktop), grouped under Class of 2028 (10), Class of 2029 (24) and Class of 2030 (16), without repeating board members or introductory descriptions |
-| `/contact`   | Accessible contact form with field validation; sending is not connected yet (see below) |
+| `/contact`   | Interest-list button, a contact form that uses an anonymous FormSubmit ID, LinkedIn and Instagram; sending stays disabled until activation is complete |
 
 Design rules for future edits: the official Girls Into VC logo (never retyped in a similar font) beside a separate "at Columbia", self-hosted Alice for headings and header navigation and Lora for body text, no italics, no visible photo captions or credits, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). Motion is limited to what is described under [Motion](#motion); keep Home intro copy static and do not add typed text, looping counters, scroll-pinned scenes or a motion library.
 
@@ -68,7 +68,7 @@ Page copy and links live in typed files under `src/content/`:
 - `photos.ts`: Home and About photographs with alt text, intrinsic size, crop focus and a maintainer-only source note (never rendered)
 - `brand.ts`: the official logo files and the "at Columbia" descriptor
 - `organizations.ts`: the 14 represented-company logos on Home
-- `contact.ts`: the president's name, role and email shown on the Contact page
+- `contact.ts`: the president's public name and role, plus validation of the anonymous FormSubmit ID; never put a recipient email here
 
 Pages and the footer read from these files, so a change in one place updates every page. Styling is in `src/styles/global.css`. Images are served from `public/images/`, and every image's source and terms are listed in [`docs/asset-sources.md`](docs/asset-sources.md); add a row there whenever you add or replace an image.
 
@@ -81,11 +81,15 @@ Pages and the footer read from these files, so a change in one place updates eve
 - **Photos and logo:** `public/images/photos/` and `public/images/brand/` are rebuilt with `python3 scripts/build-refresh-assets.py <official-originals-dir>` (needs Pillow, the supplied files in `design-preview/refresh-inputs/` and the downloaded official originals listed in [`docs/asset-sources.md`](docs/asset-sources.md)). The Home landing photo is rebuilt separately with `scripts/build-landing-photo.py <RealESRGAN_x4plus.pth>` (needs torch, spandrel, Pillow and numpy), which upscales, straightens and centers it. The earlier low-resolution event screenshot crops were retired. Fonts in `public/fonts/` are self-hosted OFL files.
 - **Represented organizations:** the Home logo section reads `src/content/organizations.ts`. To add one, save the logo in `public/images/organizations/`, add a record and add a source row in [`docs/asset-sources.md`](docs/asset-sources.md). The section describes member experience, not sponsorship.
 - **Photos and publication rights:** the Girls Into VC photos come from the parent network's website without a published license, and the library-steps photo is 971 pixels wide. Supply chapter originals or a larger campus photo if available, and confirm rights and credits before a public launch.
-- **Contact details:** the president's name and email are in `src/content/contact.ts`; update them when the president changes. LinkedIn, Instagram and the interest form links are in `src/content/links.ts`.
+- **Contact details:** the president's public name and role are in `src/content/contact.ts`. The recipient email must not appear in client code or a form action. LinkedIn, Instagram and the interest form links are in `src/content/links.ts`.
 
 ## Contact page
 
-The Contact page has no form. It opens with a pink band highlighting the interest list (a Google Form) with a single "Click here" button and no description, followed by the president's email (a `mailto:` link), the chapter LinkedIn page and the chapter Instagram account.
+The Contact page opens with a pink interest-list band and a single "Click here" button. Below it, visitors can message the president through FormSubmit, followed by LinkedIn and Instagram links. The recipient email is not published.
+
+FormSubmit currently advertises free forms and submissions with no registration. The recipient must confirm its one-time activation email. Use the **anonymous form address** supplied after confirmation, not the recipient email: copy only its ID into `VITE_CONTACT_FORM_ID` in Vercel's production environment and rebuild. For local testing, copy `.env.example` to `.env.local` and set the same public ID. This ID is a public submission endpoint, not an email credential. Until it is configured, the form is visibly disabled and directs visitors to the social links.
+
+Submissions use a native POST to FormSubmit with its default CAPTCHA, a hidden honeypot, native field validation, and a return to `/contact?sent=1`. The site acknowledges submission, not guaranteed delivery. FormSubmit processes names, reply emails, and messages and retains submissions for 30 days; the form discloses this and links to its privacy policy. Do not disable the CAPTCHA or add the recipient email as a fallback.
 
 ## Deployment
 
