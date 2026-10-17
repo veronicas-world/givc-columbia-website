@@ -13,11 +13,6 @@ export function SiteFooter() {
           <Link to="/about" className="footer-brand" aria-label="About the Columbia chapter">
             <BrandLockup tone="pink" />
           </Link>
-          <p>
-            <a href={siteLinks.interestForm} target="_blank" rel="noopener noreferrer">
-              Stay in touch by joining our interest list
-            </a>
-          </p>
         </div>
         <div className="footer-social-row">
           <ul className="footer-socials" aria-label="Social media">

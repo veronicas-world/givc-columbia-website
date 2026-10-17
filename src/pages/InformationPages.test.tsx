@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { chapterIntro } from '../content/chapter';
 import { representedOrganizations } from '../content/organizations';
-import { activityPhotos, chapterActivityPhotos, homeFeaturePhotos, homePhotos } from '../content/photos';
+import { chapterActivityPhotos, homeFeaturePhotos, homePhotos } from '../content/photos';
 import { networkGraphics } from '../content/network';
 import { AboutPage } from './AboutPage';
 import { HomePage } from './HomePage';
@@ -203,7 +203,7 @@ describe('AboutPage', () => {
     const expected = [
       ['Pre-Professional Workshops', chapterActivityPhotos.workshops],
       ['Fellowship', chapterActivityPhotos.fellowship],
-      ['Continued Education', activityPhotos[0]!],
+      ['Continued Education', chapterActivityPhotos.continuedEducation],
       ['Community', chapterActivityPhotos.community],
     ] as const;
     expect([...columns.querySelectorAll(':scope > section h2')].map((h) => h.textContent)).toEqual(expected.map(([name]) => name));
@@ -211,6 +211,11 @@ describe('AboutPage', () => {
       const section = within(columns as HTMLElement).getByRole('region', { name });
       expect(within(section).getByRole('img', { name: photo.alt })).toHaveAttribute('src', photo.src);
       expect(section.querySelectorAll(':scope > p')).toHaveLength(1);
+    }
+    const activitySources = expected.map(([, photo]) => photo.src);
+    expect(new Set(activitySources).size).toBe(expected.length);
+    for (const photo of Object.values(homeFeaturePhotos)) {
+      expect(activitySources).not.toContain(photo.src);
     }
     expect(columns.querySelector('.fellowship-format')).toBeNull();
     expect(chapterActivityPhotos.fellowship.src).toMatch(/chapter-fellowship\.jpg$/);

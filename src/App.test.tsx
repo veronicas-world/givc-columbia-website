@@ -124,13 +124,12 @@ describe('final copy across the five routes', () => {
   it.each(routePaths)('%s ends with the shared footer actions', (path) => {
     renderAt(path);
     const footer = screen.getByRole('contentinfo');
-    expect(within(footer).getByRole('link', {
+    expect(within(footer).queryByRole('link', {
       name: 'Stay in touch by joining our interest list',
-    })).toHaveAttribute('href', siteLinks.interestForm);
+    })).toBeNull();
     expect(within(footer).getByRole('link', { name: /Instagram/ })).toBeInTheDocument();
     expect(within(footer).getByRole('link', { name: 'Contact' })).toBeInTheDocument();
     expect(within(footer).getByRole('link', { name: /LinkedIn/ })).toHaveAttribute('href', siteLinks.chapterLinkedIn);
-    expect(screen.getAllByRole('link', { name: /joining our interest list/ })).toHaveLength(1);
     expect(screen.queryByRole('heading', { name: 'Stay in touch' })).toBeNull();
   });
 
@@ -184,19 +183,13 @@ describe('footer', () => {
     expect(socialRow).toContainElement(within(footer).getByRole('list', { name: 'Social media' }));
   });
 
-  it('offers the shared interest list and only the supplied social accounts without copyright', () => {
+  it('offers navigation and social links without the interest-list callout or copyright', () => {
     renderAt('/about');
     const footer = screen.getByRole('contentinfo');
-    const interestLink = within(footer).getByRole('link', {
+    expect(within(footer).queryByRole('link', {
       name: 'Stay in touch by joining our interest list',
-    });
-    expect(interestLink).toHaveAttribute(
-      'href',
-      siteLinks.interestForm,
-    );
-    expect(interestLink).toHaveAttribute('target', '_blank');
-    expect(interestLink).toHaveAttribute('rel', 'noopener noreferrer');
-    expect(interestLink.textContent).not.toMatch(/opens in a new tab/);
+    })).toBeNull();
+    expect(footer.querySelector('.footer-intro p')).toBeNull();
     expect(within(footer).queryByRole('heading', { name: 'Pages' })).toBeNull();
     expect(footer.textContent).not.toMatch(/Follow along for chapter news/);
     expect(within(footer).getByRole('link', { name: /Instagram/ })).toHaveAttribute('href', siteLinks.instagram);

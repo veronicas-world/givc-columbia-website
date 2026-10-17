@@ -115,6 +115,14 @@ export const chapterActivityPhotos = {
     focus: '50% 50%',
     sourceNote: 'Photo supplied by the user on 2026-10-16 for Fellowship; copied unchanged.',
   },
+  continuedEducation: {
+    src: '/images/photos/chapter-continued-education.jpg',
+    alt: 'Four women seated together at a gathering with plates and cups',
+    width: 878,
+    height: 784,
+    focus: '50% 35%',
+    sourceNote: 'Photo supplied by the user on 2026-10-16 for Continued Education; copied unchanged.',
+  },
   community: {
     src: '/images/photos/chapter-community.jpg',
     alt: 'Four women stand together at a Girls Into VC event, one holding a bouquet',

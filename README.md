@@ -4,7 +4,7 @@ Local-review website for Girls Into VC at Columbia, built with React, TypeScript
 
 ## Pages
 
-All four pages share a light-pink header (with a mobile menu below 768 pixels wide) and a pale-pink footer with the interest list, Instagram, chapter LinkedIn status and Contact. The logo sits at the left and opens Home; About, People and Contact use the heading font (Alice) and exact logo pink at the right.
+All four pages share a light-pink header (with a mobile menu below 768 pixels wide) and a pale-pink footer with Instagram, LinkedIn, page navigation and a linked "Built with Factory" credit. The logo sits at the left and opens Home; About, People and Contact use the heading font (Alice) and exact logo pink at the right.
 
 Interior pages use full-width white, pale-pink and pink section bands like Home. `PageHeader` frames each main title with the existing reference sketches on a pale background; smaller screens keep the sketches at the top and bottom, away from text. `PageSection` preserves centered content widths inside each band. Their shared styling is in `src/components/PageLayout.css`. The Home landing animation and footer decoration remain unchanged.
 

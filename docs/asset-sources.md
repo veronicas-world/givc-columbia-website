@@ -41,6 +41,7 @@ Photos carry no visible captions or credits on the site, with one exception: the
 | `community-conversation.jpg` | 800 x 533 | Supplied by the user, `design-preview/refresh-inputs/community-coffee.jpeg` | Copied byte for byte; displayed at most about 400 CSS pixels wide. |
 | `chapter-workshop.jpg` | 996 x 1024 | User-supplied photo of a speaker addressing students at a Girls Into VC event (2026-10-16) | Pre-Professional Workshops column on About. Copied unchanged from the supplied JPEG. |
 | `chapter-fellowship.jpg` | 1024 x 539 | User-supplied photo of students in a lecture hall at a Girls Into VC event (2026-10-16) | Fellowship column on About. Copied unchanged from the supplied JPEG. |
+| `chapter-continued-education.jpg` | 878 x 784 | User-supplied photo of four women seated together at a gathering (2026-10-16) | Continued Education column on About. Copied unchanged from the supplied JPEG; CSS crop focuses at 50% 35%. |
 | `chapter-community.jpg` | 1024 x 889 | User-supplied group photo of four women at a Girls Into VC event (2026-10-16) | Community column on About. Copied unchanged from the supplied JPEG. |
 | `speaker-avni-barman.jpg` | 800 x 800 | User-supplied photo (2026-10-16) | Portrait of Avni Barman on About. Copied unchanged from the supplied JPEG. |
 | `speaker-andrea-wang.jpg` | 800 x 800 | User-supplied photo (2026-10-16) | Portrait of Andrea Wang on About. Copied unchanged from the supplied JPEG. |

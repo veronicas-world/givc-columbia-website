@@ -856,7 +856,6 @@ a:hover {
 
 .footer-brand {
   display: inline-block;
-  margin-bottom: 1.5rem;
   text-decoration: none;
 }
 
@@ -874,27 +873,6 @@ a:hover {
 .footer-brand .brand-descriptor {
   color: var(--pink-dark);
   font-size: 1.75rem;
-}
-
-.footer-intro p {
-  width: fit-content;
-  max-width: 100%;
-  margin-bottom: 0;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--pink-placeholder);
-  color: var(--ink-muted);
-}
-
-.footer-intro p a {
-  color: var(--pink-dark);
-  font-family: var(--font-heading);
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
-  line-height: 1.35;
-  text-decoration-thickness: 1px;
-}
-
-.footer-intro p a:hover {
-  color: var(--navy);
 }
 
 .footer-nav {
@@ -1120,12 +1098,6 @@ a:hover {
   width: 1.25rem;
   height: 1.75rem;
   transform: rotate(10deg);
-}
-
-@media (min-width: 48rem) {
-  .footer-intro p a {
-    white-space: nowrap;
-  }
 }
 
 @media (max-width: 79.99rem) {

@@ -5,7 +5,7 @@ import { Photo } from '../components/Photo';
 import { ExternalLink } from '../components/ExternalLink';
 import { activities, pastSpeakers, type Activity } from '../content/chapter';
 import { siteLinks } from '../content/links';
-import { activityPhotos, chapterActivityPhotos, networkPhotos, speakerPhotos } from '../content/photos';
+import { chapterActivityPhotos, networkPhotos, speakerPhotos } from '../content/photos';
 import {
   networkDescriptionRest,
   networkGraphics,
@@ -33,7 +33,7 @@ export function AboutPage() {
             photo={chapterActivityPhotos.workshops}
           />
           <ActivitySection activity={activity('fellowship')} photo={chapterActivityPhotos.fellowship} />
-          <ActivitySection activity={activity('continued-education')} photo={activityPhotos[0]!} />
+          <ActivitySection activity={activity('continued-education')} photo={chapterActivityPhotos.continuedEducation} />
           <ActivitySection
             activity={activity('community')}
             photo={chapterActivityPhotos.community}
