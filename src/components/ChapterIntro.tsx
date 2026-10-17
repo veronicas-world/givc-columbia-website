@@ -20,7 +20,7 @@ export function ChapterIntro() {
       data-intro-state={visible ? 'entered' : 'waiting'}
     >
       <div className="home-intro-copy">
-        <h2 id="intro-title" className="visually-hidden">About the chapter</h2>
+        <h2 id="intro-title">About us</h2>
         <p className="home-description">{chapterIntro}</p>
       </div>
       <Photo photo={homePhotos.introGroup} className="home-intro-photo" />

@@ -18,7 +18,10 @@ describe('HomePage', () => {
   it('introduces the student-led chapter and its purpose', () => {
     renderPage(<HomePage />);
     expect(screen.getByRole('heading', { level: 1, name: 'Girls Into VC at Columbia' })).toBeInTheDocument();
-    const intro = screen.getByRole('region', { name: 'About the chapter' });
+    const intro = screen.getByRole('region', { name: 'About us' });
+    const title = within(intro).getByRole('heading', { level: 2, name: 'About us' });
+    expect(title).toBeVisible();
+    expect(title).not.toHaveClass('visually-hidden');
     expect(within(intro).getByRole('paragraph')).toHaveTextContent(chapterIntro);
   });
 
@@ -104,7 +107,7 @@ describe('HomePage', () => {
   it('moves from the pink opening into the static description on the left and supplied group photo on the right', () => {
     renderPage(<HomePage />);
     const hero = screen.getByRole('heading', { level: 1 }).closest('section')!;
-    const intro = screen.getByRole('region', { name: 'About the chapter' });
+    const intro = screen.getByRole('region', { name: 'About us' });
     expect(intro).toHaveAttribute('data-intro', 'true');
     expect(hero.nextElementSibling).toBe(intro);
     expect(intro).toHaveAttribute('id', 'chapter');
@@ -152,7 +155,7 @@ describe('HomePage', () => {
   it('places Why we exist immediately after the introduction and lists no event cards', () => {
     const { container } = renderPage(<HomePage />);
     const regions = screen.getAllByRole('region').map((region) => region.getAttribute('aria-labelledby'));
-    const intro = screen.getByRole('region', { name: 'About the chapter' });
+    const intro = screen.getByRole('region', { name: 'About us' });
     const why = screen.getByRole('region', { name: 'Why we exist' });
     expect(intro.compareDocumentPosition(why) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(intro.nextElementSibling).toBe(why);

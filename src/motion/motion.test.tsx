@@ -136,7 +136,7 @@ describe('limited motion with an observer and normal motion', () => {
 
   it('shows the description immediately and reveals its photo once on scroll entry', () => {
     render(<MemoryRouter><ChapterIntro /></MemoryRouter>);
-    const intro = screen.getByRole('region', { name: 'About the chapter' });
+    const intro = screen.getByRole('region', { name: 'About us' });
     const paragraph = within(intro).getByRole('paragraph');
     expect(intro).toHaveAttribute('data-intro-state', 'waiting');
     expect(paragraph).toHaveClass('home-description');
@@ -256,7 +256,7 @@ describe('reduced motion requested after the page has loaded', () => {
   it('keeps the description visible and reveals its photo when reduced motion is enabled mid-visit', () => {
     const preference = liveReducedMotion(false);
     render(<MemoryRouter><ChapterIntro /></MemoryRouter>);
-    const intro = screen.getByRole('region', { name: 'About the chapter' });
+    const intro = screen.getByRole('region', { name: 'About us' });
     const paragraph = within(intro).getByRole('paragraph');
     expect(paragraph).toHaveTextContent(chapterIntro);
     expect(paragraph).not.toHaveAttribute('data-typewriter');
@@ -574,7 +574,7 @@ describe('motion fallbacks', () => {
     vi.stubGlobal('IntersectionObserver', mode === 'unavailable' ? undefined : FakeIntersectionObserver);
     setReducedMotion(mode === 'reduced');
     render(<MemoryRouter><ChapterIntro /></MemoryRouter>);
-    const intro = screen.getByRole('region', { name: 'About the chapter' });
+    const intro = screen.getByRole('region', { name: 'About us' });
     const paragraph = within(intro).getByRole('paragraph');
     expect(intro).toHaveAttribute('data-intro-state', 'entered');
     expect(paragraph).toHaveTextContent(chapterIntro);
