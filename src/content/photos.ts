@@ -118,10 +118,10 @@ export const chapterActivityPhotos = {
   continuedEducation: {
     src: '/images/photos/chapter-continued-education.jpg',
     alt: 'Four women seated together at a gathering with plates and cups',
-    width: 878,
-    height: 784,
+    width: 851,
+    height: 756,
     focus: '50% 35%',
-    sourceNote: 'Photo supplied by the user on 2026-10-16 for Continued Education; copied unchanged.',
+    sourceNote: 'Photo supplied by the user on 2026-10-16 for Continued Education; its light outer margin was cropped away.',
   },
   community: {
     src: '/images/photos/chapter-community.jpg',
