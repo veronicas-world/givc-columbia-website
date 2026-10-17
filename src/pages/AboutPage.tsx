@@ -24,7 +24,7 @@ export function AboutPage() {
     <>
       <PageHeader title="About the Columbia chapter" />
 
-      <PageSection labelledBy="activities-title" tone="pale">
+      <PageSection labelledBy="activities-title">
         <h2 id="activities-title" className="visually-hidden">Chapter activities</h2>
         <div className="activity-columns">
           <ActivitySection
@@ -41,7 +41,7 @@ export function AboutPage() {
         </div>
       </PageSection>
 
-      <PageSection labelledBy="speaker-events-title" className="speaker-events">
+      <PageSection labelledBy="speaker-events-title" tone="pale" className="speaker-events">
         <h2 id="speaker-events-title">{speakerEvents.title}</h2>
         <p>{speakerEvents.detail}</p>
         <h3 className="speaker-list-title">Past speakers</h3>

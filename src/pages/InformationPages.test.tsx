@@ -193,6 +193,8 @@ describe('AboutPage', () => {
     const activitiesSection = screen.getByRole('region', { name: 'Chapter activities' });
     const speakers = screen.getByRole('region', { name: 'Speaker events' });
     expect(activitiesSection.nextElementSibling).toBe(speakers);
+    expect(activitiesSection).toHaveClass('page-band-white');
+    expect(speakers).toHaveClass('page-band-pale');
     expect(speakers.querySelectorAll('.photo-frame:not(.speaker-figure-photo)')).toHaveLength(0);
     const columns = container.querySelector('.activity-columns')!;
     const expected = [
