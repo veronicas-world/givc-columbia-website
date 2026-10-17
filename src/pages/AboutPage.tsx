@@ -25,7 +25,7 @@ export function AboutPage() {
       <PageHeader title="About the Columbia chapter" />
 
       <PageSection labelledBy="activities-title">
-        <h2 id="activities-title" className="visually-hidden">Chapter activities</h2>
+        <h2 id="activities-title">Membership at Columbia</h2>
         <div className="activity-columns">
           <ActivitySection
             activity={activity('workshops')}

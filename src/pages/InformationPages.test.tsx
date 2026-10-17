@@ -190,7 +190,8 @@ describe('AboutPage', () => {
 
   it('shows the four activities before speaker events without a side photo', () => {
     const { container } = renderPage(<AboutPage />);
-    const activitiesSection = screen.getByRole('region', { name: 'Chapter activities' });
+    const activitiesSection = screen.getByRole('region', { name: 'Membership at Columbia' });
+    expect(within(activitiesSection).getByRole('heading', { level: 2, name: 'Membership at Columbia' })).toBeInTheDocument();
     const speakers = screen.getByRole('region', { name: 'Speaker events' });
     expect(activitiesSection.nextElementSibling).toBe(speakers);
     expect(activitiesSection).toHaveClass('page-band-white');
@@ -286,7 +287,14 @@ describe('AboutPage', () => {
 
   it('describes the activities concisely without invented commitments', () => {
     const { container } = renderPage(<AboutPage />);
-    for (const name of ['Speaker events', 'Pre-Professional Workshops', 'Fellowship', 'Continued Education', 'Community']) {
+    for (const name of [
+      'Membership at Columbia',
+      'Speaker events',
+      'Pre-Professional Workshops',
+      'Fellowship',
+      'Continued Education',
+      'Community',
+    ]) {
       expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument();
     }
     expect(container.textContent).toMatch(/résumé reviews/);
