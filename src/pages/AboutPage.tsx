@@ -24,6 +24,23 @@ export function AboutPage() {
     <>
       <PageHeader title="About the Columbia chapter" />
 
+      <PageSection labelledBy="activities-title" tone="pale">
+        <h2 id="activities-title" className="visually-hidden">Chapter activities</h2>
+        <div className="activity-columns">
+          <ActivitySection
+            activity={activity('workshops')}
+            title="Pre-Professional Workshops"
+            photo={chapterActivityPhotos.workshops}
+          />
+          <ActivitySection activity={activity('fellowship')} photo={chapterActivityPhotos.fellowship} />
+          <ActivitySection activity={activity('continued-education')} photo={activityPhotos[0]!} />
+          <ActivitySection
+            activity={activity('community')}
+            photo={chapterActivityPhotos.community}
+          />
+        </div>
+      </PageSection>
+
       <PageSection labelledBy="speaker-events-title" className="speaker-events">
         <h2 id="speaker-events-title">{speakerEvents.title}</h2>
         <p>{speakerEvents.detail}</p>
@@ -41,23 +58,6 @@ export function AboutPage() {
             </li>
           ))}
         </ul>
-      </PageSection>
-
-      <PageSection labelledBy="activities-title" tone="pale">
-        <h2 id="activities-title" className="visually-hidden">Chapter activities</h2>
-        <div className="activity-columns">
-          <ActivitySection
-            activity={activity('workshops')}
-            title="Pre-Professional Workshops"
-            photo={chapterActivityPhotos.workshops}
-          />
-          <ActivitySection activity={activity('fellowship')} photo={chapterActivityPhotos.fellowship} />
-          <ActivitySection activity={activity('continued-education')} photo={activityPhotos[0]!} />
-          <ActivitySection
-            activity={activity('community')}
-            photo={chapterActivityPhotos.community}
-          />
-        </div>
       </PageSection>
 
       <PageSection labelledBy="network-title">

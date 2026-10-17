@@ -188,9 +188,11 @@ describe('AboutPage', () => {
     expect(screen.getByRole('heading', { level: 2, name: 'The Girls Into VC network' })).toBeInTheDocument();
   });
 
-  it('shows speaker events without a side photo, then the four activities in order', () => {
+  it('shows the four activities before speaker events without a side photo', () => {
     const { container } = renderPage(<AboutPage />);
+    const activitiesSection = screen.getByRole('region', { name: 'Chapter activities' });
     const speakers = screen.getByRole('region', { name: 'Speaker events' });
+    expect(activitiesSection.nextElementSibling).toBe(speakers);
     expect(speakers.querySelectorAll('.photo-frame:not(.speaker-figure-photo)')).toHaveLength(0);
     const columns = container.querySelector('.activity-columns')!;
     const expected = [
