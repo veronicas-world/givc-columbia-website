@@ -16,9 +16,11 @@ function renderForm(action = anonymousAction, path = '/contact') {
 describe('ContactForm', () => {
   it('posts to an anonymous endpoint without publishing the recipient address', () => {
     const { container } = renderForm();
-    const form = screen.getByRole('form', { name: 'Message the president' });
+    const form = screen.getByRole('form', { name: 'Contact form' });
     expect(form).toHaveAttribute('method', 'POST');
     expect(form).toHaveAttribute('action', anonymousAction);
+    expect(screen.queryByText('Message the president')).toBeNull();
+    expect(screen.queryByText('Diane Lang, President')).toBeNull();
     expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
     expect(form.outerHTML).not.toMatch(/@columbia\.edu/);
     expect(form.querySelector('input[name="_captcha"]')).toBeNull();
@@ -27,7 +29,7 @@ describe('ContactForm', () => {
 
   it('requires a name, valid reply email, and message without sending a real request', () => {
     renderForm();
-    const form = screen.getByRole('form', { name: 'Message the president' }) as HTMLFormElement;
+    const form = screen.getByRole('form', { name: 'Contact form' }) as HTMLFormElement;
     const name = screen.getByRole('textbox', { name: 'Name' });
     const email = screen.getByRole('textbox', { name: 'Your email' });
     const message = screen.getByRole('textbox', { name: 'Message' });

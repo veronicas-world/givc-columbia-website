@@ -22,7 +22,7 @@ export function AboutPage() {
   const speakerEvents = activity('speaker-events');
   return (
     <>
-      <PageHeader title="About the Columbia chapter" />
+      <PageHeader title="About the Columbia chapter" singleLineTitle />
 
       <PageSection labelledBy="activities-title">
         <h2 id="activities-title">Membership at Columbia</h2>
@@ -82,7 +82,7 @@ export function AboutPage() {
         </ul>
       </PageSection>
 
-      <PageSection labelledBy="network-recognition-title" className="network-recognition">
+      <PageSection labelledBy="network-recognition-title" tone="pale" className="network-recognition">
         <h2 id="network-recognition-title">Partners and recognition</h2>
         <h3>Parent organization partners</h3>
         <img

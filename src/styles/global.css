@@ -749,11 +749,6 @@ a:hover {
   margin: 2rem auto 3rem;
 }
 
-.contact-form h3,
-.contact-recipient {
-  text-align: center;
-}
-
 .contact-form fieldset {
   display: grid;
   gap: 1.25rem;

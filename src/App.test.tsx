@@ -55,8 +55,8 @@ describe('site routes', () => {
 
     const channels = screen.getByRole('region', { name: 'Get in touch' });
     expect(interest.compareDocumentPosition(channels) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(channels).toHaveTextContent('Diane Lang, President');
-    const form = within(channels).getByRole('form', { name: 'Message the president' });
+    expect(channels).not.toHaveTextContent(/Diane Lang|Message the president/);
+    const form = within(channels).getByRole('form', { name: 'Contact form' });
     expect(form.getAttribute('action') ?? '').not.toContain('@');
     expect(within(channels).getByRole('link', { name: /LinkedIn/ })).toHaveAttribute('href', siteLinks.chapterLinkedIn);
     expect(within(channels).getByRole('link', { name: /Instagram/ })).toHaveAttribute('href', siteLinks.instagram);
@@ -151,7 +151,7 @@ describe('final copy across the five routes', () => {
   });
 
   it.each([
-    ['/about', ['white', 'pale', 'white', 'white']],
+    ['/about', ['white', 'pale', 'white', 'pale']],
     ['/people', ['white', 'pale']],
     ['/contact', ['pink', 'white']],
   ] as const)('%s divides its content into full-width color bands', (path, tones) => {

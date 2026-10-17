@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { contactFormAction, presidentContact } from '../content/contact';
+import { contactFormAction } from '../content/contact';
 import { ExternalLink } from './ExternalLink';
 
 interface ContactFormProps {
@@ -15,14 +15,12 @@ export function ContactForm({ action = contactFormAction }: ContactFormProps) {
       className="contact-form"
       action={action || undefined}
       method="POST"
-      aria-labelledby="contact-form-heading"
+      aria-label="Contact form"
       aria-describedby={connected ? 'contact-privacy' : 'contact-status contact-privacy'}
       onSubmit={(event) => {
         if (!connected) event.preventDefault();
       }}
     >
-      <h3 id="contact-form-heading">Message the president</h3>
-      <p className="contact-recipient">{presidentContact.name}, {presidentContact.role}</p>
       {!connected && (
         <p id="contact-status" className="contact-status" role="status">
           The contact form is being connected. Please use LinkedIn or Instagram below for now.

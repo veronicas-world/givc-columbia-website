@@ -182,7 +182,9 @@ describe('HomePage', () => {
 describe('AboutPage', () => {
   it('titles the page for the Columbia chapter without an introduction paragraph', () => {
     renderPage(<AboutPage />);
-    expect(screen.getByRole('heading', { level: 1, name: 'About the Columbia chapter' })).toBeInTheDocument();
+    const title = screen.getByRole('heading', { level: 1, name: 'About the Columbia chapter' });
+    expect(title).toBeInTheDocument();
+    expect(title.closest('header')).toHaveClass('page-header-single-line-title');
     expect(screen.queryByText(chapterIntro)).toBeNull();
     expect(screen.queryByRole('heading', { name: 'The Columbia chapter' })).toBeNull();
     expect(screen.getByRole('heading', { level: 2, name: 'The Girls Into VC network' })).toBeInTheDocument();
@@ -269,6 +271,7 @@ describe('AboutPage', () => {
   it('labels the partner and recognition graphics as parent-network information, not Columbia affiliation', () => {
     renderPage(<AboutPage />);
     const recognition = screen.getByRole('region', { name: 'Partners and recognition' });
+    expect(recognition).toHaveClass('page-band-pale');
     expect(recognition.textContent).not.toMatch(/The parent organization lists|not Columbia-chapter partnerships or press features/);
     expect(within(recognition).getByRole('img', { name: networkGraphics.partners.alt })).toHaveAttribute(
       'src', networkGraphics.partners.src,

@@ -5,11 +5,16 @@ import './PageLayout.css';
 interface PageHeaderProps {
   title: string;
   children?: ReactNode;
+  singleLineTitle?: boolean;
 }
 
-export function PageHeader({ title, children }: PageHeaderProps) {
+export function PageHeader({ title, children, singleLineTitle = false }: PageHeaderProps) {
   return (
-    <header className="page-header sketch-section">
+    <header
+      className={['page-header', 'sketch-section', singleLineTitle ? 'page-header-single-line-title' : '']
+        .filter(Boolean)
+        .join(' ')}
+    >
       <SketchScatter arrangement="title" />
       <div className="page-header-inner">
         <h1>{title}</h1>
