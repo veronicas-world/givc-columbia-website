@@ -315,7 +315,7 @@ a:hover {
 }
 
 .page-header h1 {
-  font-size: clamp(2.75rem, 7vw, 5rem);
+  font-size: clamp(2rem, 4.8vw, 3.4rem);
   letter-spacing: -0.01em;
   line-height: 1;
   margin-bottom: 1.5rem;
@@ -842,11 +842,16 @@ a:hover {
 .site-footer-inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) max-content;
-  gap: clamp(2rem, 6vw, 6rem);
+  grid-template-areas: "intro navigation" "social social";
+  gap: 1.25rem clamp(2rem, 6vw, 6rem);
   max-width: 80rem;
   margin: 0 auto;
   padding: clamp(4rem, 7vw, 5rem) clamp(3rem, 4vw, 4rem);
   text-align: left;
+}
+
+.footer-intro {
+  grid-area: intro;
 }
 
 .footer-brand {
@@ -874,6 +879,7 @@ a:hover {
 .footer-intro p {
   width: fit-content;
   max-width: 100%;
+  margin-bottom: 0;
   padding-top: 1.25rem;
   border-top: 1px solid var(--pink-placeholder);
   color: var(--ink-muted);
@@ -892,6 +898,7 @@ a:hover {
 }
 
 .footer-nav {
+  grid-area: navigation;
   justify-self: end;
   min-width: 10rem;
 }
@@ -920,12 +927,32 @@ a:hover {
   color: var(--navy);
 }
 
+.footer-social-row {
+  grid-area: social;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .footer-socials {
   display: flex;
+  flex-shrink: 0;
   gap: 0.75rem;
   list-style: none;
-  margin: 1.25rem 0 0;
+  margin: 0;
   padding: 0;
+}
+
+.footer-credit {
+  color: #000;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.footer-credit a {
+  color: inherit;
 }
 
 .footer-social-link {
@@ -1151,11 +1178,12 @@ a:hover {
 
   .site-footer-inner {
     grid-template-columns: minmax(0, 1fr);
-    gap: 2.5rem 1.5rem;
+    grid-template-areas: "intro" "social" "navigation";
+    gap: 1.25rem 1.5rem;
   }
 
-  .footer-intro {
-    grid-column: 1 / -1;
+  .footer-nav {
+    margin-top: 1.25rem;
   }
 }
 

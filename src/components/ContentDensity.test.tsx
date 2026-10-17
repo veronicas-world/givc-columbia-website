@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { AppRoutes } from '../App';
 
 const css = readFileSync(resolve(process.cwd(), 'src/components/ContentDensity.css'), 'utf8');
+const globalCss = readFileSync(resolve(process.cwd(), 'src/styles/global.css'), 'utf8');
 const scaledSelector = /([^{}]+)\{\s*zoom:\s*0\.8\s*;/.exec(css)![1]!.trim();
 
 function renderAt(path: string) {
@@ -13,6 +14,16 @@ function renderAt(path: string) {
 }
 
 describe('editorial content sizing', () => {
+  it('matches page-title sizes visually despite compact desktop zoom', () => {
+    const standard = /\.page-header h1\s*{[^}]*font-size:\s*clamp\(([\d.]+)rem,\s*([\d.]+)vw,\s*([\d.]+)rem\)/.exec(globalCss);
+    const compact = /main\[data-content-density='compact'\] \.page-header-inner > h1\s*{[^}]*font-size:\s*clamp\(([\d.]+)rem,\s*([\d.]+)vw,\s*([\d.]+)rem\)/.exec(css);
+    expect(standard).not.toBeNull();
+    expect(compact).not.toBeNull();
+    for (const index of [1, 2, 3]) {
+      expect(Number(compact![index]) * 0.8).toBeCloseTo(Number(standard![index]));
+    }
+  });
+
   it.each(['/', '/about'])('applies compact sizing only to the content on %s', (path) => {
     renderAt(path);
     const main = screen.getByRole('main');

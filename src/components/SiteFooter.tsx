@@ -18,6 +18,8 @@ export function SiteFooter() {
               Stay in touch by joining our interest list
             </a>
           </p>
+        </div>
+        <div className="footer-social-row">
           <ul className="footer-socials" aria-label="Social media">
             <li>
               <ExternalLink href={siteLinks.instagram} className="footer-social-link">
@@ -40,6 +42,9 @@ export function SiteFooter() {
               </ExternalLink>
             </li>
           </ul>
+          <span className="footer-credit">
+            Built with <ExternalLink href="https://factory.ai">Factory</ExternalLink>
+          </span>
         </div>
         <nav className="footer-block footer-nav" aria-label="Footer">
           <ul className="footer-list">

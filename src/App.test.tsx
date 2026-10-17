@@ -169,6 +169,21 @@ describe('final copy across the five routes', () => {
 });
 
 describe('footer', () => {
+  it('credits Factory in a full-width footer row with the social buttons', () => {
+    renderAt('/');
+    const footer = screen.getByRole('contentinfo');
+    const credit = footer.querySelector<HTMLElement>('.footer-credit')!;
+    expect(credit).toHaveTextContent('Built with Factory');
+    const factory = within(credit).getByRole('link', { name: /^Factory/ });
+    expect(factory).toHaveAttribute('href', 'https://factory.ai');
+    expect(factory).toHaveAttribute('target', '_blank');
+    expect(factory).toHaveAttribute('rel', 'noopener noreferrer');
+    const socialRow = footer.querySelector('.footer-social-row')!;
+    expect(socialRow.parentElement).toHaveClass('site-footer-inner');
+    expect(socialRow).toContainElement(credit);
+    expect(socialRow).toContainElement(within(footer).getByRole('list', { name: 'Social media' }));
+  });
+
   it('offers the shared interest list and only the supplied social accounts without copyright', () => {
     renderAt('/about');
     const footer = screen.getByRole('contentinfo');
