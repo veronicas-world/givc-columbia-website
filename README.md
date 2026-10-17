@@ -15,7 +15,7 @@ Desktop pages use a shared 90% visual scale, including navigation and footer, wi
 | `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo and a centered static chapter introduction, reasons to join, NYC venture capital firm site visits and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%) that roll once to their values, "Where our members are represented" logos, a link to About and the interest list |
 | `/about`     | "About the Columbia chapter": speaker events with captioned past-speaker headshots, then Pre-Professional Workshops, the 10-week fellowship, Continued Education and Community in four responsive columns, followed by the wider Girls Into VC network |
 | `/people`    | Executive Board: six supplied officer profiles in compact, light-pink framed cards. Members: 50 general members in centered, wrapping rows (about five across on desktop), grouped under Class of 2028 (10), Class of 2029 (24) and Class of 2030 (16), without repeating board members or introductory descriptions |
-| `/contact`   | Interest-list button, a contact form that uses an anonymous FormSubmit ID, LinkedIn and Instagram; sending stays disabled until activation is complete |
+| `/contact`   | Interest-list button, a private on-site contact form, LinkedIn and Instagram; sending stays disabled if the server is not configured |
 
 Design rules for future edits: the official Girls Into VC logo (never retyped in a similar font) beside a separate "at Columbia", self-hosted Alice for headings and header navigation and Lora for body text, no italics, no visible photo captions or credits, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). Motion is limited to what is described under [Motion](#motion); keep Home intro copy static and do not add typed text, looping counters, scroll-pinned scenes or a motion library.
 
@@ -68,7 +68,7 @@ Page copy and links live in typed files under `src/content/`:
 - `photos.ts`: Home and About photographs with alt text, intrinsic size, crop focus and a maintainer-only source note (never rendered)
 - `brand.ts`: the official logo files and the "at Columbia" descriptor
 - `organizations.ts`: the 14 represented-company logos on Home
-- `contact.ts`: the president's public name and role, plus validation of the anonymous FormSubmit ID; never put a recipient email here
+- `contact.ts`: the president's public name and role, plus the local contact API path; never put a recipient email here
 
 Pages and the footer read from these files, so a change in one place updates every page. Styling is in `src/styles/global.css`. Images are served from `public/images/`, and every image's source and terms are listed in [`docs/asset-sources.md`](docs/asset-sources.md); add a row there whenever you add or replace an image.
 
@@ -87,13 +87,15 @@ Pages and the footer read from these files, so a change in one place updates eve
 
 The Contact page opens with a pink interest-list band and a single "Click here" button. Below it, visitors can message the president through FormSubmit, followed by LinkedIn and Instagram links. The recipient email is not published.
 
-FormSubmit currently advertises free forms and submissions with no registration. The recipient must confirm its one-time activation email. Use the **anonymous form address** supplied after confirmation, not the recipient email: copy only its ID into `VITE_CONTACT_FORM_ID` in Vercel's production environment and rebuild. For local testing, copy `.env.example` to `.env.local` and set the same public ID. This ID is a public submission endpoint, not an email credential. Until it is configured, the form is visibly disabled and directs visitors to the social links.
+FormSubmit currently advertises free forms and submissions with no registration. The recipient must confirm its one-time activation email. Set `CONTACT_RECIPIENT` as a **sensitive, production-only** environment variable in Vercel, then redeploy. This is server-only: never prefix it with `VITE_`, put it in a form action, or commit a filled environment file. No anonymous FormSubmit ID is needed. The public readiness endpoint returns only a boolean; the form stays disabled if forwarding is not configured.
 
-Submissions use a native POST to FormSubmit with its default CAPTCHA, a hidden honeypot, native field validation, and a return to `/contact?sent=1`. The site acknowledges submission, not guaranteed delivery. FormSubmit processes names, reply emails, and messages and retains submissions for 30 days; the form discloses this and links to its privacy policy. Do not disable the CAPTCHA or add the recipient email as a fallback.
+The browser sends JSON to `/api/contact` without leaving the site. Vercel BotID **Basic** protects POST requests on both client and server; do not enable paid Deep Analysis or bypass bot checks. The server accepts only the three production site origins, caps bodies at 16 KiB, validates field types and lengths, discards honeypot submissions, and controls the recipient, subject, and provider options. FormSubmit's interactive CAPTCHA is replaced by the server-side BotID check for this relay. Preview and local environments never forward messages. Tests mock all external sends.
+
+Provider requests time out after 10 seconds, do not follow redirects, and are not automatically retried. Only an explicit FormSubmit success acknowledgment yields a successful form message, which does not guarantee inbox delivery. Provider errors, the recipient, and message contents are never echoed or logged. FormSubmit processes names, reply emails, and messages and retains submissions for 30 days; the form discloses this and Vercel's bot protection, with privacy-policy links. Basic bot checks and FormSubmit require no new account or paid add-on; existing Vercel hosting quotas still apply.
 
 ## Deployment
 
-The site is live at [givc-columbia-website.vercel.app](https://givc-columbia-website.vercel.app/), and its source is in the [public GitHub repository](https://github.com/veronicas-world/givc-columbia-website). Vercel builds the static Vite site from `main`; GitHub Actions runs the tests, type check, lint and production build. `vercel.json` routes direct visits to client-side pages through `index.html`.
+The site is live at [givc-columbia-website.vercel.app](https://givc-columbia-website.vercel.app/), and its source is in the [public GitHub repository](https://github.com/veronicas-world/givc-columbia-website). Vercel builds the Vite site and the contact function from `main`; GitHub Actions runs the tests, type check, lint and production build. `vercel.json` preserves API and BotID routes while routing direct visits to client-side pages through `index.html`.
 
 Keep editing this project with Droid. Commit and push changes to `main` when they are ready to publish; Vercel builds and hosts each update. The local development server is not needed to keep the live site available. See [`docs/deployment.md`](docs/deployment.md) for details.
 

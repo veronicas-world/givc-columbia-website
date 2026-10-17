@@ -18,6 +18,6 @@
     "noEmit": true,
     "types": ["node", "vite/client"]
   },
-  "include": ["src", "vite.config.ts", "eslint.config.js"],
+  "include": ["src", "api", "vite.config.ts", "eslint.config.js"],
   "exclude": ["node_modules", "dist", "design-preview"]
 }
