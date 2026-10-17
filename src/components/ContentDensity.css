@@ -1,7 +1,8 @@
-/* Match the 80% desktop reference without changing browser zoom, the landing
-   screen, shared navigation/footer, or People and Contact. Keep phones unscaled. */
+/* Compact editorial content without changing the landing screen, shared shell,
+   or People and Contact body content. Headers manage their own desktop sizing.
+   Keep phones unscaled. */
 @media (min-width: 48rem) {
-  main[data-content-density='compact'] > :not(.home-hero) {
+  main[data-content-density='compact'] > :not(.home-hero):not(.page-header) {
     zoom: 0.8;
   }
 
@@ -32,14 +33,6 @@
   main[data-content-density='compact'] .home-figures,
   main[data-content-density='compact'] .page-band-inner.section {
     padding-block: clamp(3rem, 7.5vw, 5rem);
-  }
-
-  main[data-content-density='compact'] .page-header-inner {
-    padding-inline: clamp(5rem, 16.25vw, 12rem);
-  }
-
-  main[data-content-density='compact'] .page-header-inner > h1 {
-    font-size: clamp(2.5rem, 6vw, 4.25rem);
   }
 
   main[data-content-density='compact'] .page-photo img {

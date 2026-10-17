@@ -17,7 +17,7 @@ main.main-bands {
   min-height: 22rem;
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: 5.5rem clamp(5rem, 13vw, 12rem);
+  padding: 5.5rem clamp(5rem, 16.25vw, 12rem);
 }
 
 .page-header .page-header-inner h1 {
@@ -26,6 +26,10 @@ main.main-bands {
 }
 
 @media (min-width: 48rem) {
+  .page-header {
+    zoom: 0.8;
+  }
+
   .page-header-single-line-title .page-header-inner > h1 {
     white-space: nowrap;
   }

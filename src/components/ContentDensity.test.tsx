@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { AppRoutes } from '../App';
 
 const css = readFileSync(resolve(process.cwd(), 'src/components/ContentDensity.css'), 'utf8');
-const globalCss = readFileSync(resolve(process.cwd(), 'src/styles/global.css'), 'utf8');
+const pageLayoutCss = readFileSync(resolve(process.cwd(), 'src/components/PageLayout.css'), 'utf8');
 const scaledSelector = /([^{}]+)\{\s*zoom:\s*0\.8\s*;/.exec(css)![1]!.trim();
 
 function renderAt(path: string) {
@@ -14,14 +14,11 @@ function renderAt(path: string) {
 }
 
 describe('editorial content sizing', () => {
-  it('matches page-title sizes visually despite compact desktop zoom', () => {
-    const standard = /\.page-header h1\s*{[^}]*font-size:\s*clamp\(([\d.]+)rem,\s*([\d.]+)vw,\s*([\d.]+)rem\)/.exec(globalCss);
-    const compact = /main\[data-content-density='compact'\] \.page-header-inner > h1\s*{[^}]*font-size:\s*clamp\(([\d.]+)rem,\s*([\d.]+)vw,\s*([\d.]+)rem\)/.exec(css);
-    expect(standard).not.toBeNull();
-    expect(compact).not.toBeNull();
-    for (const index of [1, 2, 3]) {
-      expect(Number(compact![index]) * 0.8).toBeCloseTo(Number(standard![index]));
-    }
+  it.each(['/about', '/people', '/contact'])('sizes the %s header independently of body content', (path) => {
+    renderAt(path);
+    const header = document.querySelector('.page-header')!;
+    expect(header.matches(scaledSelector)).toBe(false);
+    expect(pageLayoutCss).toMatch(/@media \(min-width: 48rem\)\s*{\s*\.page-header\s*{\s*zoom:\s*0\.8/);
   });
 
   it.each(['/', '/about'])('applies compact sizing only to the content on %s', (path) => {
@@ -29,11 +26,13 @@ describe('editorial content sizing', () => {
     const main = screen.getByRole('main');
     expect(main).toHaveAttribute('data-content-density', 'compact');
     for (const child of main.children) {
-      expect(child.matches(scaledSelector)).toBe(!child.classList.contains('home-hero'));
+      expect(child.matches(scaledSelector)).toBe(
+        !child.classList.contains('home-hero') && !child.classList.contains('page-header'),
+      );
     }
   });
 
-  it.each(['/people', '/contact', '/missing'])('keeps %s at its existing size', (path) => {
+  it.each(['/people', '/contact', '/missing'])('keeps body content on %s at its existing size', (path) => {
     renderAt(path);
     const main = screen.getByRole('main');
     expect(main).toHaveAttribute('data-content-density', 'standard');
@@ -55,7 +54,7 @@ describe('editorial content sizing', () => {
     }
     expect(css.match(/\bzoom\s*:/g)).toHaveLength(1);
     expect(css).toContain("@media (min-width: 48rem)");
-    expect(scaledSelector).toBe("main[data-content-density='compact'] > :not(.home-hero)");
+    expect(scaledSelector).toBe("main[data-content-density='compact'] > :not(.home-hero):not(.page-header)");
   });
 
   it('updates sizing when navigating without leaving a compact style on People or Contact', () => {
