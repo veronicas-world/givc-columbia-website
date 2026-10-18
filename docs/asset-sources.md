@@ -111,12 +111,12 @@ To add an organization, save its logo in that folder, add a record to `src/conte
 
 The four figures in `src/content/representation.ts` come from the statistics visual on https://www.girlsintovc.com/ (supplied as `design-preview/refresh-inputs/parent-statistics-reference.png`, a reference only, not shipped). Under the lead "Women account for only":
 
-- 2%: of female founders are funded by VC capital
+- 2%: of VC funding dollars
 - 7%: of board seats at firms
 - 8%: of firm partners
 - 9%: of venture capitalists are women
 
-The parent page's DOM text swaps the 2% and 9% captions; the pairings follow the visual, as the user confirmed. Girls Into VC gives no study, year or methodology for these figures, so the site adds none, shows no citation (per the user's direction) and does not restate 2% as a share of funding dollars. Replace or remove the figures if the parent organization publishes updated numbers. On the page each figure rolls once through the digits before settling on its value; the rolling digit is decorative and hidden from screen readers, which read only the final value. The roll supports single-digit values only.
+The parent page's DOM text swaps the 2% and 9% captions; the pairings follow the visual, as the user confirmed. The 2% caption is the user's wording ("of VC funding dollars"), changed 2026-10-17 from the visual's "of female founders are funded by VC capital" because 2% is the share of VC dollars, not of founders. Girls Into VC gives no study, year or methodology for these figures, so the site adds none, shows no citation (per the user's direction) and attaches no funder or firm to any caption. Replace or remove the figures if the parent organization publishes updated numbers. On the page each figure rolls once through the digits before settling on its value; the rolling digit is decorative and hidden from screen readers, which read only the final value. The roll supports single-digit values only.
 
 ## Past-event source notes (not displayed on the site)
 

@@ -141,7 +141,7 @@ describe('HomePage', () => {
       return clone.textContent?.replace(/\s+/g, ' ').trim();
     };
     expect(items.map(accessibleText)).toEqual([
-      '2% of female founders are funded by VC capital',
+      '2% of VC funding dollars',
       '7% of board seats at firms',
       '8% of firm partners',
       '9% of venture capitalists are women',
