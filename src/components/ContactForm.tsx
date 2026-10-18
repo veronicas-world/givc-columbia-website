@@ -1,41 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import type { FormEvent } from 'react';
-import { contactFormAction } from '../content/contact';
+import { contactFormAction, contactFormAjaxAction, contactFormPage } from '../content/contact';
 import { ExternalLink } from './ExternalLink';
 
 export function ContactForm() {
-  const [ready, setReady] = useState<boolean | null>(null);
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const submitting = useRef(false);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => {
-      setReady(false);
-      controller.abort();
-    }, 10000);
-    async function checkAvailability() {
-      try {
-        const response = await fetch(contactFormAction, { signal: controller.signal });
-        const data = response.ok ? await response.json() : null;
-        if (!controller.signal.aborted) setReady(data?.ready === true);
-      } catch {
-        if (!controller.signal.aborted) setReady(false);
-      } finally {
-        clearTimeout(timeout);
-      }
-    }
-    void checkAvailability();
-    return () => {
-      clearTimeout(timeout);
-      controller.abort();
-    };
-  }, []);
 
   async function submitMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    if (!ready || submitting.current || !form.reportValidity()) return;
+    if (submitting.current || !form.reportValidity()) return;
     const fields = new FormData(form);
     submitting.current = true;
     setStatus('sending');
@@ -44,15 +19,18 @@ export function ContactForm() {
 
     try {
       const response = await Promise.race([
-        fetch(contactFormAction, {
+        fetch(contactFormAjaxAction, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           signal: controller.signal,
           body: JSON.stringify({
             name: fields.get('name'),
             email: fields.get('email'),
             message: fields.get('message'),
             _honey: fields.get('_honey'),
+            _subject: 'New message from the GIVC Columbia website',
+            _template: 'table',
+            _url: contactFormPage,
           }),
         }),
         new Promise<never>((_, reject) => {
@@ -62,8 +40,11 @@ export function ContactForm() {
           }, 20000);
         }),
       ]);
-      const data = response.ok ? await response.json() : null;
-      if (data?.success !== true) throw new Error('Submission was not accepted');
+      // FormSubmit labels its JSON reply as text/html and may send success as a string.
+      const data: unknown = response.ok ? JSON.parse(await response.text()) : null;
+      const accepted = typeof data === 'object' && data !== null && 'success' in data
+        && (data.success === true || data.success === 'true');
+      if (!accepted) throw new Error('Submission was not accepted');
       form.reset();
       setStatus('success');
     } catch {
@@ -81,16 +62,9 @@ export function ContactForm() {
       method="POST"
       aria-label="Contact form"
       aria-describedby="contact-privacy"
-      aria-busy={ready === null || status === 'sending'}
+      aria-busy={status === 'sending'}
       onSubmit={(event) => { void submitMessage(event); }}
     >
-      {ready !== true && (
-        <p id="contact-status" className="contact-status" role="status">
-          {ready === null
-            ? 'Loading contact form…'
-            : 'The contact form is temporarily unavailable. Please use LinkedIn or Instagram below for now.'}
-        </p>
-      )}
       {status === 'success' && (
         <p className="contact-status" role="status">
           Thank you. Your message has been submitted.
@@ -101,7 +75,7 @@ export function ContactForm() {
           We couldn’t confirm your submission. Please try again later or use LinkedIn or Instagram below.
         </p>
       )}
-      <fieldset disabled={ready !== true || status === 'sending'}>
+      <fieldset disabled={status === 'sending'}>
         <legend className="visually-hidden">Your message</legend>
         <label htmlFor="contact-name">
           Name
@@ -125,10 +99,8 @@ export function ContactForm() {
       </fieldset>
       <p id="contact-privacy" className="contact-privacy">
         Messages are processed by FormSubmit, which retains submissions for 30 days.
-        Vercel provides bot protection. Please do not include sensitive information.{' '}
+        Please do not include sensitive information.{' '}
         <ExternalLink href="https://formsubmit.co/privacy.pdf">FormSubmit privacy policy</ExternalLink>
-        {' · '}
-        <ExternalLink href="https://vercel.com/legal/privacy-policy">Vercel privacy policy</ExternalLink>
       </p>
     </form>
   );
