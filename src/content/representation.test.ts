@@ -8,7 +8,7 @@ describe('parent-reference representation figures', () => {
       { value: 2, label: 'of VC funding dollars' },
       { value: 7, label: 'of board seats at firms' },
       { value: 8, label: 'of firm partners' },
-      { value: 9, label: 'of venture capitalists are women' },
+      { value: 9, label: 'of venture capitalists' },
     ]);
   });
 

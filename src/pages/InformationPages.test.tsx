@@ -144,7 +144,7 @@ describe('HomePage', () => {
       '2% of VC funding dollars',
       '7% of board seats at firms',
       '8% of firm partners',
-      '9% of venture capitalists are women',
+      '9% of venture capitalists',
     ]);
     expect(within(section).getByText('Women account for only')).toBeInTheDocument();
     expect(section.querySelectorAll('[data-figure-value]')).toHaveLength(4);
