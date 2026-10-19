@@ -4,7 +4,7 @@ Local-review website for Girls Into VC at Columbia, built with React, TypeScript
 
 ## Pages
 
-All four pages share a light-pink header (with a mobile menu below 768 pixels wide) and a pale-pink footer with Instagram, LinkedIn, page navigation and a linked "Built with Factory" credit. The logo sits at the left and opens Home; About, People and Contact use the heading font (Alice) and exact logo pink at the right.
+All five pages share a light-pink header (with a mobile menu below 768 pixels wide) and a pale-pink footer with Instagram, LinkedIn, page navigation and a linked "Built with Factory" credit. The logo sits at the left and opens Home; About, People, Resources and Contact use the heading font (Alice) and exact logo pink at the right.
 
 Interior pages use full-width white, pale-pink and pink section bands like Home. `PageHeader` frames each main title with the existing reference sketches on a pale background; smaller screens keep the sketches at the top and bottom, away from text. `PageSection` preserves centered content widths inside each band. Their shared styling is in `src/components/PageLayout.css`. The Home landing animation and footer decoration remain unchanged.
 
@@ -15,6 +15,7 @@ Desktop pages use a shared 90% visual scale, including navigation and footer, wi
 | `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo and a centered static chapter introduction, reasons to join, NYC venture capital firm site visits and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%) that roll once to their values, "Where our members are represented" logos, a link to About and the interest list |
 | `/about`     | "About the Columbia chapter": speaker events with captioned past-speaker headshots, then Pre-Professional Workshops, the 10-week fellowship, Continued Education and Community in four responsive columns, followed by the wider Girls Into VC network |
 | `/people`    | Executive Board: six supplied officer profiles in compact, light-pink framed cards. Members: 50 general members in centered, wrapping rows (about five across on desktop), grouped under Class of 2028 (10), Class of 2029 (24) and Class of 2030 (16), without repeating board members or introductory descriptions |
+| `/resources` | Parent Girls Into VC newsletter subscription, podcast description and official cover art with Spotify and Apple Podcasts links, and parent Instagram, LinkedIn and TikTok accounts |
 | `/contact`   | Interest-list button, an on-site contact form that sends through FormSubmit, LinkedIn and Instagram |
 
 Design rules for future edits: the official Girls Into VC logo (never retyped in a similar font) beside a separate "at Columbia", self-hosted Alice for headings and header navigation and Lora for body text, no italics, no visible photo captions or credits, matter-of-fact copy without slogans or invented figures, real photographs only, and small text in navy (white text on `#F174A2` is only used for the large title, because smaller white text on that pink is hard to read). Motion is limited to what is described under [Motion](#motion); keep Home intro copy static and do not add typed text, looping counters, scroll-pinned scenes or a motion library.
@@ -64,7 +65,8 @@ Page copy and links live in typed files under `src/content/`:
 - `representation.ts`: the four "Why we exist" figures and their labels (single-digit values, because the rolling animation is built for one digit; provenance in `docs/asset-sources.md`; never cited on the page)
 - `members.ts`: full 56-person public roster from the original 31-person list plus 25 supplemental members (name, school code, class year only), `approvedMemberLinkedIns`, and `memberClassGroups`; People groups by class year and filters out current board members from its general list. `GS` denotes Columbia School of General Studies.
 - `board.ts`: six chapter-supplied board cards in leadership order; `boardIsPending` is `false`
-- `navigation.ts`: main navigation order (About, People, Contact), shared by the header and footer
+- `navigation.ts`: main navigation order (About, People, Resources, Contact), shared by the header and footer
+- `parentResources.ts`: parent newsletter subscription, podcast description, cover art and listening links, and parent social accounts; separate from Columbia's interest form and social accounts
 - `photos.ts`: Home and About photographs with alt text, intrinsic size, crop focus and a maintainer-only source note (never rendered)
 - `brand.ts`: the official logo files and the "at Columbia" descriptor
 - `organizations.ts`: the 14 represented-company logos on Home

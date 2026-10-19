@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { siteLinks } from '../content/links';
+import { navItems } from '../content/navigation';
 import { BrandLockup } from './BrandLockup';
 import { ExternalLink } from './ExternalLink';
 import { SketchScatter } from './SketchScatter';
@@ -43,9 +44,9 @@ export function SiteFooter() {
         </div>
         <nav className="footer-block footer-nav" aria-label="Footer">
           <ul className="footer-list">
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/people">People</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
+            {navItems.map((item) => (
+              <li key={item.path}><Link to={item.path}>{item.label}</Link></li>
+            ))}
           </ul>
         </nav>
       </div>

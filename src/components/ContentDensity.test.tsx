@@ -14,7 +14,7 @@ function renderAt(path: string) {
 }
 
 describe('editorial content sizing', () => {
-  it.each(['/about', '/people', '/contact'])('sizes the %s header independently of body content', (path) => {
+  it.each(['/about', '/people', '/resources', '/contact'])('sizes the %s header independently of body content', (path) => {
     renderAt(path);
     const header = document.querySelector('.page-header')!;
     expect(header.matches(scaledSelector)).toBe(false);
@@ -32,7 +32,7 @@ describe('editorial content sizing', () => {
     }
   });
 
-  it.each(['/people', '/contact', '/missing'])('keeps body content on %s at its existing size', (path) => {
+  it.each(['/people', '/resources', '/contact', '/missing'])('keeps body content on %s at its existing size', (path) => {
     renderAt(path);
     const main = screen.getByRole('main');
     expect(main).toHaveAttribute('data-content-density', 'standard');
@@ -60,7 +60,7 @@ describe('editorial content sizing', () => {
   it('updates sizing when navigating without leaving a compact style on People or Contact', () => {
     renderAt('/');
     const nav = screen.getByRole('navigation', { name: 'Main' });
-    for (const [label, density] of [['About', 'compact'], ['People', 'standard'], ['Contact', 'standard']] as const) {
+    for (const [label, density] of [['About', 'compact'], ['People', 'standard'], ['Resources', 'standard'], ['Contact', 'standard']] as const) {
       fireEvent.click(within(nav).getByRole('link', { name: label }));
       expect(screen.getByRole('main')).toHaveAttribute('data-content-density', density);
     }

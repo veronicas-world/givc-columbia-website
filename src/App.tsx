@@ -5,6 +5,7 @@ import { ContactPage } from './pages/ContactPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { PeoplePage } from './pages/PeoplePage';
+import { ResourcesPage } from './pages/ResourcesPage';
 
 export function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ export function AppRoutes() {
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="people" element={<PeoplePage />} />
+        <Route path="resources" element={<ResourcesPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

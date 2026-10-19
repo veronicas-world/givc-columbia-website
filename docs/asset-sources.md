@@ -57,6 +57,18 @@ Other supplied inputs in `design-preview/refresh-inputs/` (`parent-group`, `pare
 
 ## Parent-network information and graphics
 
+### Resources page
+
+The Resources page added on 2026-10-18 links to the parent organization, not Columbia's interest form or chapter social accounts. Sources checked that day:
+
+- https://www.girlsintovc.com/podcast links to Spotify show `11qwyNr02er9kvlaYc95LD`, Apple Podcasts show `1676192516`, the Beehiiv newsletter, parent Instagram (`girlsintovc`) and parent LinkedIn (`girls-into-vc`). The podcast description is paraphrased from this page and its Apple Podcasts listing. No publishing schedule is promised.
+- https://girlsintovc.beehiiv.com/subscribe is the direct newsletter subscription page; the archive at https://girlsintovc.beehiiv.com/ covers news, events, programs and opportunities.
+- https://www.tiktok.com/@girlsintovc is indexed as Girls Into VC, with the organization's mission in its profile description.
+
+| File | Pixels | Source | Treatment |
+| --- | --- | --- | --- |
+| `public/images/network/girls-into-vc-podcast.webp` | 560 x 560 | Official cover on https://podcasts.apple.com/us/podcast/girls-into-vc-podcast/id1676192516; image https://is1-ssl.mzstatic.com/image/thumb/Podcasts126/v4/48/69/89/48698936-daa5-287e-8f2c-f7a4f93bda81/mza_3792749090521342405.jpg/560x560bb.webp | Downloaded unchanged; displayed square without cropping. No published license found; used to identify and link to the parent podcast under the user's request. |
+
 The parent homepage at https://www.girlsintovc.com/ was checked on 2026-10-14. Mission, educational resources, mentorship, fellowship, campus chapters, events, founder Isabella Mandis, and CEO Sarah Phillips are paraphrased in `src/content/network.ts`. Parent programs and affiliations are labeled separately from the Columbia chapter.
 
 The homepage’s "Our impact" block reports **6 continents, 24 campus chapters, 75 countries, and 10k members**. These are parent-organization figures, not Columbia totals, and are shown on About and beneath the Home "Why join" photo. The same block inexplicably also labels **150** as **members**; no definition explains the relationship to 10k, so 150 is omitted rather than relabeled. The older founder biography gives 8,000 members and 60 countries; the visuals follow the impact block, not that biography.
@@ -120,7 +132,7 @@ The parent page's DOM text swaps the 2% and 9% captions; the pairings follow the
 
 ## Past-event source notes (not displayed on the site)
 
-The former Resources page and its past-event archive have been removed from the site. These source discrepancies are retained as historical notes; they are not displayed:
+The former curated Resources page and its past-event archive were removed. The current Resources page contains only parent-network newsletter, podcast and social links. These past-event source discrepancies are retained as historical notes; they are not displayed:
 
 - Women Investors in VC: the recap says April 10 in Pupin 428; the announcement says March 31, 2026 in Lerner 568.
 - Fireside chat date: the recap says May 2; the announcement says Monday, April 27, 4 to 5 pm.

@@ -31,6 +31,7 @@ const routes: Array<[string, RegExp]> = [
   ['/', /Girls Into VC at Columbia/],
   ['/about', /About/],
   ['/people', /Executive Board/],
+  ['/resources', /Resources/],
   ['/contact', /Contact/],
 ];
 
@@ -62,7 +63,7 @@ describe('site routes', () => {
     expect(within(channels).getByRole('link', { name: /Instagram/ })).toHaveAttribute('href', siteLinks.instagram);
   });
 
-  it.each(['/missing', '/resources', '/events'])('shows a not-found page for removed paths such as %s', (path) => {
+  it.each(['/missing', '/events'])('shows a not-found page for unknown paths such as %s', (path) => {
     renderAt(path);
     expect(screen.getByRole('heading', { level: 1, name: /Page not found/ })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Go to the home page' })).toHaveAttribute('href', '/');
@@ -89,20 +90,20 @@ describe('site routes', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Girls Into VC at Columbia' })).toBeInTheDocument();
   });
 
-  it('lists About, People and Contact in the header and footer', () => {
+  it('lists About, People, Resources and Contact in the header and footer', () => {
     renderAt('/');
-    const expected = ['About', 'People', 'Contact'];
+    const expected = ['About', 'People', 'Resources', 'Contact'];
     const main = screen.getByRole('navigation', { name: 'Main' });
     expect(within(main).getAllByRole('link').map((link) => link.textContent)).toEqual(expected);
     const footer = screen.getByRole('contentinfo');
     const footerNav = within(footer).getByRole('navigation', { name: 'Footer' });
-    expect(within(footerNav).getAllByRole('link').map((link) => link.textContent)).toEqual(['About', 'People', 'Contact']);
+    expect(within(footerNav).getAllByRole('link').map((link) => link.textContent)).toEqual(expected);
     expect(within(footer).getByRole('link', { name: 'About' })).toHaveAttribute('href', '/about');
     expect(within(footer).getByRole('link', { name: 'People' })).toHaveAttribute('href', '/people');
+    expect(within(footer).getByRole('link', { name: 'Resources' })).toHaveAttribute('href', '/resources');
     expect(within(footer).getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '/contact');
     expect(within(footer).queryByRole('link', { name: 'Events' })).toBeNull();
     expect(document.querySelector('a[href="/events"]')).toBeNull();
-    expect(document.querySelector('a[href="/resources"]')).toBeNull();
   });
 
   it('offers a skip link to the main content', () => {
@@ -152,6 +153,7 @@ describe('final copy across the five routes', () => {
   it.each([
     ['/about', ['white', 'pale', 'white', 'pale']],
     ['/people', ['white', 'pale']],
+    ['/resources', ['white', 'pale', 'white']],
     ['/contact', ['pink', 'white']],
   ] as const)('%s divides its content into full-width color bands', (path, tones) => {
     renderAt(path);

@@ -12,13 +12,13 @@ function renderHeader() {
 }
 
 describe('SiteHeader', () => {
-  it('lists About, People and Contact in the main navigation', () => {
+  it('lists About, People, Resources and Contact in the main navigation', () => {
     renderHeader();
     const names = screen
       .getAllByRole('link')
       .filter((link) => link.closest('nav'))
       .map((link) => link.textContent);
-    expect(names).toEqual(['About', 'People', 'Contact']);
+    expect(names).toEqual(['About', 'People', 'Resources', 'Contact']);
   });
 
   it('uses the logo as a link to the landing page', () => {
