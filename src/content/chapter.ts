@@ -84,8 +84,8 @@ export interface Engagement {
 /** User-supplied facts. No host firms or dates are listed until the chapter confirms them. */
 export const nycEngagement: Engagement[] = [
   {
-    title: 'Site visits to NYC venture capital firms',
-    description: 'Members visit venture capital firms in New York City to learn how investment teams work.',
+    title: 'Site visits to NYC startups and venture capital firms',
+    description: 'Members visit startups and venture capital firms in New York City to learn how their teams work.',
   },
   {
     title: 'Girls Into VC NYC chapter',
@@ -94,5 +94,27 @@ export const nycEngagement: Engagement[] = [
   },
 ];
 
+export const siteVisitsIntro =
+  'Members visit startups and venture capital firms across New York City to meet their teams and see how they work.';
+
+export interface SiteVisit {
+  /** Matches the visit's key in `siteVisitPhotos`. */
+  id: 'factory';
+  host: string;
+  hostUrl: string;
+  /** Follows the linked host name in the photo caption. */
+  captionRest: string;
+}
+
+/** Chapter-supplied site visit recaps, newest first. Dates are not listed. */
+export const siteVisits: SiteVisit[] = [
+  {
+    id: 'factory',
+    host: 'Factory',
+    hostUrl: 'https://factory.com',
+    captionRest:
+      ' hosted the chapter at its New York City office for the Columbia x NYU Docking Station. Members heard from the team, watched a live product demo, and then built a working app with Droids, Factory’s AI software engineering agents.',
+  },
+];
 export const parentSummary =
   'Girls Into VC is a broader network that helps women learn about venture capital through education, mentorship, and community. Its campus chapters are student-led groups at individual universities.';

@@ -40,16 +40,19 @@ describe('parent typography', () => {
     expect(navLinkStyles).toMatch(/color:\s*var\(--logo-pink\)/);
   });
 
-  it('styles the mobile menu button in landing pink with the Lora font', () => {
+  it('styles the mobile menu as dark-pink heading text without a box on any page', () => {
     const menuToggleStyles = /\.menu-toggle\s*{([^}]*)}/.exec(css)?.[1] ?? '';
-    const overlayMenuToggleStyles = /\.site-header-overlay \.menu-toggle\s*{([^}]*)}/.exec(css)?.[1] ?? '';
+    const focusStyles = /\.menu-toggle:focus-visible\s*{([^}]*)}/.exec(css)?.[1] ?? '';
     const mobileMenuToggleStyles =
       /@media \(max-width: 47\.99rem\)\s*{\s*\.menu-toggle\s*{([^}]*)}/.exec(css)?.[1] ?? '';
 
-    expect(css).toMatch(/--pink:\s*#f174a2/);
-    expect(menuToggleStyles).toMatch(/font-family:\s*var\(--font-body\)/);
-    expect(menuToggleStyles).toMatch(/background:\s*var\(--pink\)/);
+    expect(menuToggleStyles).toMatch(/font-family:\s*var\(--font-heading\)/);
+    expect(menuToggleStyles).toMatch(/color:\s*var\(--pink-dark\)/);
+    expect(menuToggleStyles).toMatch(/background:\s*transparent/);
+    expect(menuToggleStyles).toMatch(/border:\s*0;/);
+    expect(menuToggleStyles).toMatch(/display:\s*none/);
     expect(mobileMenuToggleStyles).toMatch(/display:\s*inline-block/);
-    expect(overlayMenuToggleStyles).toMatch(/background:\s*var\(--pink\)/);
+    expect(css).not.toMatch(/\.site-header-overlay \.menu-toggle\s*{/);
+    expect(focusStyles).toMatch(/text-decoration:\s*underline/);
   });
 });

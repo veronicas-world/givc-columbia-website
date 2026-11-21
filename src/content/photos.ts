@@ -1,4 +1,4 @@
-import type { PastSpeaker } from './chapter';
+import type { PastSpeaker, SiteVisit } from './chapter';
 
 /**
  * Photographs shown on the site. Width and height are the shipped file's
@@ -17,12 +17,12 @@ export interface SitePhoto {
 
 export const homePhotos = {
   introGroup: {
-    src: '/images/photos/girls-into-vc-intro.jpg',
-    alt: 'Ten women standing together in front of Girls Into VC banners',
-    width: 828,
-    height: 512,
+    src: '/images/photos/columbia-chapter-group.jpg',
+    alt: 'Girls Into VC at Columbia members posing together on steps in front of stone columns',
+    width: 1024,
+    height: 743,
     focus: '50% 50%',
-    sourceNote: 'Group photo supplied by the user on 2026-10-14 for the Home introduction, copied unchanged.',
+    sourceNote: 'Full chapter group photo supplied on 2026-11-21, copied unchanged for the Home introduction below the opening.',
   },
   librarySteps: {
     src: '/images/photos/low-library-steps.jpg',
@@ -133,6 +133,19 @@ export const chapterActivityPhotos = {
   },
 } satisfies Record<string, SitePhoto>;
 
+/** Photos from chapter site visits, keyed by `SiteVisit.id` and captioned with the visit recap. */
+export const siteVisitPhotos = {
+  factory: {
+    src: '/images/photos/site-visit-factory-build.jpg',
+    alt: 'Students coding on laptops at long tables facing two large screens, with orange, black and white balloons',
+    width: 1069,
+    height: 768,
+    focus: '50% 50%',
+    sourceNote:
+      'Photo from the chapter’s site visit to Factory, supplied by the user on 2026-11-21 as IMG_9353.heic and converted to JPEG at its native size.',
+  },
+} satisfies Record<SiteVisit['id'], SitePhoto>;
+
 const speakerNote =
   'Headshot from a chapter Instagram event slide, recovered from Git history at full screenshot resolution, upscaled 4x with Real-ESRGAN x4plus and resized to 640 x 640.';
 
@@ -204,6 +217,7 @@ export const allSitePhotos: SitePhoto[] = [
   ...Object.values(networkPhotos),
   ...Object.values(chapterActivityPhotos),
   ...Object.values(speakerPhotos),
+  ...Object.values(siteVisitPhotos),
 ];
 
 /** Each alternating Home section uses a different existing editorial photo. */

@@ -151,7 +151,7 @@ describe('final copy across the five routes', () => {
   });
 
   it.each([
-    ['/about', ['white', 'pale', 'white', 'pale']],
+    ['/about', ['white', 'pale', 'white', 'pale', 'white']],
     ['/people', ['white', 'pale']],
     ['/resources', ['white', 'pale', 'white']],
     ['/contact', ['pink', 'white']],
@@ -170,7 +170,7 @@ describe('final copy across the five routes', () => {
 });
 
 describe('footer', () => {
-  it('credits Factory in a full-width footer row with the social buttons', () => {
+  it('credits Factory in a full-width footer row with the social logos', () => {
     renderAt('/');
     const footer = screen.getByRole('contentinfo');
     const credit = footer.querySelector<HTMLElement>('.footer-credit')!;
@@ -202,6 +202,9 @@ describe('footer', () => {
     for (const link of socialLinks) {
       expect(link).toHaveAttribute('target', '_blank');
       expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+      expect(link.querySelector('svg')).toHaveAttribute('viewBox', '0 0 16 16');
+      expect(link.querySelector('svg')).toHaveAttribute('fill', 'currentColor');
+      expect(link.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
     }
     expect(footer.textContent).not.toMatch(/copyright|©|coming soon/i);
     expect(footer.querySelectorAll('.sketch-accent[aria-hidden="true"]')).toHaveLength(16);

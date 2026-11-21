@@ -20,10 +20,13 @@ const expectedNames = [
   'NewYork-Presbyterian',
   'Dorm Room Fund',
   'Alumni Ventures',
+  'University of Cambridge',
+  'Spectrum Equity',
+  'ElevenLabs',
 ];
 
 describe('represented organizations', () => {
-  it('lists the sixteen supplied organizations in order', () => {
+  it('lists all supplied organizations in order', () => {
     expect(representedOrganizations.map((organization) => organization.name)).toEqual(expectedNames);
   });
 
@@ -44,7 +47,7 @@ describe('represented organizations', () => {
     for (const organization of representedOrganizations) {
       expect(organization.logo).toMatch(/^\/images\/organizations\/[a-z-]+\.(svg|png)$/);
       expect(existsSync(resolve(process.cwd(), 'public', organization.logo.slice(1)))).toBe(true);
-      expect(organization.source).toMatch(/^https:\/\//);
+      expect(organization.source).toMatch(/^(https:\/\/\S+|Chapter-supplied artwork)$/);
       expect(sourceNotes).toContain(organization.logo.split('/').pop());
       expect(sourceNotes).toContain(organization.source);
     }

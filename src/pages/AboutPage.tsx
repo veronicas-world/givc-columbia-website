@@ -3,9 +3,9 @@ import { PageHeader } from '../components/PageHeader';
 import { PageSection } from '../components/PageSection';
 import { Photo } from '../components/Photo';
 import { ExternalLink } from '../components/ExternalLink';
-import { activities, pastSpeakers, type Activity } from '../content/chapter';
+import { activities, pastSpeakers, siteVisits, siteVisitsIntro, type Activity } from '../content/chapter';
 import { siteLinks } from '../content/links';
-import { chapterActivityPhotos, networkPhotos, speakerPhotos } from '../content/photos';
+import { chapterActivityPhotos, networkPhotos, siteVisitPhotos, speakerPhotos } from '../content/photos';
 import {
   networkDescriptionRest,
   networkGraphics,
@@ -60,7 +60,21 @@ export function AboutPage() {
         </ul>
       </PageSection>
 
-      <PageSection labelledBy="network-title">
+      <PageSection labelledBy="site-visits-title" className="site-visits">
+        <h2 id="site-visits-title">Site visits</h2>
+        <p className="site-visits-intro">{siteVisitsIntro}</p>
+        {siteVisits.map((visit) => (
+          <figure key={visit.id} className="site-visit">
+            <Photo photo={siteVisitPhotos[visit.id]} className="site-visit-photo" />
+            <figcaption>
+              <ExternalLink href={visit.hostUrl}>{visit.host}</ExternalLink>
+              {visit.captionRest}
+            </figcaption>
+          </figure>
+        ))}
+      </PageSection>
+
+      <PageSection labelledBy="network-title" tone="pale">
         <div className="network-about-grid">
           <div>
             <h2 id="network-title">The Girls Into VC network</h2>
@@ -82,7 +96,7 @@ export function AboutPage() {
         </ul>
       </PageSection>
 
-      <PageSection labelledBy="network-recognition-title" tone="pale" className="network-recognition">
+      <PageSection labelledBy="network-recognition-title" className="network-recognition">
         <h2 id="network-recognition-title">Partners and recognition</h2>
         <h3>Parent organization partners</h3>
         <img

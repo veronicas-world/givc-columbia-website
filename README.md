@@ -12,8 +12,8 @@ Desktop pages use a shared 90% visual scale, including navigation and footer, wi
 
 | Route        | Content |
 | ------------ | ------- |
-| `/`          | Full-height pink opening with the white Girls Into VC logo and "at Columbia", then the supplied Low Library steps photo and a centered static chapter introduction, reasons to join, NYC venture capital firm site visits and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%) that roll once to their values, "Where our members are represented" logos, a link to About and the interest list |
-| `/about`     | "About the Columbia chapter": speaker events with captioned past-speaker headshots, then Pre-Professional Workshops, the 10-week fellowship, Continued Education and Community in four responsive columns, followed by the wider Girls Into VC network |
+| `/`          | Full-height campus-photo opening with the white Girls Into VC logo and "at Columbia", then a static chapter introduction beside the supplied full chapter photo (shown uncropped), reasons to join, site visits to NYC startups and venture capital firms and the Girls Into VC NYC chapter connection, a community photo, activities with general Girls Into VC photos, a compact "Why we exist" section with four parent figures (2%, 7%, 8%, 9%) that roll once to their values, "Where our members are represented" logos, a link to About and the interest list |
+| `/about`     | "About the Columbia chapter": Pre-Professional Workshops, the 10-week fellowship, Continued Education and Community in four responsive columns, speaker events with captioned past-speaker headshots, site visits to NYC startups and venture capital firms (the Factory visit photo, captioned with a recap that links to factory.com), then the wider Girls Into VC network |
 | `/people`    | Executive Board: six supplied officer profiles in compact, light-pink framed cards. Members: 50 general members in centered, wrapping rows (about five across on desktop), grouped under Class of 2028 (10), Class of 2029 (24) and Class of 2030 (16), without repeating board members or introductory descriptions |
 | `/resources` | Parent Girls Into VC newsletter subscription, podcast description and official cover art with Spotify and Apple Podcasts links, and parent Instagram, LinkedIn and TikTok accounts |
 | `/contact`   | Interest-list button, an on-site contact form that sends through FormSubmit, LinkedIn and Instagram |
@@ -22,7 +22,7 @@ Design rules for future edits: the official Girls Into VC logo (never retyped in
 
 ## Motion
 
-All motion is plain CSS plus the preference and visibility helpers in `src/motion/`, with no animation library. Scrolling is never taken over.
+Motion uses CSS and browser APIs, with preference and visibility helpers in `src/motion/` and no animation library. Vertical scrolling is never taken over.
 
 - `LandingVisual.tsx` and `LandingMark.tsx`: Home starts on a navy-tinted photo of Alma Mater and Butler Library (`public/images/photos/landing-alma-mater.jpg`, set on `.home-hero` in `src/styles/global.css`) for 0.55 seconds, then the genuine GIVC logo outlines in white and fills. At 1.7 seconds the menu bar appears as the ten supplied sketches start spinning outward across the full landing screen, not the inner content box. The sketches exit completely by 4.7 seconds; the logo and "at Columbia" stay, without looping or changing to a headline. Styling is in `src/components/LandingVisual.css`; `SiteHeader` applies the delayed reveal only on Home. The logo name stays accessible throughout. Reduced motion shows the clean final state and menu immediately, without sketches or replaying.
 - The Home chapter introduction appears as complete static text immediately. Its photo still reveals once when the section enters view.
@@ -30,9 +30,10 @@ All motion is plain CSS plus the preference and visibility helpers in `src/motio
 - `useSectionReveals.ts`: page sections that start below the fold fade up once as they are scrolled into view. Sections already on screen are never hidden.
 - `useSectionLift.ts`: on Home only, each section's inner content rests a few pixels below its place while it approaches the middle of the screen and lifts a few pixels above it as the section is scrolled past, so bands drift gently through the page. Only inner content moves, never the full-bleed band backgrounds or the hero, and scrolling is never taken over.
 - `useHeroTint.ts`: on Home only, a translucent pink cover fades in over the landing photo as it scrolls away (up to 70% opacity once 60% of the landing screen has scrolled past) and fades back out at the top. The logo stays above it. Reduced motion leaves the photo uncovered.
-- Small hover and focus color changes on buttons, navigation, logo cells and list items, set in `src/styles/global.css`.
+- `RepresentedOrganizations.tsx`: the top logo row drifts left and the bottom row drifts right in seamless loops while visible, without navigation buttons. The rows pause on hover, focus, or touch. Reduced motion keeps both rows manually scrollable.
+- Small hover and focus color changes on buttons, navigation and list items, set in `src/styles/global.css`.
 
-Nothing replays when scrolling away and back during the same page visit. When the visitor's system asks for reduced motion (`prefers-reduced-motion: reduce`), or the browser has no `IntersectionObserver`, the heading and figures render complete and final straight away, no section is hidden and the scroll drift settles to none. Turning reduced motion on while the page is open has the same effect at once, even mid-animation, and nothing restarts if it is turned off again before the next page load; the reduced-motion rule at the end of `src/styles/global.css` also turns off transitions and animations. Behavior is covered by `src/motion/motion.test.tsx`.
+One-time animations do not replay when scrolling away and back during the same page visit. When the visitor's system asks for reduced motion (`prefers-reduced-motion: reduce`), or the browser has no `IntersectionObserver`, the heading and figures render complete and final straight away, no section is hidden and the scroll drift settles to none. Turning reduced motion on while the page is open has the same effect at once, even mid-animation, and nothing restarts if it is turned off again before the next page load; the reduced-motion rule at the end of `src/styles/global.css` also turns off transitions and animations. Behavior is covered by `src/motion/motion.test.tsx`.
 
 ## Requirements
 
@@ -61,15 +62,15 @@ npm run build                # production build into dist/
 Page copy and links live in typed files under `src/content/`:
 
 - `links.ts`: interest form, Instagram, chapter LinkedIn, and parent-network URLs
-- `chapter.ts`: chapter introduction and purpose, activities, reasons to join, NYC engagement
+- `chapter.ts`: chapter introduction and purpose, activities, reasons to join, NYC engagement, and About site visits (`siteVisits`; add a record and its photos in `siteVisitPhotos` for each new visit)
 - `representation.ts`: the four "Why we exist" figures and their labels (single-digit values, because the rolling animation is built for one digit; provenance in `docs/asset-sources.md`; never cited on the page)
 - `members.ts`: full 56-person public roster from the original 31-person list plus 25 supplemental members (name, school code, class year only), `approvedMemberLinkedIns`, and `memberClassGroups`; People groups by class year and filters out current board members from its general list. `GS` denotes Columbia School of General Studies.
 - `board.ts`: six chapter-supplied board cards in leadership order; `boardIsPending` is `false`
 - `navigation.ts`: main navigation order (About, People, Resources, Contact), shared by the header and footer
 - `parentResources.ts`: parent newsletter subscription, podcast description, cover art and listening links, and parent social accounts; separate from Columbia's interest form and social accounts
-- `photos.ts`: Home and About photographs with alt text, intrinsic size, crop focus and a maintainer-only source note (never rendered)
+- `photos.ts`: Home and About photographs, including one site-visit photo per visit, with alt text, intrinsic size, crop focus and a maintainer-only source note (never rendered)
 - `brand.ts`: the official logo files and the "at Columbia" descriptor
-- `organizations.ts`: the 14 represented-company logos on Home
+- `organizations.ts`: the represented-organization logos in the two-row, swipeable Home carousel
 - `contact.ts`: the president's public name and role, plus FormSubmit's anonymous form code; never put a recipient email here
 
 Pages and the footer read from these files, so a change in one place updates every page. Styling is in `src/styles/global.css`. Images are served from `public/images/`, and every image's source and terms are listed in [`docs/asset-sources.md`](docs/asset-sources.md); add a row there whenever you add or replace an image.

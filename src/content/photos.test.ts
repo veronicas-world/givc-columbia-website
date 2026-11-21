@@ -36,6 +36,15 @@ describe('site photography', () => {
     expect(imageSize(publicPath(homePhotos.librarySteps.src))).toEqual({ width: 971, height: 507 });
   });
 
+  it('uses the supplied full chapter photo for the Home introduction', () => {
+    expect(homePhotos.introGroup).toMatchObject({
+      src: '/images/photos/columbia-chapter-group.jpg',
+      width: 1024,
+      height: 743,
+    });
+    expect(homePhotos.introGroup.alt).toMatch(/Girls Into VC at Columbia members/);
+  });
+
   it('describes general photos without naming people or events', () => {
     for (const photo of activityPhotos) {
       expect(photo.alt).not.toMatch(/chapter|Columbia|[A-Z][a-z]+ [A-Z][a-z]+ (spoke|speaks)/);

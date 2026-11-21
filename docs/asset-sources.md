@@ -13,6 +13,8 @@ Every image and font shipped from `public/` and where it came from. Originals (s
 
 "at Columbia" is set separately in Alice next to the artwork; it is not part of the parent logo. The CDN can return WebP to some clients for the URL above; the build used the PNG response. `design-preview/refresh-inputs/givc-logo-reference.png` is a reference only and is not shipped.
 
+The footer uses the [Instagram](https://github.com/twbs/icons/blob/v1.13.1/icons/instagram.svg) and [LinkedIn](https://github.com/twbs/icons/blob/v1.13.1/icons/linkedin.svg) brand glyphs from Bootstrap Icons v1.13.1. The SVG paths in `src/components/SiteFooter.tsx` are unchanged and use the GIVC logo pink via CSS. The marks belong to their respective owners. See the [Bootstrap Icons license](bootstrap-icons-license.txt).
+
 ## Sketches (`public/images/sketches/`)
 
 Ten decorative motifs extracted from the pink Girls Into VC artwork supplied by the user on 2026-10-14: `leaves`, `sprig`, `sparkles`, `star`, `dots`, `rays`, `loop`, `zigzag`, `ribbon`, and `splash`. Cropped to the individual drawings and saved as transparent PNGs, removing the pale background and gray frame. Pink coverage is recovered against the background to retain the lighter motifs and antialiased edges. No logo or screenshot text is included. These small derivatives are shipped locally; the temporary screenshot is not required at runtime. Sketches appear in the shared footer and the Home opening. The footer's light pink background (`#fdf5fa`) is sampled from the reference; the opening uses white and deep-rose CSS treatments of the same shapes.
@@ -25,11 +27,12 @@ Alice 400 and upright Lora (one variable file covering weights 400 to 700), lati
 
 ## Photos (`public/images/photos/`)
 
-Photos carry no visible captions or credits on the site, with one exception: the past-speaker headshots on About are captioned with the speaker's name and role (no dates). Other alt text describes what is visible without naming people or events. General Girls Into VC photos are editorial images and do not claim that a photo shows a particular Columbia chapter event. `scripts/build-refresh-assets.py` rebuilds the derivatives (and the brand files) from the originals; originals are only read.
+Photos carry no visible captions or credits on the site except on About: past-speaker headshots are captioned with the speaker's name and role (no dates), and site-visit photos are captioned with the chapter's recap. Other alt text describes what is visible without naming people or events. General Girls Into VC photos are editorial images and do not claim that a photo shows a particular Columbia chapter event. `scripts/build-refresh-assets.py` rebuilds the derivatives (and the brand files) from the originals; originals are only read.
 
 | File | Pixels | Source | Notes |
 | --- | --- | --- | --- |
-| `girls-into-vc-intro.jpg` | 828 x 512 | Group photo supplied by the user on 2026-10-14 | Copied byte for byte for the Home introduction. Shown uncropped next to the typed chapter description; no Columbia event or identities are inferred. |
+| `columbia-chapter-group.jpg` | 1024 x 743 | Full chapter photo supplied on 2026-11-21 | Copied byte for byte. Shown uncropped next to the chapter description below the Home opening. The opening background is unchanged. |
+| `girls-into-vc-intro.jpg` | 828 x 512 | Group photo supplied by the user on 2026-10-14 | Original retained unchanged; no longer displayed. |
 | `givc-network-about.jpg` | 1600 x 900 | Official parent homepage photo `DJI_20260228105509_0012_D.jpg`, https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/ee07e229-08d7-4fc2-8ad3-d8d55012f884/DJI_20260228105509_0012_D.jpg | Resized from 2048 x 1152. Used for the parent-network description on About, not presented as a Columbia event. |
 | `landing-alma-mater.jpg` | 2400 x 1566 | Photo of the Alma Mater statue in front of Butler Library, supplied by the chapter on 2026-10-16 (1024 x 683 original kept as `design-preview/refresh-inputs/alma-mater-butler.jpeg`) | Built with `scripts/build-landing-photo.py`: AI-upscaled 4x with Real-ESRGAN x4plus, one perspective warp that levels a 0.46 degree tilt and makes the columns vertical, a crop centered on the statue, then a Lanczos resize and JPEG quality 82. The upscale sharpens edges but cannot recover the illegible frieze inscription. Home landing background under a navy tint. Source and license were not supplied; it appears to be a stock or press photo, so confirm rights or replace it with a chapter photo. |
 | `givc-network-impact.jpg` | 1200 x 800 | Official parent homepage photo `606A6912.jpg`, https://images.squarespace-cdn.com/content/v1/679000943bec52460a2447e3/ef67c8df-9d8b-43df-823c-6b4480b3bb9f/606A6912.jpg | Resized from 2500 x 1667. Used beside parent-network impact figures on About. |
@@ -43,6 +46,7 @@ Photos carry no visible captions or credits on the site, with one exception: the
 | `chapter-fellowship.jpg` | 1024 x 539 | User-supplied photo of students in a lecture hall at a Girls Into VC event (2026-10-16) | Fellowship column on About. Copied unchanged from the supplied JPEG. |
 | `chapter-continued-education.jpg` | 851 x 756 | User-supplied photo of four women seated together at a gathering (2026-10-16) | Continued Education column on About. Cropped from the supplied 878 x 784 JPEG to remove its light outer margin; CSS crop focuses at 50% 35%. |
 | `chapter-community.jpg` | 1024 x 889 | User-supplied group photo of four women at a Girls Into VC event (2026-10-16) | Community column on About. Copied unchanged from the supplied JPEG. |
+| `site-visit-factory-build.jpg` | 1069 x 768 | Photo from the chapter's site visit to Factory's New York City office, supplied by the user on 2026-11-21 as `IMG_9353.heic` | Converted from HEIC to JPEG (quality 88) at native size. Shown under Site visits on About with the visit recap as its caption. |
 | `speaker-avni-barman.jpg` | 800 x 800 | User-supplied photo (2026-10-16) | Portrait of Avni Barman on About. Copied unchanged from the supplied JPEG. |
 | `speaker-andrea-wang.jpg` | 800 x 800 | User-supplied photo (2026-10-16) | Portrait of Andrea Wang on About. Copied unchanged from the supplied JPEG. |
 | `speaker-joshua-browder.jpg` | 640 x 640 | Chapter Instagram fireside-chat slide (`IMG_6207.png`), right headshot | Captioned "Founder and CEO, DoNotPay". AI-upscaled; unchanged in the 2026-10-16 photo update. |
@@ -114,6 +118,9 @@ Shown under "Where our members are represented" on Home. They describe where mem
 | `newyork-presbyterian.svg` | NewYork-Presbyterian | https://www.nyp.org/ (site logo file `/sites/default/files/2024-08/NYP_square_box_rgb_enlargedd.svg`) |
 | `dorm-room-fund.svg` | Dorm Room Fund | https://www.dormroomfund.com/ (site header logo) |
 | `alumni-ventures.svg` | Alumni Ventures | https://commons.wikimedia.org/wiki/File:Alumni_Ventures.svg |
+| `university-of-cambridge.png` | University of Cambridge | Chapter-supplied artwork. Removed the turquoise background and cropped the transparent padding around the crest and wordmark. |
+| `spectrum-equity.png` | Spectrum Equity | Chapter-supplied artwork. Transparent PNG copied unchanged. |
+| `elevenlabs.png` | ElevenLabs | Chapter-supplied artwork. Removed the white background and cropped the transparent padding around the monochrome logo. |
 
 Source-file edits: a `viewBox` matching the existing width and height was added to `jp-morgan.svg` so they scale cleanly. The Factory wordmark was copied from the inline SVG in the factory.ai header, with its layout classes removed. The Dorm Room Fund logo was downloaded from the site header and recolored purple for the homepage; the Alumni Ventures logo is the unchanged Wikimedia Commons SVG.
 

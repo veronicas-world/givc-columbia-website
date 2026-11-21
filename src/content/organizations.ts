@@ -8,7 +8,7 @@ export interface RepresentedOrganization {
   id: string;
   name: string;
   logo: string;
-  /** Page the logo file was taken from. */
+  /** Source URL or attribution for chapter-supplied artwork. */
   source: string;
   /** Optical size adjustment so wide and compact logos look balanced. 1 is the default height. */
   scale?: number;
@@ -122,5 +122,26 @@ export const representedOrganizations: RepresentedOrganization[] = [
     logo: '/images/organizations/alumni-ventures.svg',
     source: 'https://commons.wikimedia.org/wiki/File:Alumni_Ventures.svg',
     scale: 1.4,
+  },
+  {
+    id: 'university-of-cambridge',
+    name: 'University of Cambridge',
+    logo: '/images/organizations/university-of-cambridge.png',
+    source: 'Chapter-supplied artwork',
+    scale: 1.8,
+  },
+  {
+    id: 'spectrum-equity',
+    name: 'Spectrum Equity',
+    logo: '/images/organizations/spectrum-equity.png',
+    source: 'Chapter-supplied artwork',
+    scale: 1.35,
+  },
+  {
+    id: 'elevenlabs',
+    name: 'ElevenLabs',
+    logo: '/images/organizations/elevenlabs.png',
+    source: 'Chapter-supplied artwork',
+    scale: 0.85,
   },
 ];

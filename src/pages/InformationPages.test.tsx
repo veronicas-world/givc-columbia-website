@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { chapterIntro } from '../content/chapter';
 import { representedOrganizations } from '../content/organizations';
-import { chapterActivityPhotos, homeFeaturePhotos, homePhotos } from '../content/photos';
+import { chapterActivityPhotos, homeFeaturePhotos, homePhotos, siteVisitPhotos } from '../content/photos';
 import { networkGraphics } from '../content/network';
 import { AboutPage } from './AboutPage';
 import { HomePage } from './HomePage';
@@ -61,7 +61,7 @@ describe('HomePage', () => {
     expect(screen.queryByRole('link', { name: 'About the chapter' })).toBeNull();
   });
 
-  it('shows the supplied group photo and general photos without campus imagery or visible captions', () => {
+  it('shows the supplied full chapter photo first below the opening without adding captions', () => {
     const { container } = renderPage(<HomePage />);
     expect(screen.getByRole('img', { name: homePhotos.introGroup.alt })).toHaveAttribute(
       'src',
@@ -72,6 +72,11 @@ describe('HomePage', () => {
     expect(screen.queryByRole('img', { name: homePhotos.community.alt })).toBeNull();
     const photos = [...container.querySelectorAll('img[src^="/images/photos/"]')];
     expect(photos).toHaveLength(4);
+    expect(photos[0]).toHaveAttribute('src', '/images/photos/columbia-chapter-group.jpg');
+    expect(photos[0]).toHaveAttribute('width', '1024');
+    expect(photos[0]).toHaveAttribute('height', '743');
+    expect(container.querySelector('img[src="/images/photos/girls-into-vc-intro.jpg"]')).toBeNull();
+    expect(container.querySelector('img[src="/images/photos/columbia-board-welcome.jpg"]')).toBeNull();
     expect(new Set(photos.map((photo) => photo.getAttribute('src'))).size).toBe(4);
     expect(container.querySelector('figcaption')).toBeNull();
     expect(container.textContent).not.toMatch(/not a Columbia chapter event|Photo:|chapter Instagram\./);
@@ -123,7 +128,7 @@ describe('HomePage', () => {
   it('describes NYC firm site visits and the Girls Into VC NYC chapter without naming host firms', () => {
     renderPage(<HomePage />);
     const nyc = screen.getByRole('region', { name: 'New York City' });
-    expect(nyc.textContent).toMatch(/site visits to NYC venture capital firms/i);
+    expect(nyc.textContent).toMatch(/site visits to NYC startups and venture capital firms/i);
     expect(nyc.textContent).toMatch(/Girls Into VC NYC chapter/);
     for (const org of representedOrganizations) {
       expect(nyc.textContent).not.toContain(org.name);
@@ -254,7 +259,28 @@ describe('AboutPage', () => {
     expect(speakers.textContent).not.toMatch(/Weng|Andreessen|January|February|March|April|May \d|Pupin|Lerner/);
   });
 
+  it('follows speaker events with site visits: the Factory photo captioned with a factory.com link', () => {
+    renderPage(<AboutPage />);
+    const speakers = screen.getByRole('region', { name: 'Speaker events' });
+    const visits = screen.getByRole('region', { name: 'Site visits' });
+    expect(speakers.nextElementSibling).toBe(visits);
+    expect(visits).toHaveClass('page-band-white');
+    expect(visits.nextElementSibling).toBe(screen.getByRole('region', { name: 'The Girls Into VC network' }));
+    expect(visits.textContent).toMatch(/startups and venture capital firms across New York City/);
 
+    const images = within(visits).getAllByRole('img');
+    expect(images).toHaveLength(1);
+    expect(images[0]).toHaveAttribute('src', siteVisitPhotos.factory.src);
+    const caption = visits.querySelector('figcaption')!;
+    expect(caption.textContent!.replace(' (opens in a new tab)', '')).toBe(
+      'Factory hosted the chapter at its New York City office for the Columbia x NYU Docking Station. Members heard from the team, watched a live product demo, and then built a working app with Droids, Factory’s AI software engineering agents.',
+    );
+    const link = within(caption).getByRole('link', { name: /^Factory/ });
+    expect(link).toHaveAttribute('href', 'https://factory.com');
+    expect(caption.firstElementChild).toBe(link);
+    expect(within(visits).queryByRole('heading', { level: 3 })).toBeNull();
+    expect(visits.textContent).not.toMatch(/Series C|founded in 2023|Thank you/);
+  });
   it('adds the parent mission, leadership and programs, linking the first mention to the parent site', () => {
     renderPage(<AboutPage />);
     const network = screen.getByRole('region', { name: 'The Girls Into VC network' });
@@ -279,7 +305,7 @@ describe('AboutPage', () => {
   it('labels the partner and recognition graphics as parent-network information, not Columbia affiliation', () => {
     renderPage(<AboutPage />);
     const recognition = screen.getByRole('region', { name: 'Partners and recognition' });
-    expect(recognition).toHaveClass('page-band-pale');
+    expect(recognition).toHaveClass('page-band-white');
     expect(recognition.textContent).not.toMatch(/The parent organization lists|not Columbia-chapter partnerships or press features/);
     expect(within(recognition).getByRole('img', { name: networkGraphics.partners.alt })).toHaveAttribute(
       'src', networkGraphics.partners.src,
