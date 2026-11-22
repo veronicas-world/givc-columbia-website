@@ -26,7 +26,10 @@ describe('HomePage', () => {
     expect(description).toHaveTextContent(chapterIntro);
     const aboutLink = within(intro).getByRole('link', { name: 'Learn more about our chapter' });
     expect(aboutLink).toHaveAttribute('href', '/about');
-    expect(description.nextElementSibling).toBe(aboutLink);
+    const photo = within(intro).getByRole('img', { name: homePhotos.introGroup.alt });
+    expect(photo.closest('.photo-frame')?.nextElementSibling).toContainElement(aboutLink);
+    expect(aboutLink.lastElementChild).toHaveTextContent('→');
+    expect(aboutLink.lastElementChild).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('gives the supplied reasons to get involved', () => {

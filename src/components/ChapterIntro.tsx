@@ -23,9 +23,13 @@ export function ChapterIntro() {
       <div className="home-intro-copy">
         <h2 id="intro-title">About us</h2>
         <p className="home-description">{chapterIntro}</p>
-        <Link to="/about">Learn more about our chapter</Link>
       </div>
       <Photo photo={homePhotos.introGroup} className="home-intro-photo" />
+      <div className="home-intro-link">
+        <Link to="/about">
+          Learn more about our chapter<span aria-hidden="true">&nbsp;→</span>
+        </Link>
+      </div>
     </section>
   );
 }
