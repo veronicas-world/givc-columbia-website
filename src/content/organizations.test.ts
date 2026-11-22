@@ -21,7 +21,6 @@ const expectedNames = [
   'Dorm Room Fund',
   'Alumni Ventures',
   'University of Cambridge',
-  'Spectrum Equity',
   'ElevenLabs',
 ];
 

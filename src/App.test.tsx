@@ -144,7 +144,7 @@ describe('final copy across the five routes', () => {
       expect(sketch).toHaveAttribute('aria-hidden', 'true');
     }
     const sketches = screen.getByRole('contentinfo').querySelectorAll('.sketch-accent');
-    expect(sketches).toHaveLength(16);
+    expect(sketches).toHaveLength(21);
     for (const sketch of sketches) {
       expect(sketch.closest('footer')).toBe(screen.getByRole('contentinfo'));
     }
@@ -207,7 +207,7 @@ describe('footer', () => {
       expect(link.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
     }
     expect(footer.textContent).not.toMatch(/copyright|©|coming soon/i);
-    expect(footer.querySelectorAll('.sketch-accent[aria-hidden="true"]')).toHaveLength(16);
+    expect(footer.querySelectorAll('.sketch-accent[aria-hidden="true"]')).toHaveLength(21);
     expect(footer.querySelectorAll('.sketch-scatter')).toHaveLength(1);
   });
 });

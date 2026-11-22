@@ -8,6 +8,7 @@ const arrangements: Record<'garden' | 'notes' | 'playful' | 'footer' | 'title', 
   footer: [
     'ribbon', 'star', 'sprig', 'rays', 'dots', 'zigzag', 'loop', 'splash',
     'loop', 'leaves', 'sparkles', 'dots', 'sparkles', 'rays', 'sprig', 'star',
+    'sparkles', 'splash', 'sprig', 'dots', 'ribbon',
   ],
 };
 

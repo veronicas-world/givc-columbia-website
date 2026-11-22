@@ -1119,6 +1119,81 @@ a:hover {
   height: 1.5rem;
 }
 
+.sketch-scatter-footer .sketch-slot-17,
+.sketch-scatter-footer .sketch-slot-18,
+.sketch-scatter-footer .sketch-slot-19 {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.sketch-scatter-footer .sketch-slot-17 {
+  left: 63%;
+  top: 28%;
+  transform: rotate(12deg);
+}
+
+.sketch-scatter-footer .sketch-slot-18 {
+  left: 81%;
+  top: 43%;
+  transform: rotate(-14deg);
+}
+
+.sketch-scatter-footer .sketch-slot-19 {
+  left: 69%;
+  top: 62%;
+  transform: rotate(24deg);
+}
+
+.sketch-scatter-footer .sketch-slot-20,
+.sketch-scatter-footer .sketch-slot-21 {
+  bottom: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.sketch-scatter-footer .sketch-slot-20 {
+  left: 53%;
+  transform: rotate(-18deg);
+}
+
+.sketch-scatter-footer .sketch-slot-21 {
+  right: 12%;
+  transform: rotate(15deg);
+}
+
+@media (min-width: 48rem) {
+  /* On wider layouts, the navigation occupies the right-hand side. */
+  .sketch-scatter-footer .sketch-slot-17 {
+    left: 44%;
+    top: 0.35rem;
+  }
+
+  .sketch-scatter-footer .sketch-slot-18 {
+    left: 83%;
+    top: auto;
+    bottom: 2.65rem;
+  }
+
+  .sketch-scatter-footer .sketch-slot-19 {
+    left: 62%;
+    top: auto;
+    bottom: 2.45rem;
+  }
+}
+
+@media (max-width: 35.99rem) {
+  .sketch-scatter-footer .sketch-slot-17,
+  .sketch-scatter-footer .sketch-slot-18,
+  .sketch-scatter-footer .sketch-slot-19 {
+    display: none;
+  }
+
+  .sketch-scatter-footer .sketch-slot-21 {
+    right: auto;
+    left: 20%;
+  }
+}
+
 @media (max-width: 79.99rem) {
   .sketch-scatter-footer .sketch-slot-13 {
     top: auto;

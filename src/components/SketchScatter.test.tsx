@@ -7,7 +7,7 @@ describe('SketchScatter', () => {
   it('disperses all ten reference motifs in one footer-wide arrangement', () => {
     const { container } = render(<SketchScatter arrangement="footer" />);
     const sketches = [...container.querySelectorAll('img')];
-    expect(sketches).toHaveLength(16);
+    expect(sketches).toHaveLength(21);
     expect(new Set(sketches.map((sketch) => sketch.getAttribute('src'))).size).toBe(10);
     expect(container.querySelector('.sketch-scatter-footer')).toBeInTheDocument();
     expect(screen.queryAllByRole('img')).toHaveLength(0);

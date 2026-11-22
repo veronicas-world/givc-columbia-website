@@ -131,13 +131,6 @@ export const representedOrganizations: RepresentedOrganization[] = [
     scale: 1.8,
   },
   {
-    id: 'spectrum-equity',
-    name: 'Spectrum Equity',
-    logo: '/images/organizations/spectrum-equity.png',
-    source: 'Chapter-supplied artwork',
-    scale: 1.35,
-  },
-  {
     id: 'elevenlabs',
     name: 'ElevenLabs',
     logo: '/images/organizations/elevenlabs.png',

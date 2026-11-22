@@ -22,7 +22,11 @@ describe('HomePage', () => {
     const title = within(intro).getByRole('heading', { level: 2, name: 'About us' });
     expect(title).toBeVisible();
     expect(title).not.toHaveClass('visually-hidden');
-    expect(within(intro).getByRole('paragraph')).toHaveTextContent(chapterIntro);
+    const description = within(intro).getByRole('paragraph');
+    expect(description).toHaveTextContent(chapterIntro);
+    const aboutLink = within(intro).getByRole('link', { name: 'Learn more about our chapter' });
+    expect(aboutLink).toHaveAttribute('href', '/about');
+    expect(description.nextElementSibling).toBe(aboutLink);
   });
 
   it('gives the supplied reasons to get involved', () => {
@@ -55,10 +59,11 @@ describe('HomePage', () => {
     expect(title.closest('section')).toHaveClass('home-hero');
   });
 
-  it('omits the tagline and About link from the opening page', () => {
+  it('omits the tagline and About link from the opening hero', () => {
     renderPage(<HomePage />);
+    const hero = screen.getByRole('region', { name: 'Girls Into VC at Columbia' });
     expect(screen.queryByText('A student-led chapter at Columbia University.')).toBeNull();
-    expect(screen.queryByRole('link', { name: 'About the chapter' })).toBeNull();
+    expect(within(hero).queryByRole('link', { name: 'Learn more about our chapter' })).toBeNull();
   });
 
   it('shows the supplied full chapter photo first below the opening without adding captions', () => {

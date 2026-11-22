@@ -119,7 +119,6 @@ Shown under "Where our members are represented" on Home. They describe where mem
 | `dorm-room-fund.svg` | Dorm Room Fund | https://www.dormroomfund.com/ (site header logo) |
 | `alumni-ventures.svg` | Alumni Ventures | https://commons.wikimedia.org/wiki/File:Alumni_Ventures.svg |
 | `university-of-cambridge.png` | University of Cambridge | Chapter-supplied artwork. Removed the turquoise background and cropped the transparent padding around the crest and wordmark. |
-| `spectrum-equity.png` | Spectrum Equity | Chapter-supplied artwork. Transparent PNG copied unchanged. |
 | `elevenlabs.png` | ElevenLabs | Chapter-supplied artwork. Removed the white background and cropped the transparent padding around the monochrome logo. |
 
 Source-file edits: a `viewBox` matching the existing width and height was added to `jp-morgan.svg` so they scale cleanly. The Factory wordmark was copied from the inline SVG in the factory.ai header, with its layout classes removed. The Dorm Room Fund logo was downloaded from the site header and recolored purple for the homepage; the Alumni Ventures logo is the unchanged Wikimedia Commons SVG.
