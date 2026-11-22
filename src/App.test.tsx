@@ -59,8 +59,18 @@ describe('site routes', () => {
     expect(channels).not.toHaveTextContent(/Diane Lang|Message the president/);
     const form = within(channels).getByRole('form', { name: 'Contact form' });
     expect(form.getAttribute('action') ?? '').not.toContain('@');
-    expect(within(channels).getByRole('link', { name: /LinkedIn/ })).toHaveAttribute('href', siteLinks.chapterLinkedIn);
-    expect(within(channels).getByRole('link', { name: /Instagram/ })).toHaveAttribute('href', siteLinks.instagram);
+    const socials = within(channels).getByRole('list', { name: 'Columbia chapter social media' });
+    for (const [platform, url, account] of [
+      ['LinkedIn', siteLinks.chapterLinkedIn, 'Girls Into VC at Columbia'],
+      ['Instagram', siteLinks.instagram, '@girlsintovc.columbia'],
+    ] as const) {
+      const link = within(socials).getByRole('link', { name: `${platform} (opens in a new tab)` });
+      expect(link).toHaveAttribute('href', url);
+      expect(link.querySelector('svg path')).toHaveAttribute('d');
+      expect(within(link).getByText(platform)).toHaveClass('visually-hidden');
+      expect(link.closest('li')).toHaveTextContent(account);
+    }
+    expect(socials).not.toHaveTextContent(/Follow us on|↗/);
   });
 
   it.each(['/missing', '/events'])('shows a not-found page for unknown paths such as %s', (path) => {

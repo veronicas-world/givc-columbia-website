@@ -1,7 +1,7 @@
-import { ExternalLink } from '../components/ExternalLink';
 import { ContactForm } from '../components/ContactForm';
 import { PageHeader } from '../components/PageHeader';
 import { PageSection } from '../components/PageSection';
+import { SocialLink } from '../components/SocialLink';
 import { instagramHandle, siteLinks } from '../content/links';
 
 export function ContactPage() {
@@ -17,16 +17,14 @@ export function ContactPage() {
       <PageSection labelledBy="contact-channels-heading">
         <h2 id="contact-channels-heading">Get in touch</h2>
         <ContactForm />
-        <ul className="contact-channels">
+        <ul className="contact-channels" aria-label="Columbia chapter social media">
           <li>
-            <h3>LinkedIn</h3>
+            <h3><SocialLink platform="LinkedIn" href={siteLinks.chapterLinkedIn} /></h3>
             <p>Girls Into VC at Columbia</p>
-            <ExternalLink href={siteLinks.chapterLinkedIn}>Follow us on LinkedIn</ExternalLink>
           </li>
           <li>
-            <h3>Instagram</h3>
+            <h3><SocialLink platform="Instagram" href={siteLinks.instagram} /></h3>
             <p>{instagramHandle}</p>
-            <ExternalLink href={siteLinks.instagram}>Follow us on Instagram</ExternalLink>
           </li>
         </ul>
       </PageSection>

@@ -13,7 +13,7 @@ Every image and font shipped from `public/` and where it came from. Originals (s
 
 "at Columbia" is set separately in Alice next to the artwork; it is not part of the parent logo. The CDN can return WebP to some clients for the URL above; the build used the PNG response. `design-preview/refresh-inputs/givc-logo-reference.png` is a reference only and is not shipped.
 
-The footer uses the [Instagram](https://github.com/twbs/icons/blob/v1.13.1/icons/instagram.svg) and [LinkedIn](https://github.com/twbs/icons/blob/v1.13.1/icons/linkedin.svg) brand glyphs from Bootstrap Icons v1.13.1. The SVG paths in `src/components/SiteFooter.tsx` are unchanged and use the GIVC logo pink via CSS. The marks belong to their respective owners. See the [Bootstrap Icons license](bootstrap-icons-license.txt).
+The footer, Contact, and Resources use the [Instagram](https://github.com/twbs/icons/blob/v1.13.1/icons/instagram.svg) and [LinkedIn](https://github.com/twbs/icons/blob/v1.13.1/icons/linkedin.svg) brand glyphs from Bootstrap Icons v1.13.1. Resources also uses the [TikTok](https://github.com/twbs/icons/blob/v1.13.1/icons/tiktok.svg) glyph from the same set. Their unchanged SVG paths live in `src/components/SocialLink.tsx` and inherit the link color. The marks belong to their respective owners. See the [Bootstrap Icons license](bootstrap-icons-license.txt).
 
 ## Sketches (`public/images/sketches/`)
 

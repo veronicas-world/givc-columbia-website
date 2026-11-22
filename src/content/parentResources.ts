@@ -39,4 +39,4 @@ export const parentSocials = [
     url: 'https://www.tiktok.com/@girlsintovc',
     description: 'Short videos from Girls Into VC.',
   },
-];
+] as const;

@@ -32,10 +32,6 @@
   margin-inline: auto;
 }
 
-.resources-socials h3 {
-  font-size: 1.5rem;
-}
-
 .resources-socials .resources-social-account {
   margin-bottom: 0.75rem;
   color: var(--ink-muted);

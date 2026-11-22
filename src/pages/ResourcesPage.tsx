@@ -1,6 +1,7 @@
 import { ExternalLink } from '../components/ExternalLink';
 import { PageHeader } from '../components/PageHeader';
 import { PageSection } from '../components/PageSection';
+import { SocialLink } from '../components/SocialLink';
 import { siteLinks } from '../content/links';
 import { parentNewsletter, parentPodcast, parentSocials } from '../content/parentResources';
 import './ResourcesPage.css';
@@ -57,9 +58,7 @@ export function ResourcesPage() {
           {parentSocials.map((social) => (
             <li key={social.name}>
               <h3>
-                <ExternalLink href={social.url}>
-                  {social.name} <span aria-hidden="true">↗</span>
-                </ExternalLink>
+                <SocialLink platform={social.name} href={social.url} />
               </h3>
               <p className="resources-social-account">{social.account}</p>
               <p>{social.description}</p>

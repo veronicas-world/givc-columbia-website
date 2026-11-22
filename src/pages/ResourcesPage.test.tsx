@@ -40,13 +40,19 @@ describe('Resources page', () => {
       .toHaveAttribute('href', 'https://podcasts.apple.com/podcast/id1676192516');
   });
 
-  it('links to every verified parent social account, not the Columbia accounts', () => {
+  it('links to the parent social accounts with platform logos, not text labels or arrows', () => {
     renderResources();
     const socials = screen.getByRole('list', { name: 'Parent organization social media' });
     expect(within(socials).getAllByRole('link')).toHaveLength(3);
     for (const social of parentSocials) {
-      expect(within(socials).getByRole('link', { name: new RegExp(social.name) }))
-        .toHaveAttribute('href', social.url);
+      const link = within(socials).getByRole('link', { name: `${social.name} (opens in a new tab)` });
+      expect(link).toHaveAttribute('href', social.url);
+      expect(link.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+      expect(link.querySelector('svg path')).toHaveAttribute('d');
+      expect(within(link).getByText(social.name)).toHaveClass('visually-hidden');
+      expect(link).not.toHaveTextContent('↗');
+      expect(link.closest('li')).toHaveTextContent(social.account);
+      expect(link.closest('li')).toHaveTextContent(social.description);
       expect(social.url).not.toBe(siteLinks.instagram);
       expect(social.url).not.toBe(siteLinks.chapterLinkedIn);
     }
